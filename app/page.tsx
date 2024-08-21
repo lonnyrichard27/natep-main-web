@@ -1,113 +1,218 @@
-import Image from "next/image";
+import CustomButton from '@/components/Custom/CustomButton';
+import Footer from '@/components/Navigation/Footer';
+import Navbar from '@/components/Navigation/Navbar';
+import AppointmentCalendar from '@/components/svgs/AppointmentCalendar';
+import PhoneSvg from '@/components/svgs/PhoneSvg';
+import PlayStore from '@/components/svgs/PlayStore';
+import PortalSvg from '@/components/svgs/PortalSvg';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FaApple } from 'react-icons/fa';
+import { FiPlus } from 'react-icons/fi';
 
 export default function Home() {
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <Navbar />
+      {/* HERO SECTION */}
+      <section className="relative bg-bg_image bg-cover h-[611px] bg-no-repeat">
+        <div className="absolute inset-0 bg-gray-900/75 sm:bg-transparent"></div>
+
+        <div className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:px-8">
+          <div className="max-w-xl ltr:sm:text-left rtl:sm:text-right">
+            <h1 className="text-3xl font-extrabold text-white sm:text-5xl">
+              Verification in three Simple Steps
+            </h1>
+
+            <p className="mt-4 max-w-lg text-white sm:text-xl/relaxed">
+              Securely enter your NIN and/or Passport details. Take a quick
+              selfie for facial recognition.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* grid */}
+      <section className="bg-[#F2F4F7] grid items-center justify-center p-4 md:p-[161px]">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+          <div className="bg-white shadow rounded-md flex flex-col py-10 px-10 justify-center items-center">
+            <span className="h-16 w-16 bg-[#EBF9F0] flex items-center justify-center rounded-full">
+              <AppointmentCalendar />
+            </span>
+            <p className="text-center my-10 text-[#666666] font-light">
+              Schedule an appointment to <br />
+              register with a field agent.
+            </p>
+            <Link href='/schedule'>
+              <CustomButton text="Schedule Appointment" />
+            </Link>
+          </div>
+          <div className="bg-white shadow rounded-md flex flex-col max-w-sm py-10 justify-center items-center">
+            <span className="h-16 w-16 bg-[#EBF9F0] flex items-center justify-center rounded-full">
+              <PortalSvg />
+            </span>
+            <p className="text-center my-10 text-[#666666] font-light">
+              Access the web portal to request
+              <br /> your NATEP Certificate.
+            </p>
+            <Link href='/auth/login'>
+              <CustomButton text="Login / Register" />
+            </Link>
+          </div>
+          <div className="bg-white shadow rounded-md flex flex-col max-w-sm py-10 justify-center items-center">
+            <span className="h-16 w-16 bg-[#EBF9F0] flex items-center justify-center rounded-full">
+              <PhoneSvg />
+            </span>
+            <p className="text-center my-10 text-[#666666] font-light">
+              Manage your digital certificate
+              <br /> with the NATEP App today.
+            </p>
+            <div className="flex gap-4 mx-4">
+              <button className="inline-flex items-center gap-2 rounded-full bg-[#F5F5F5] px-8 py-3 text-black focus:outline-none">
+                <PlayStore />
+                <span className="text-sm font-medium"> Google Play </span>
+              </button>
+
+              <button className="inline-flex items-center gap-2 rounded-full bg-[#F5F5F5] px-8 py-3 text-black focus:outline-none">
+                <FaApple />
+                <span className="text-sm font-medium"> Apple Store </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <div className="grid items-center justify-center p-4 md:p-[141px]">
+        <article className="text-center">
+          <p className='text-3xl font-bold'>Got Questions?</p>
+          <p className='my-5'>We have compiled our most frequent questions and answers here.</p>
+        </article>
+        <div className="space-y-4">
+          <details
+            className="group [&_summary::-webkit-details-marker]:hidden bg-[#F2F4F7]"
+            open
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <summary className="flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900">
+              <h2 className="font-medium">Question 1?</h2>
+              <svg
+                className="size-5 shrink-0 transition duration-300 group-open:-rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <p className="mt-4 p-4 leading-relaxed text-gray-700">Answer</p>
+          </details>
+
+          <details
+            className="group [&_summary::-webkit-details-marker]:hidden bg-[#F2F4F7]"
+            open
+          >
+            <summary className="flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900">
+              <h2 className="font-medium">Question 1?</h2>
+              <svg
+                className="size-5 shrink-0 transition duration-300 group-open:-rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <p className="mt-4 p-4 leading-relaxed text-gray-700">Answer</p>
+          </details>
+
+          <details
+            className="group [&_summary::-webkit-details-marker]:hidden bg-[#F2F4F7]"
+            open
+          >
+            <summary className="flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900">
+              <h2 className="font-medium">Question 1?</h2>
+              <svg
+                className="size-5 shrink-0 transition duration-300 group-open:-rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <p className="mt-4 p-4 leading-relaxed text-gray-700">Answer</p>
+          </details>
+
+          <details
+            className="group [&_summary::-webkit-details-marker]:hidden bg-[#F2F4F7]"
+            open
+          >
+            <summary className="flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900">
+              <h2 className="font-medium">Question 1?</h2>
+              <svg
+                className="size-5 shrink-0 transition duration-300 group-open:-rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <p className="mt-4 p-4 leading-relaxed text-gray-700">Answer</p>
+          </details>
+
+          <details
+            className="group [&_summary::-webkit-details-marker]:hidden bg-[#F2F4F7]"
+            open
+          >
+            <summary className="flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900">
+              <h2 className="font-medium">Question 1?</h2>
+              <svg
+                className="size-5 shrink-0 transition duration-300 group-open:-rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <p className="mt-4 p-4 leading-relaxed text-gray-700">Answer</p>
+          </details>
         </div>
       </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <Footer />
+    </>
   );
 }
