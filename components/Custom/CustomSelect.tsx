@@ -29,8 +29,8 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ label, name, id, options, v
         className="mt-1.5 w-full rounded-lg border-gray-300 border px-3 py-3 text-gray-700 sm:text-sm"
       >
         <option value="">Please select</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
             {option.label}
           </option>
         ))}

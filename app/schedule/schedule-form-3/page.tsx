@@ -1,31 +1,52 @@
 'use client';
 
 import CustomButton from '@/components/Custom/CustomButton';
-import CustomSelect from '@/components/Custom/CustomSelect';
-import Link from 'next/link';
 import React, { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
+import { generateTimeSlots } from '@/util/time';
+import { getLocalStorageItem } from '@/util/localStorage';
+import axiosInstance from '@/util/axios';
 
 const page = () => {
-  const [selectedOption, setSelectedOption] = useState<string>('');
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const timeSlots = generateTimeSlots(60);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [selectedTime, setSelectedTime] = useState<string>('9:00 AM');
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTime(event.target.value);
+  };
+  const submit = async () => {
+    const data = getLocalStorageItem('schedule-data');
+    const extractedData = JSON.parse(data);
+    const dateWithT = date?.toISOString().slice(0, 11); 
+    const fullTimestamp = dateWithT + selectedTime;
+
+    const dataToSend = {
+      is_first_time: extractedData.firstTime,
+      nin: extractedData.nin,
+      delivery_time: fullTimestamp,
+      email: extractedData.email,
+      phone: extractedData.phone,
+      applicant_id: extractedData.applicantID,
+      activity_type: extractedData.activity
+    };
+
+    const response = await axiosInstance.post('delivery/schedule-appointment',dataToSend);
+
+      if (response.status === 200 && 201) {
+        window.location.href = response?.data?.data;
+      }
+      console.log(response, 'delivery');
   };
 
-  const options = [
-    { value: 'red', label: 'Certificate renewal' },
-    { value: 'blue', label: 'Blue' },
-    { value: 'green', label: 'Green' },
-  ];
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <section className="border md:w-[368px] rounded-md p-5">
+    <main className="md:flex md:min-h-screen flex-col md:items-center md:justify-center">
+      <section className="border rounded-md p-5">
         <p className="flex gap-2 items-center">
           <FaRegArrowAltCircleLeft /> <span>Select Date and Time</span>
         </p>
+
         <p className="font-light text-[14px] mt-2 mb-6">
           Select your preferred date and time below.
         </p>
@@ -37,18 +58,27 @@ const page = () => {
           className="rounded-md border"
         />
 
-        <CustomSelect
-          label="Select Time"
-          name="color"
-          id="color-select"
-          options={options}
-          value={selectedOption}
-          onChange={handleSelectChange}
-          className="mt-5"
+        <div>
+          <p>Select Time</p>
+          <select
+            value={selectedTime}
+            onChange={handleChange}
+            className="w-full p-2 mt-2 border rounded text-gray-600"
+          >
+            {timeSlots.map((time, index) => (
+              <option key={index} value={time}>
+                {time}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* <Link href="/schedule/schedule-final"> */}
+        <CustomButton
+          text="Continue"
+          onClick={submit}
+          className="w-full mt-3"
         />
-        <Link href="/schedule/schedule-final">
-          <CustomButton text="Continue" className="w-full mt-3" />
-        </Link>
+        {/* </Link> */}
       </section>
     </main>
   );

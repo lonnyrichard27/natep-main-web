@@ -11,7 +11,6 @@ import { FaApple } from 'react-icons/fa';
 import { FiPlus } from 'react-icons/fi';
 
 export default function Home() {
-
   return (
     <>
       <Navbar />
@@ -44,7 +43,7 @@ export default function Home() {
               Schedule an appointment to <br />
               register with a field agent.
             </p>
-            <Link href='/schedule'>
+            <Link href="/schedule">
               <CustomButton text="Schedule Appointment" />
             </Link>
           </div>
@@ -56,7 +55,7 @@ export default function Home() {
               Access the web portal to request
               <br /> your NATEP Certificate.
             </p>
-            <Link href='/auth/login'>
+            <Link href="/auth/login">
               <CustomButton text="Login / Register" />
             </Link>
           </div>
@@ -86,8 +85,10 @@ export default function Home() {
       {/* FAQs */}
       <div className="grid items-center justify-center p-4 md:p-[141px]">
         <article className="text-center">
-          <p className='text-3xl font-bold'>Got Questions?</p>
-          <p className='my-5'>We have compiled our most frequent questions and answers here.</p>
+          <p className="text-3xl font-bold">Got Questions?</p>
+          <p className="my-5">
+            We have compiled our most frequent questions and answers here.
+          </p>
         </article>
         <div className="space-y-4">
           <details
