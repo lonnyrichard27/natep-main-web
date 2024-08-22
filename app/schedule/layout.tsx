@@ -11,10 +11,10 @@ export default function ScheduleLayout({
   return (
     <>
       <Navbar />
-      <QueryClientProvider client={queryClient}>
+      {/* <QueryClientProvider client={queryClient}> */}
 
       {children}
-      </QueryClientProvider>
+      {/* </QueryClientProvider> */}
       <Footer />
     </>
   );
