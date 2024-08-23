@@ -10,16 +10,16 @@ import { verify } from '@/api/user';
 
 
 const page = () => {
-  const searchParams = useSearchParams()
+//   const searchParams = useSearchParams()
  
-  const search = searchParams.get('reference')
+//   const search = searchParams.get('reference')
 
-  const { data: viewReq, isLoading, error } = useQuery({
-    queryKey: ['getRef'],
-    queryFn: () => verify(search)
-  });
+//   const { data: viewReq, isLoading, error } = useQuery({
+//     queryKey: ['getRef'],
+//     queryFn: () => verify(search)
+//   });
 
-console.log(viewReq, 'the data')
+// console.log(viewReq, 'the data')
 
 
   return (
