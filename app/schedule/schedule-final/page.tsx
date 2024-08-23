@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation'
 import CustomButton from '@/components/Custom/CustomButton';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { verify } from '@/api/user';
 
@@ -23,6 +23,8 @@ console.log(viewReq, 'the data')
 
 
   return (
+    <Suspense>
+
     <main className="flex min-h-screen flex-col items-center justify-center">
       <section className="border md:w-[368px] rounded-md p-5 grid items-center justify-center">
         <Image
@@ -56,6 +58,7 @@ console.log(viewReq, 'the data')
         </Link>
       </section>
     </main>
+    </Suspense>
   );
 };
 

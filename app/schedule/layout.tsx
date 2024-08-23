@@ -4,17 +4,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const queryClient = new QueryClient();
 
 export default function ScheduleLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <>
       <Navbar />
-      {/* <QueryClientProvider client={queryClient}> */}
-
       {children}
-      {/* </QueryClientProvider> */}
       <Footer />
     </>
   );
