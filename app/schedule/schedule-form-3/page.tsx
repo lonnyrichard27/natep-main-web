@@ -43,6 +43,7 @@ const page = () => {
       }
       console.log(response, 'delivery');
     } catch (error) {
+      // @ts-ignore
       toast.error(error?.response?.data?.message);
       //  console.log(error?.response?.data?.message, 'error')
     }
