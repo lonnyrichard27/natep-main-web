@@ -11,20 +11,31 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 
-
 const page = () => {
+  const [otp, setOtp] = useState('');
+  const comp = () => {
+    console.log('first');
+  };
+
+  console.log(otp, 'the otp code')
+
+  const disablBtn = otp.length < 6
   return (
     <>
       <section className="border md:w-[400px] rounded-md p-5">
         <p className="flex gap-2 items-center">
-          <FaRegArrowAltCircleLeft className='text-xl' /> <span>Input OTP</span>
+          <FaRegArrowAltCircleLeft className="text-xl" /> <span>Input OTP</span>
         </p>
         <p className="font-light text-[14px] mt-2 mb-6">
-        Input the 6 digit OTP sent to your email.
+          Input the 6 digit OTP sent to your email.
         </p>
 
         <label htmlFor="">Input OTP</label>
-        <InputOTP maxLength={6}>
+        <InputOTP
+          value={otp}
+          onChange={(value) => setOtp(value)}
+          maxLength={6}
+        >
           <InputOTPGroup>
             <InputOTPSlot index={0} />
             <InputOTPSlot index={1} />
@@ -37,10 +48,10 @@ const page = () => {
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
-        <small className='text-primary'>Resend OTP (00:56)</small>
-        <Link href="/schedule/schedule-form-3">
-          <CustomButton text="Continue" className="w-full mt-10 py-3" />
-        </Link>
+        <small className="text-primary">Resend OTP (00:56)</small>
+          
+          
+        <CustomButton text="Continue" disabled={disablBtn} className="w-full mt-10 py-3" />
         <Link href="/auth/login" className="mt-5">
           <CustomButton
             text="Login"

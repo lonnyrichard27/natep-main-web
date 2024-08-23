@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Footer from '@/components/Navigation/Footer';
 import Navbar from '@/components/Navigation/Navbar';
@@ -11,7 +11,6 @@ export default function ScheduleLayout({
 }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-
       <Navbar />
       {children}
       <Footer />

@@ -6,8 +6,15 @@ interface CustomButtonProps {
   className?: string;
   bgColor?: string;
   color?: string;
-  icon?: React.ReactNode; 
-  iconPosition?: 'left' | 'right'; 
+  hoverBgColor?: string;
+  activeBgColor?: string;
+  disabledBgColor?: string;
+  disabledTextColor?: string;
+  icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
+  type?: 'button' | 'submit' | 'reset';
+  ariaLabel?: string;
+  disabled?: boolean;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -16,16 +23,26 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   className = '',
   bgColor = 'bg-primary',
   color = 'text-white',
+  hoverBgColor = 'hover:bg-primary-dark',
+  activeBgColor = 'active:bg-primary-darker',
+  disabledBgColor = 'bg-gray-400',
+  disabledTextColor = 'text-gray-200',
   icon,
-  iconPosition = 'left', 
+  iconPosition = 'left',
+  type = 'button',
+  ariaLabel,
+  disabled = false
 }) => {
   return (
     <button
-      className={`${bgColor} ${color} px-6 py-2 rounded-full focus:outline-none flex items-center justify-center ${className}`}
-      onClick={onClick}
+      type={type}
+      className={`${disabled ? `${disabledBgColor} ${disabledTextColor}` : `${bgColor} ${color} ${hoverBgColor} ${activeBgColor}`} px-6 py-2 rounded-full focus:outline-none flex items-center justify-center ${className}`}
+      onClick={disabled ? undefined : onClick}
+      aria-label={ariaLabel || text}
+      disabled={disabled} 
     >
       {icon && iconPosition === 'left' && (
-        <span className="mr-2">{icon}</span> 
+        <span className="mr-2">{icon}</span>
       )}
       {text}
       {icon && iconPosition === 'right' && (

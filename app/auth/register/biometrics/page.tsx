@@ -9,8 +9,14 @@ import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { TbEyeFilled } from "react-icons/tb";
 import { IoSunny } from "react-icons/io5";
 import Image from 'next/image';
+import CameraCapture from '@/components/CameraCapture';
 
 const page = () => {
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+
+  const handleCapture = (imageDataUrl: string) => {
+    setCapturedImage(imageDataUrl);
+  };
   return (
     <>
       <section className="border md:w-[500px] rounded-md p-5">
@@ -50,7 +56,7 @@ const page = () => {
           </div>
         </div>
 
-        <section className='bg-[#ECF2F7] p-4'>
+        {/* <section className='bg-[#ECF2F7] p-4'>
           <div className="md:flex my-2">
             <section>
               <p>Continue on mobile</p>
@@ -64,9 +70,11 @@ const page = () => {
             className="w-auto"
           />
           </div>
+        </section> */}
+        <section>
         </section>
         
-        <Link href="/dashboard" className="mt-4">
+        <Link href='/auth/register/biometrics/capture' className="mt-4">
           <CustomButton
             text="Continue on this device"
             className="w-full mt-3 py-3"

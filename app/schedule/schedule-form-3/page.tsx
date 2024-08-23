@@ -7,6 +7,7 @@ import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { generateTimeSlots } from '@/util/time';
 import { getLocalStorageItem } from '@/util/localStorage';
 import axiosInstance from '@/util/axios';
+import toast from 'react-hot-toast';
 
 const page = () => {
   const timeSlots = generateTimeSlots(60);
@@ -19,7 +20,7 @@ const page = () => {
   const submit = async () => {
     const data = getLocalStorageItem('schedule-data');
     const extractedData = JSON.parse(data);
-    const dateWithT = date?.toISOString().slice(0, 11); 
+    const dateWithT = date?.toISOString().slice(0, 11);
     const fullTimestamp = dateWithT + selectedTime;
 
     const dataToSend = {
@@ -29,15 +30,22 @@ const page = () => {
       email: extractedData.email,
       phone: extractedData.phone,
       applicant_id: extractedData.applicantID,
-      activity_type: extractedData.activity
+      activity_type: extractedData.activity,
     };
 
-    const response = await axiosInstance.post('delivery/schedule-appointment',dataToSend);
-
+    try {
+      const response = await axiosInstance.post(
+        'delivery/schedule-appointment',
+        dataToSend
+      );
       if (response.status === 200 && 201) {
         window.location.href = response?.data?.data;
       }
       console.log(response, 'delivery');
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      //  console.log(error?.response?.data?.message, 'error')
+    }
   };
 
   return (
