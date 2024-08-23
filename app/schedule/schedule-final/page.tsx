@@ -14,12 +14,12 @@ const page = () => {
     const search = searchParams.get('reference')
     console.log(search)
 
-  //   const { data: viewReq, isLoading, error } = useQuery({
-  //     queryKey: ['getRef'],
-  //     queryFn: () => verify(search)
-  //   });
+    const { data: viewReq, isLoading, error } = useQuery({
+      queryKey: ['getRef'],
+      queryFn: () => verify(search)
+    });
 
-  // console.log(viewReq, 'the data')
+  console.log(viewReq, 'the data')
 
   return (
     <Suspense>
