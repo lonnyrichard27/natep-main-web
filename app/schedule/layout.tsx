@@ -1,7 +1,8 @@
+'use client'
+
 import Footer from '@/components/Navigation/Footer';
 import Navbar from '@/components/Navigation/Navbar';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-const queryClient = new QueryClient();
+import { Suspense } from 'react';
 
 export default function ScheduleLayout({
   children,
@@ -9,10 +10,11 @@ export default function ScheduleLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
+
       <Navbar />
       {children}
       <Footer />
-    </>
+    </Suspense>
   );
 }
