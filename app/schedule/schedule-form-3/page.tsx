@@ -8,6 +8,7 @@ import { generateTimeSlots } from '@/util/time';
 import { getLocalStorageItem } from '@/util/localStorage';
 import axiosInstance from '@/util/axios';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 const page = () => {
   const timeSlots = generateTimeSlots(60);
@@ -52,9 +53,9 @@ const page = () => {
   return (
     <main className="md:flex md:min-h-screen flex-col md:items-center md:justify-center">
       <section className="border rounded-md p-5">
-        <p className="flex gap-2 items-center">
+        <Link href='/schedule' className="flex gap-2 items-center">
           <FaRegArrowAltCircleLeft /> <span>Select Date and Time</span>
-        </p>
+        </Link>
 
         <p className="font-light text-[14px] mt-2 mb-6">
           Select your preferred date and time below.

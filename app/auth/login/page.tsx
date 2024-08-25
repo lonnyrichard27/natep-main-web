@@ -11,7 +11,7 @@ const page = () => {
       <section className="border md:w-[400px] rounded-md p-5">
         <p>Welcome</p>
         <p className="font-light text-[16px] mt-2 mb-6">
-        To get started, please enter your registered email address below.
+          To get started, please enter your registered email address below.
         </p>
 
         <CustomInput
@@ -22,12 +22,9 @@ const page = () => {
           onChange={(e) => console.log(e.target.value)}
           className="my-3"
         />
-        
+
         <Link href="/auth/login/inputOtp" className="mt-4">
-          <CustomButton
-            text="Continue"
-            className="w-full mt-3 py-3"
-          />
+          <CustomButton text="Continue" className="w-full mt-3 py-3" />
         </Link>
         <Link href="/auth/register" className="mt-5">
           <CustomButton
@@ -37,10 +34,10 @@ const page = () => {
             color="text-black"
           />
         </Link>
+        
       </section>
     </>
   );
 };
 
 export default page;
-

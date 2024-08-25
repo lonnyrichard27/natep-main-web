@@ -5,8 +5,8 @@ import React, { useRef, useEffect, useState } from 'react';
 interface CameraCaptureProps {
   onCapture: (imageDataUrl: string) => void;
   buttonText?: string;
-  imageFormat?: string; // e.g., 'image/png' or 'image/jpeg'
-  className?: string; // Optional styling class for the container
+  imageFormat?: string;
+  className?: string;
   continueButton: () => void;
 }
 
