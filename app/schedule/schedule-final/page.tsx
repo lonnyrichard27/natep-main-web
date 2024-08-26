@@ -153,10 +153,10 @@ const page = () => {
     isLoading,
     error
   } = useQuery({
-    queryKey: ['getRef'],
+    queryKey: ['getRef', search],
     queryFn: () => verify(search)
   });
-  // console.log(search, 'the query params')
+  console.log(search, 'the query params')
   // console.log(typeof search)
   console.log(viewReq, 'the data');
 
