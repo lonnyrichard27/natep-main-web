@@ -175,14 +175,15 @@ const page = () => {
             <p className="mt-16">Success!</p>
             <p>
               Your appointment schedule has been
-              <br /> set successfully. Kindly print your
-              <br /> appointment slip below.
+              <br /> set successfully. 
+              {/* Kindly print your
+              <br /> appointment slip below. */}
             </p>
           </article>
-          <CustomButton
+          {/* <CustomButton
                 text="Print Appointment slip"
                 className="w-full mt-3 py-3"
-              />
+              /> */}
 
           {/* Button to trigger the print */}
           {/* <ReactToPrint
