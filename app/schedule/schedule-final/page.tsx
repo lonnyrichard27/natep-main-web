@@ -10,12 +10,14 @@ import { verify } from '@/api/user';
 import { useReactToPrint } from 'react-to-print';
 // import PrintableComponent from '@/components/PrintableComponent';
 import axiosInstance from '@/util/axios';
+import { convertIsoToDate } from '@/util/formatDate';
 
 const page = () => {
   const componentRef = useRef();
-  // const handlePrint = useReactToPrint({
-  //   content: () => componentRef.current
-  // });
+  const handlePrint = useReactToPrint({
+    // @ts-ignore
+    content: () => componentRef.current
+  });
   const searchParams = useSearchParams();
   const search = searchParams.get('reference');
   // const componentRef = useRef<HTMLDivElement>(null);
@@ -28,30 +30,23 @@ const page = () => {
     queryKey: ['getRef', search],
     queryFn: () => verify(search ?? '')
   });
-  console.log(search, 'the query params')
-  console.log(error, 'the err')
-
-  // useEffect(() => {
-    
-  //  verify()
-  // }, [])
-    const verifyI = async () => {
-     try {
-       const response = await axiosInstance.get(`webhook/verify-scheduling-request?reference=${search}`);
-       console.log(response.data, 'verify endpoint')
-       return response;
-     } catch (error) {
-       console.log(error)
-       // handleAnyError(error);
-     }
-   };
   
   // console.log(typeof search)
   console.log(viewReq, 'the data');
 
+  const date = viewReq?.createdAt;
+  const formattedDate = date.toLocaleDateString('en-CA');
+
+  // Format time as HH:MM AM/PM
+  const formattedTime = date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit'
+  }); // e.g., 5:10 PM
+
   return (
-    <Suspense>
-        {/* <div ref={ref} className="p-5">
+    <>
+    // @ts-ignore
+      <div ref={componentRef} className="p-5">
       <div className="text-center mb-7">
         <Image
           src="/images/pdfprintlogo.png"
@@ -71,35 +66,42 @@ const page = () => {
             <p className="text-gray-600 font-medium">Tracking ID</p>
           </div>
           <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{props.trackingID}</p>
+            <p className="text-black font-medium">{viewReq?.trackingID}</p>
           </div>
 
           <div className="border-b border-r border-t border-gray-200 p-4">
             <p className="text-gray-600 font-medium">Date</p>
           </div>
           <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{props.date}</p>
+            <p className="text-black font-medium">{formattedDate}</p>
+          </div>
+
+          <div className="border-b border-r border-t border-gray-200 p-4">
+            <p className="text-gray-600 font-medium">Time</p>
+          </div>
+          <div className="border-b border-r border-t border-gray-200 p-4">
+            <p className="text-black font-medium">{formattedTime}</p>
           </div>
 
           <div className="border-b border-r border-t border-gray-200 p-4">
             <p className="text-gray-600 font-medium">Activity Type</p>
           </div>
           <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{props.activityType}</p>
+            <p className="text-black font-medium">{viewReq?.delivery_type}</p>
           </div>
 
           <div className="border-b border-r border-t border-gray-200 p-4">
             <p className="text-gray-600 font-medium">Address</p>
           </div>
           <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{props.address}</p>
+            <p className="text-black font-medium">{viewReq?.address}</p>
           </div>
 
           <div className="border-b border-r border-t border-gray-200 p-4">
             <p className="text-gray-600 font-medium">Phone Number</p>
           </div>
           <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{props.contactNumber}</p>
+            <p className="text-black font-medium">{viewReq?.phone}</p>
           </div>
         </div>
       </div>
@@ -111,17 +113,24 @@ const page = () => {
         <div className="grid grid-cols-2 gap-0">
 
           <div className="border-b border-r border-t border-gray-200 p-4">
+            <p className="text-gray-600 font-medium">Applicant ID</p>
+          </div>
+          <div className="border-b border-r border-t border-gray-200 p-4">
+            <p className="text-black font-medium">{viewReq?.user_code}</p>
+          </div>
+
+          <div className="border-b border-r border-t border-gray-200 p-4">
             <p className="text-gray-600 font-medium">Full Name</p>
           </div>
           <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{props.fullName}</p>
+            <p className="text-black font-medium">{viewReq?.name}</p>
           </div>
 
           <div className="border-b border-r border-t border-gray-200 p-4">
             <p className="text-gray-600 font-medium">Email</p>
           </div>
           <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{props.email}</p>
+            <p className="text-black font-medium">{viewReq?.email}</p>
           </div>
         </div>
       </div>
@@ -149,7 +158,7 @@ const page = () => {
           </li>
         </ol>
       </div>
-    </div> */}
+    </div>
       <main className="flex min-h-screen flex-col items-center justify-center">
         <section className="border md:w-[368px] rounded-md p-5 grid items-center justify-center">
           <Image
@@ -171,7 +180,7 @@ const page = () => {
           <CustomButton
                 text="Print Appointment slip"
                 className="w-full mt-3 py-3"
-                onClick={verifyI}
+                onClick={handlePrint}
               />
 
           {/* Button to trigger the print */}
@@ -211,7 +220,7 @@ const page = () => {
           </Link>
         </section>
       </main>
-    </Suspense>
+    </>
   );
 };
 
