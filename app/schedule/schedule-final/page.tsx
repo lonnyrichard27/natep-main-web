@@ -49,10 +49,10 @@ const page = () => {
   console.log(viewReq, 'the data');
 
   const date = viewReq?.createdAt;
-  const formattedDate = date.toLocaleDateString('en-CA');
+  const formattedDate = date?.toLocaleDateString('en-CA');
 
   // Format time as HH:MM AM/PM
-  const formattedTime = date.toLocaleTimeString('en-US', {
+  const formattedTime = date?.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit'
   }); // e.g., 5:10 PM
