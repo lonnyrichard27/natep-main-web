@@ -59,8 +59,7 @@ const page = () => {
 
   return (
     <>
-    // @ts-ignore
-      <div ref={contentRef} className="p-5">
+      {/* <div ref={contentRef} className="p-5">
       <div className="text-center mb-7">
         <Image
           src="/images/pdfprintlogo.png"
@@ -172,7 +171,7 @@ const page = () => {
           </li>
         </ol>
       </div>
-    </div>
+    </div> */}
       <main className="flex min-h-screen flex-col items-center justify-center">
         <section className="border md:w-[368px] rounded-md p-5 grid items-center justify-center">
           <Image
@@ -191,11 +190,11 @@ const page = () => {
               <br /> appointment slip below. */}
             </p>
           </article>
-          <CustomButton
+          {/* <CustomButton
                 text="Print Appointment slip"
                 className="w-full mt-3 py-3"
                 onClick={handlePrint}
-              />
+              /> */}
 
           {/* Button to trigger the print */}
           {/* <ReactToPrint
