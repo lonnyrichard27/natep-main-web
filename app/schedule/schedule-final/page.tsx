@@ -13,11 +13,25 @@ import axiosInstance from '@/util/axios';
 import { convertIsoToDate } from '@/util/formatDate';
 
 const page = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
   const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    // @ts-ignore
-    content: () => componentRef.current
-  });
+  // const handlePrint = useReactToPrint({
+  //   // @ts-ignore
+  //   content: () => componentRef.current
+  // });
+  const handlePrint = () => {
+    if (contentRef.current) {
+      const printWindow = window.open('', '', 'height=500,width=800');
+      printWindow?.document.write('<html><head><title>Print Content</title></head><body>');
+      printWindow?.document.write(contentRef.current.innerHTML);
+      printWindow?.document.write('</body></html>');
+      printWindow?.document.close();
+      printWindow?.focus();
+      printWindow?.print();
+      printWindow?.close();
+    }
+  };
+
   const searchParams = useSearchParams();
   const search = searchParams.get('reference');
   // const componentRef = useRef<HTMLDivElement>(null);
@@ -46,7 +60,7 @@ const page = () => {
   return (
     <>
     // @ts-ignore
-      <div ref={componentRef} className="p-5">
+      <div ref={contentRef} className="p-5">
       <div className="text-center mb-7">
         <Image
           src="/images/pdfprintlogo.png"
