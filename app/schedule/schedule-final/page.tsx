@@ -4,11 +4,12 @@ import { useSearchParams } from 'next/navigation';
 import CustomButton from '@/components/Custom/CustomButton';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { verify } from '@/api/user';
 import ReactToPrint from 'react-to-print';
 import PrintableComponent from '@/components/PrintableComponent';
+import axiosInstance from '@/util/axios';
 
 // const PrintableComponent = React.forwardRef<
 //   HTMLDivElement
@@ -145,20 +146,36 @@ import PrintableComponent from '@/components/PrintableComponent';
 
 const page = () => {
   const searchParams = useSearchParams();
-  const search = searchParams.get('reference') ?? '';
+  const search = searchParams.get('reference');
   const componentRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data: viewReq,
-    isLoading,
-    error
-  } = useQuery({
-    queryKey: ['getRef', search],
-    queryFn: () => verify(search)
-  });
+  // const {
+  //   data: viewReq,
+  //   isLoading,
+  //   error
+  // } = useQuery({
+  //   queryKey: ['getRef', search],
+  //   queryFn: () => verify(search ?? '')
+  // });
   console.log(search, 'the query params')
+
+  useEffect(() => {
+    const verify = async () => {
+     try {
+       const response = await axiosInstance.get(`webhook/verify-scheduling-request?reference=${search}`);
+       console.log(response.data, 'verify endpoint')
+       return response;
+     } catch (error) {
+       console.log(error)
+       // handleAnyError(error);
+     }
+   };
+
+   verify()
+  }, [])
+  
   // console.log(typeof search)
-  console.log(viewReq, 'the data');
+  // console.log(viewReq, 'the data');
 
   return (
     <Suspense>
