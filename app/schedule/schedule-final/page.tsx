@@ -158,6 +158,7 @@ const page = () => {
     queryFn: () => verify(search ?? '')
   });
   console.log(search, 'the query params')
+  console.log(error, 'the err')
 
   // useEffect(() => {
   //   const verify = async () => {
