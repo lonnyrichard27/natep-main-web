@@ -16,10 +16,11 @@ const page = () => {
     applicantId: '',
   });
 
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState<boolean>(false);
   const [activityType, setActivityType] = useState<string>('');
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    // @ts-ignore
     setSelectedOption(event.target.value);
   };
 
@@ -54,7 +55,7 @@ const page = () => {
 
   const options = [
     { value: 'true', label: 'Yes' },
-    { value: 'false', label: 'No' },
+    { value: 'false', label: 'No' }
   ];
 
   return (
@@ -70,12 +71,13 @@ const page = () => {
           name="selectedOption"
           id="firstTime-select"
           options={options}
+    // @ts-ignore
+
           value={selectedOption}
           onChange={handleSelectChange}
           className="mt-5"
         />
-        {selectedOption === 'true' || selectedOption === 'false' ? (
-          selectedOption === 'true' ? (
+        {selectedOption ? (
             <div className="mt-3 w-full">
               <CustomInput
                 id="nin"
@@ -124,10 +126,7 @@ const page = () => {
                 className="my-5"
               />
             </div>
-          )
-        ) : (
-          <div></div>
-        )}
+          )}
         <div className="flex gap-4 mt-3"></div>
 
         <CustomButton
