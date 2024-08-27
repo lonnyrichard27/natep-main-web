@@ -149,33 +149,33 @@ const page = () => {
   const search = searchParams.get('reference');
   const componentRef = useRef<HTMLDivElement>(null);
 
-  // const {
-  //   data: viewReq,
-  //   isLoading,
-  //   error
-  // } = useQuery({
-  //   queryKey: ['getRef', search],
-  //   queryFn: () => verify(search ?? '')
-  // });
+  const {
+    data: viewReq,
+    isLoading,
+    error
+  } = useQuery({
+    queryKey: ['getRef', search],
+    queryFn: () => verify(search ?? '')
+  });
   console.log(search, 'the query params')
 
-  useEffect(() => {
-    const verify = async () => {
-     try {
-       const response = await axiosInstance.get(`webhook/verify-scheduling-request?reference=${search}`);
-       console.log(response.data, 'verify endpoint')
-       return response;
-     } catch (error) {
-       console.log(error)
-       // handleAnyError(error);
-     }
-   };
+  // useEffect(() => {
+  //   const verify = async () => {
+  //    try {
+  //      const response = await axiosInstance.get(`webhook/verify-scheduling-request?reference=${search}`);
+  //      console.log(response.data, 'verify endpoint')
+  //      return response;
+  //    } catch (error) {
+  //      console.log(error)
+  //      // handleAnyError(error);
+  //    }
+  //  };
 
-   verify()
-  }, [])
+  //  verify()
+  // }, [])
   
   // console.log(typeof search)
-  // console.log(viewReq, 'the data');
+  console.log(viewReq, 'the data');
 
   return (
     <Suspense>
