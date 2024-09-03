@@ -5,37 +5,33 @@ import Link from 'next/link';
 import React from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import Badge from '../Badge';
+import { NtepLogo } from '@/public/assets/images';
 
 const Navbar = () => {
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-3">
-      <nav className=" w-full mx-auto md:px-8 sm:flex sm:items-center sm:justify-between">
+    <header className='flex w-full flex-wrap bg-white py-3 sm:flex-nowrap sm:justify-start'>
+      <nav className='mx-auto w-full sm:flex sm:items-center sm:justify-between md:px-8'>
         {/* Brand Logo */}
-        <Link href="/" className=''>
-          <Image
-            src="/images/nteplogo.png"
-            alt="nav logo"
-            width={150}
-            height={150}
-            className="md:w-auto object-fit mx-auto"
-          />
+        <Link href='/' className=''>
+          <Image src={NtepLogo} alt='nav logo' width={120} height={64} />
         </Link>
-        <div className="flex items-center mt-5 sm:justify-end justify-center sm:mt-0 sm:ps-5">
-          <ul className="flex items-center md:gap-12">
+
+        <div className='mt-5 flex items-center justify-center font-medium sm:mt-0 sm:justify-end sm:ps-5'>
+          <ul className='flex items-center md:gap-12'>
             <li>
-              <Badge title="Portal" />
+              <Badge title='Portal' />
             </li>
             <li>
-              <Link href="#" className="md:text-lg mx-4 text-sm">
+              <Link href='#' className='mx-4'>
                 Price List
               </Link>
-              <Link href="#" className="md:text-lg mx-4 text-sm">
+              <Link href='#' className='mx-4'>
                 Contact Us
               </Link>
             </li>
-            <li className="flex items-center">
-              <IoCheckmarkCircle className="text-[#2B9957]" />
-              <span className="text-[#2B9957] text-sm md:text-lg ml-2">Online</span>
+            <li className='flex items-center'>
+              <IoCheckmarkCircle className='text-[#2B9957]' />
+              <span className='ml-2 text-sm text-[#2B9957]'>Online</span>
             </li>
           </ul>
         </div>
