@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import CustomButton from '@/components/Custom/CustomButton'
-import CustomInput from '@/components/Custom/CustomInput'
-import CustomSelect from '@/components/Custom/CustomSelect'
-import Image from 'next/image'
-import React, { useState } from 'react'
-import { GoChevronRight } from "react-icons/go";
+import CustomButton from '@/components/Custom/CustomButton';
+import CustomInput from '@/components/Custom/CustomInput';
+import CustomSelect from '@/components/Custom/CustomSelect';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { GoChevronRight } from 'react-icons/go';
 import {
   Sheet,
   SheetClose,
@@ -15,7 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from '@/components/ui/sheet';
 
 const page = () => {
   const [selectedOption, setSelectedOption] = useState<string>('');
@@ -26,21 +26,20 @@ const page = () => {
 
   const events = [
     {
-      title: "NATEP Headquarters",
-      address: "1609 Admiralty Way, WUSE Zone 6",
-      date: "TUES, 06 DEC 2022"
+      title: 'NATEP Headquarters',
+      address: '1609 Admiralty Way, WUSE Zone 6',
+      date: 'TUES, 06 DEC 2022',
     },
     {
-      title: "NATEP Headquarters",
-      address: "1609 Admiralty Way, WUSE Zone 6",
-      date: "TUES, 06 DEC 2022"
+      title: 'NATEP Headquarters',
+      address: '1609 Admiralty Way, WUSE Zone 6',
+      date: 'TUES, 06 DEC 2022',
     },
     {
-      title: "NATEP Headquarters",
-      address: "1609 Admiralty Way, WUSE Zone 6",
-      date: "TUES, 06 DEC 2022"
+      title: 'NATEP Headquarters',
+      address: '1609 Admiralty Way, WUSE Zone 6',
+      date: 'TUES, 06 DEC 2022',
     },
-    
 
     // Add more events as needed
   ];
@@ -48,14 +47,17 @@ const page = () => {
   const options = [
     { value: 'red', label: 'Red' },
     { value: 'blue', label: 'Blue' },
-    { value: 'green', label: 'Green' }
-  ]
+    { value: 'green', label: 'Green' },
+  ];
   return (
     <Sheet>
       <div className="grid grid-cols-1 gap-4 md:mx-56 lg:grid-cols-2 lg:gap-16">
         <div className="rounded-lg md:border md:p-20">
-          <p className='font-bold text-lg'>Request Delivery</p>
-          <p className="font-light mt-3">Kindly provide the required details below to fulfill your delivery request.</p>
+          <p className="font-bold text-lg">Request Delivery</p>
+          <p className="font-light mt-3">
+            Kindly provide the required details below to fulfill your delivery
+            request.
+          </p>
 
           <CustomInput
             id="partyName"
@@ -101,8 +103,13 @@ const page = () => {
             className="mt-5"
           />
 
-          <div className='mt-5'>
-            <label htmlFor="address" className="block font-medium text-[16px] text-gray-700">Address</label>
+          <div className="mt-5">
+            <label
+              htmlFor="address"
+              className="block font-medium text-[16px] text-gray-700"
+            >
+              Address
+            </label>
 
             <textarea
               id="OrderNotes"
@@ -112,13 +119,13 @@ const page = () => {
             ></textarea>
           </div>
 
-          <CustomButton text='Continue' className='w-full mt-7 py-4' />
+          <CustomButton text="Continue" className="w-full mt-7 py-4" />
         </div>
         <div className="rounded-lg md:border md:p-20">
-          <p className='font-bold text-lg'>Ongoing Deliveries</p>
+          <p className="font-bold text-lg">Ongoing Deliveries</p>
           {/* <div className="grid items-center justify-center">
             <Image 
-              src='/images/emptystate.png'
+              src={EmptyStateImg}
               alt='nav logo'
               width={400}
               height={400}
@@ -127,33 +134,41 @@ const page = () => {
             <p className='text-2xl font-bold text-center'>No Delivery</p>
             <p className="font-light text-center mt-5">You do not have any ongoing delivery. Please click<br /> on the button below to request a delivery.</p>
           </div> */}
-          <SheetTrigger asChild className='mt-10 cursor-pointer'>
+          <SheetTrigger asChild className="mt-10 cursor-pointer">
             <div>
-              <p className='text-muted-foreground'>TUESDAY, 06 DEC 2022</p>
-              <hr className='my-4 text-gray-400' />
+              <p className="text-muted-foreground">TUESDAY, 06 DEC 2022</p>
+              <hr className="my-4 text-gray-400" />
               <article className="flex justify-between">
                 <article>
-                  <p className='text-xl font-bold'>Consular Services, Germany</p>
+                  <p className="text-xl font-bold">
+                    Consular Services, Germany
+                  </p>
                   <p>REF #34928427</p>
                 </article>
-                <article className='flex items-center'>
-                <GoChevronRight />
+                <article className="flex items-center">
+                  <GoChevronRight />
                 </article>
               </article>
             </div>
           </SheetTrigger>
-          <SheetContent className='pt-10'>
-            <p className='mt-10 mb-16 font-bold text-lg'>REF #34928427</p>
+          <SheetContent className="pt-10">
+            <p className="mt-10 mb-16 font-bold text-lg">REF #34928427</p>
             {events.map((task, index) => (
               <div key={index} className="flex gap-x-3">
-                <div className={`relative ${index === events.length - 1 ? '' : 'after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-[#A3E2BC]'}`}>
+                <div
+                  className={`relative ${
+                    index === events.length - 1
+                      ? ''
+                      : 'after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-[#A3E2BC]'
+                  }`}
+                >
                   <div className="relative z-10 w-7 h-7 flex justify-center items-center">
                     <div className="w-2 h-2 rounded-full bg-primary"></div>
                   </div>
                 </div>
 
                 <div className="grow pt-0.5 pb-8">
-                  <article className='flex justify-between mt-[1px]'>
+                  <article className="flex justify-between mt-[1px]">
                     <article>
                       <h3 className="flex gap-x-1.5 font-semibold text-gray-800">
                         {task.title}
@@ -175,7 +190,7 @@ const page = () => {
         </div>
       </div>
     </Sheet>
-  )
-}
+  );
+};
 
-export default page
+export default page;

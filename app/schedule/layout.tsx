@@ -11,9 +11,15 @@ export default function ScheduleLayout({
 }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Navbar />
-      {children}
-      <Footer />
+      <div className="h-screen flex flex-col">
+        <Navbar />
+
+        <main className="bg-[#F2F4F7] h-full flex items-center justify-center py-10">
+          {children}
+        </main>
+
+        <Footer />
+      </div>
     </Suspense>
   );
 }
