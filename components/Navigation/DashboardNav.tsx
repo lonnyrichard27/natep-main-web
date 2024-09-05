@@ -1,181 +1,114 @@
-'use client';
-
-import { ReactNode } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { LineChart, Menu, Package, ShoppingCart, Users } from 'lucide-react';
+import { BiLogOutCircle, BiPolygon } from 'react-icons/bi';
+import { MdCreditCard, MdOutlineMail } from 'react-icons/md';
+import { DashboardRoutes } from './Routes';
+import { usePathname } from 'next/navigation';
+import { FiCheckCircle, FiSearch } from 'react-icons/fi';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
-import { BiPolygon } from 'react-icons/bi';
-import { MdOutlineMailOutline } from 'react-icons/md';
-import { FiCreditCard, FiSearch } from 'react-icons/fi';
-import { useRouter, usePathname } from 'next/navigation';
-
-interface CustomProps {
-  children: ReactNode;
+interface navItemProps {
+  item: {
+    href: string | any;
+    title: string;
+    icon: string;
+    base?: string;
+  };
+  open: boolean;
 }
 
-export function DashboardNav({ children }: CustomProps) {
+const NavItem = ({ open, item }: navItemProps) => {
   const pathname = usePathname();
+
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                href="/dashboard/biodata"
-                className={`flex items-center gap-3 my-10 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/biodata'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <IoMdCheckmarkCircleOutline className="text-[26px]" />
-                Update Biodata
-              </Link>
-
-              <Link
-                href="/dashboard/certificates"
-                className={`flex items-center gap-3 my-10 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/certificates'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <BiPolygon className="text-[26px]" />
-                View Certificates
-              </Link>
-
-              <Link
-                href="/dashboard/certificates/deliver-certificate"
-                className={`flex items-center gap-3 my-10 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/certificates/deliver-certificate'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <MdOutlineMailOutline className="text-[26px]" />
-                Deliver Certificate
-              </Link>
-
-              <Link
-                href="/dashboard/payment"
-                className={`flex items-center gap-3 my-10 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/payment'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <FiCreditCard className="text-[26px]" />
-                Validate Payment
-              </Link>
-
-              <Link
-                href="/dashboard/activities"
-                className={`flex items-center gap-3 my-10 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/activities'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <FiSearch className="text-[26px]" />
-                View Activities
-              </Link>
-            </nav>
+    <Link href={item?.href}>
+      <li
+        className={`all__trans relative z-50 list-none rounded py-3.5 font-medium ${
+          pathname.includes(item?.base || item?.href)
+            ? `text-[#2B9957]`
+            : `text-[#344054]`
+        }`}
+      >
+        <span
+          className={`absolute bottom-0 left-0 right-0 top-0 z-20 block rounded-md ${pathname.includes(item?.base || item?.href) ? '' : ''}`}
+        />
+        {open ? (
+          <div className={`flex items-center gap-3 px-1`}>
+            <span className='text-2xl'>{item?.icon}</span>
+            <span className={`capitalize`}>{item?.title}</span>
           </div>
-          <div className="mt-auto p-4">
-            <p>logout</p>
-          </div>
-        </div>
+        ) : (
+          <span
+            className={`flex items-center justify-center ${pathname.includes(item?.href)}`}
+          >
+            <span className='text-2xl'>{item?.icon}</span>
+          </span>
+        )}
+      </li>
+    </Link>
+  );
+};
+
+const DashboardNav = () => {
+  const [open, setOpen] = useState(true);
+
+  const handleOpenNav = () => {
+    setOpen(true);
+  };
+
+  const handleCloseNave = () => {
+    setOpen(false);
+  };
+
+  const nav_items = [
+    {
+      href: DashboardRoutes.BIODATA,
+      icon: <FiCheckCircle />,
+      title: 'Update Biodata',
+    },
+    {
+      href: DashboardRoutes.VIEW_CERTIFICATES,
+      icon: <BiPolygon />,
+      title: 'View Certificates',
+    },
+    {
+      href: DashboardRoutes.DELIVER_CERTIFICATES,
+      icon: <MdOutlineMail />,
+      title: 'Deliver Certificate',
+    },
+    {
+      href: DashboardRoutes.PAYMENT,
+      icon: <MdCreditCard />,
+      title: 'Validate Payment',
+    },
+    {
+      href: DashboardRoutes.VIEW_ACTIVITIES,
+      icon: <FiSearch />,
+      title: 'View Activities',
+    },
+  ];
+
+  return (
+    <div
+      className={`scrollbar-hide relative z-50 flex h-full flex-col gap-8 overflow-y-scroll border border-[#F2F4F7] bg-[#F7F9FC] px-8 py-12 text-white duration-300 ${
+        open ? 'w-[312px]' : 'w-20'
+      }`}
+    >
+      <div className='text-sm font-medium text-[#98A2B3]'>QUICK ACTIONS</div>
+
+      <div className={`${open ? 'px-0' : 'px-3'} flex flex-col gap-8`}>
+        {nav_items?.map((item: any, index: any) => (
+          <NavItem key={index} item={item} open={open} />
+        ))}
       </div>
-      <div className="flex flex-col">
-        <header className="flex h-14 items-center border-t gap-4 px-4 lg:h-[60px] lg:px-6">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="shrink-0 md:hidden"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="flex flex-col">
-              <nav className="grid gap-2 text-lg font-medium">
-              <Link
-                href="/dashboard/biodata"
-                className={`flex items-center gap-3 md:my-10 my-2 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/biodata'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <IoMdCheckmarkCircleOutline className="text-[26px]" />
-                Update Biodata
-              </Link>
 
-              <Link
-                href="/dashboard/certificates"
-                className={`flex items-center gap-3 md:my-10 my-2 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/certificates'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <BiPolygon className="text-[26px]" />
-                View Certificates
-              </Link>
-
-              <Link
-                href="/dashboard/certificates/deliver-certificate"
-                className={`flex items-center gap-3 md:my-10 my-2 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/certificates/deliver-certificate'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <MdOutlineMailOutline className="text-[26px]" />
-                Deliver Certificate
-              </Link>
-
-              <Link
-                href="/dashboard/payment"
-                className={`flex items-center gap-3 md:my-10 my-2 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/payment'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <FiCreditCard className="text-[26px]" />
-                Validate Payment
-              </Link>
-
-              <Link
-                href="/dashboard/activities"
-                className={`flex items-center gap-3 md:my-10 my-2 rounded-lg text-[16px] px-3 py-2 transition-all ${
-                  pathname === '/dashboard/activities'
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                <FiSearch className="text-[26px]" />
-                View Activities
-              </Link>
-              </nav>
-              <div className="mt-auto">
-                <p>logout</p>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {children}
-        </main>
+      <div className='mt-auto flex items-center gap-3 px-1 text-[#B42318]'>
+        <span className='text-2xl'>
+          <BiLogOutCircle />
+        </span>
+        <span className='capitalize'>Logout</span>
       </div>
     </div>
   );
-}
+};
+
+export default DashboardNav;

@@ -9,7 +9,7 @@ import { NtepLogo } from '@/public/assets/images';
 
 const Navbar = () => {
   return (
-    <header className='flex w-full flex-wrap bg-white py-3 sm:flex-nowrap sm:justify-start'>
+    <header className='sticky top-0 z-40 flex w-full flex-wrap border border-[#F2F4F7] bg-white py-3 sm:flex-nowrap sm:justify-start'>
       <nav className='mx-auto w-full sm:flex sm:items-center sm:justify-between md:px-8'>
         {/* Brand Logo */}
         <Link href='/' className=''>
