@@ -1,7 +1,6 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import CustomButton from '@/components/Custom/CustomButton';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef } from 'react';
@@ -12,6 +11,7 @@ import { useReactToPrint } from 'react-to-print';
 import axiosInstance from '@/util/axios';
 import { convertIsoToDate } from '@/util/formatDate';
 import { SuccessImg } from '@/public/assets/images';
+import { CustomButton } from '@/components/elements';
 
 const page = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -24,7 +24,7 @@ const page = () => {
     if (contentRef.current) {
       const printWindow = window.open('', '', 'height=500,width=800');
       printWindow?.document.write(
-        '<html><head><title>Print Content</title></head><body>',
+        '<html><head><title>Print Content</title></head><body>'
       );
       printWindow?.document.write(contentRef.current.innerHTML);
       printWindow?.document.write('</body></html>');
@@ -61,17 +61,17 @@ const page = () => {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <section className="border md:w-[368px] rounded-md p-5 grid items-center justify-center">
+      <main className='flex min-h-screen flex-col items-center justify-center'>
+        <section className='grid items-center justify-center rounded-md border p-5 md:w-[368px]'>
           <Image
             src={SuccessImg}
-            alt="nav logo"
+            alt='nav logo'
             width={100}
             height={100}
-            className="w-full"
+            className='w-full'
           />
-          <article className="text-center">
-            <p className="mt-16">Success!</p>
+          <article className='text-center'>
+            <p className='mt-16'>Success!</p>
             <p>
               Your appointment schedule has been
               <br /> set successfully.
@@ -112,12 +112,12 @@ const page = () => {
             // applicantID="987654"
             // number="+1 987 654 3210" */}
 
-          <Link href="/" className="mt-2">
+          <Link href='/' className='mt-2'>
             <CustomButton
-              text="Go To Home"
-              className="w-full mt-3 py-3"
-              bgColor="bg-[#F2F4F7]"
-              color="text-black"
+              text='Go To Home'
+              className='mt-3 w-full py-3'
+              bgColor='bg-[#F2F4F7]'
+              color='text-black'
             />
           </Link>
         </section>

@@ -1,12 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import CustomInput from '../Custom/CustomInput';
-import CustomButton from '../Custom/CustomButton';
 import { useFormContext } from '@/context/ApplicationFormContext';
-import CustomSelect from '../Custom/CustomSelect';
 import HeaderNav from '../HeaderNav';
-import CustomTextArea from '../Custom/CustomTextArea';
+import { CustomButton, CustomSelect, CustomTextArea } from '../elements';
 
 const Address = () => {
   // const { formData, updateFormData } = useFormContext();
@@ -26,55 +23,55 @@ const Address = () => {
     updateFormData(e.target.name, e.target.value);
   };
   return (
-    <section className="md:grid items-center justify-center mt-10">
-      <section className="border rounded-lg p-6">
-        <HeaderNav onClick={prevStep} title="Address" />
+    <section className='mt-10 items-center justify-center md:grid'>
+      <section className='rounded-lg border p-6'>
+        <HeaderNav onClick={prevStep} title='Address' />
 
-        <p className="mt-5 text-lg font-light">
+        <p className='mt-5 text-lg font-light'>
           Ensure this is your current address, your sealed certificate will
           <br /> be delivered to this address.
         </p>
 
         <CustomSelect
-          label="Select State"
-          name="color"
-          id="color-select"
+          label='Select State'
+          name='color'
+          id='color-select'
           options={options}
           value={selectedOption}
           onChange={handleSelectChange}
-          className="mt-5"
+          className='mt-5'
         />
 
         <CustomSelect
-          label="Select LGA"
-          name="color"
-          id="color-select"
+          label='Select LGA'
+          name='color'
+          id='color-select'
           options={options}
           value={selectedOption}
           onChange={handleSelectChange}
-          className="mt-5"
+          className='mt-5'
         />
 
         <CustomTextArea
-          label="Input Address"
-          id="textarea-address"
-          placeholder="Enter your address..."
+          label='Input Address'
+          id='textarea-address'
+          placeholder='Enter your address...'
           value={'eee'}
           onChange={(e) => console.log(e.target.value)}
         />
-        <div className="md:flex gap-4">
+        <div className='gap-4 md:flex'>
           <CustomButton
-            text="Save & Exit"
-            color="text-black"
-            className="py-3 w-full flex mt-7 justify-center"
+            text='Save & Exit'
+            color='text-black'
+            className='mt-7 flex w-full justify-center py-3'
             onClick={nextStep}
-            bgColor="bg-[#F2F4F7]"
+            bgColor='bg-[#F2F4F7]'
           />
 
           <CustomButton
-            text="Continue"
-            color="text-white"
-            className="py-3 w-full flex mt-7 justify-center"
+            text='Continue'
+            color='text-white'
+            className='mt-7 flex w-full justify-center py-3'
             onClick={nextStep}
           />
         </div>

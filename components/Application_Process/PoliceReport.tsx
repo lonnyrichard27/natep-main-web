@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import CustomInput from '../Custom/CustomInput';
 import { useFormContext } from '@/context/ApplicationFormContext';
 import FileUpload from '../FileUpload';
 import HeaderNav from '../HeaderNav';
-import CustomButton from '../Custom/CustomButton';
+import { CustomButton, CustomInput } from '../elements';
 
 const PoliceReport = () => {
   const { formData, updateFormData, prevStep, nextStep } = useFormContext();
@@ -27,36 +26,36 @@ const PoliceReport = () => {
     updateFormData(e.target.name, e.target.value);
   };
   return (
-    <section className="md:grid items-center justify-center mt-10">
-      <section className="border rounded-lg p-6">
-        <HeaderNav onClick={prevStep} title="Police Report" />
+    <section className='mt-10 items-center justify-center md:grid'>
+      <section className='rounded-lg border p-6'>
+        <HeaderNav onClick={prevStep} title='Police Report' />
 
-        <p className="mt-2 text-lg font-light">
+        <p className='mt-2 text-lg font-light'>
           Kindly provide your police report details here.
         </p>
         <CustomInput
-          id="nin"
-          label="POSSAP Number"
-          placeholder="81200398"
+          id='nin'
+          label='POSSAP Number'
+          placeholder='81200398'
           value={formData.nin || ''}
           onChange={handleChange}
-          className="my-3 mt-7"
+          className='my-3 mt-7'
         />
 
-        <FileUpload onFileUpload={handleFileUpload} title="Upload Report" />
-        <div className="md:flex gap-4">
+        <FileUpload onFileUpload={handleFileUpload} title='Upload Report' />
+        <div className='gap-4 md:flex'>
           <CustomButton
-            text="Save & Exit"
-            color="text-black"
-            className="py-3 w-full flex mt-7 justify-center"
+            text='Save & Exit'
+            color='text-black'
+            className='mt-7 flex w-full justify-center py-3'
             onClick={nextStep}
-            bgColor="bg-[#F2F4F7]"
+            bgColor='bg-[#F2F4F7]'
           />
 
           <CustomButton
-            text="Continue"
-            color="text-white"
-            className="py-3 w-full flex mt-7 justify-center"
+            text='Continue'
+            color='text-white'
+            className='mt-7 flex w-full justify-center py-3'
             onClick={nextStep}
           />
         </div>

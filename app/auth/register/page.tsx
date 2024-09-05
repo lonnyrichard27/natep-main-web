@@ -1,102 +1,115 @@
 'use client';
 
-import CustomButton from '@/components/Custom/CustomButton';
-import CustomInput from '@/components/Custom/CustomInput';
+import { CustomButton, CustomInput } from '@/components/elements';
+import { DashboardRoutes } from '@/components/Navigation/Routes';
+import { signUpSchema } from '@/schema/authSchema';
 import axiosInstance from '@/util/axios';
+import { handleError } from '@/util/errorHandler';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import toast from 'react-hot-toast';
+import { Controller, useForm } from 'react-hook-form';
 
 const page = () => {
-  const router = useRouter();
-  const [formData, setformData] = useState({
-    nin: '',
-    email: '',
-    phone: ''
-  });
+  const { push } = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setformData({
-      ...formData,
-      [e.target.id]: e.target.value
-    });
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({ mode: 'onChange', resolver: yupResolver(signUpSchema) });
 
-  const handleSubmit = async () => {
-    const data = {
-      nin: formData.nin,
-      email: formData.email,
-      phone: formData.phone
-    };
+  const handleRegister = async (data: any) => {
+    setIsSubmitting(true);
     try {
-      const response = await axiosInstance.post('auth/create-new-account', data);
-      console.log(response, 'response');
-      if (response.status === 200 && 201) {
-        toast.success('Success');
-        router.push('/auth/register/inputOtp')
+      const response = await axiosInstance.post(
+        '/auth/create-new-account',
+        data
+      );
+      if (response.status === 200 || response.status === 201) {
+        const user = response.data.data;
+        localStorage.setItem('new_account', JSON.stringify(user));
+
+        push(DashboardRoutes.REGISTER_OTP);
+        setIsSubmitting(false);
       }
     } catch (error) {
-      toast.error('Error please try again');
+      setIsSubmitting(false);
+      handleError(error);
     }
-
   };
 
-  const isFormEmpty = !formData.email || !formData.nin || !formData.phone;
-
   return (
-    <>
-      <section className="border md:w-[400px] rounded-md p-5">
-        <p>Create Account</p>
-        <p className="font-light text-[16px] mt-2 mb-6">
-          Pease input your NIN and other required fields to continue.
-        </p>
+    <section className='w-96 rounded-lg border bg-white px-6 py-10'>
+      <form
+        onSubmit={handleSubmit(handleRegister)}
+        className='flex flex-col gap-6'
+      >
+        <div>
+          <h2 className='font-semibold'>Create Account</h2>
+          <p className='mt-2 text-sm font-light'>
+            Pease input your NIN and other required fields to continue.
+          </p>
+        </div>
 
-        <CustomInput
-          id="nin"
-          label="NIN"
-          type="number"
-          placeholder="123456789"
-          value={formData.nin}
-          onChange={handleChange}
-          className="my-3"
+        <Controller
+          control={control}
+          name='nin'
+          render={({ field }) => (
+            <CustomInput
+              label='NIN'
+              type='text'
+              placeholder='123456789'
+              {...field}
+            />
+          )}
         />
-        <CustomInput
-          id="emailAddress"
-          label="Email Address"
-          type="email"
-          placeholder="ola@gmail.com"
-          value={formData.email}
-          onChange={handleChange}
-          className="my-4"
+
+        <Controller
+          control={control}
+          name='email'
+          render={({ field }) => (
+            <CustomInput
+              label='Email Address'
+              type='email'
+              placeholder='ola@gmail.com'
+              {...field}
+            />
+          )}
         />
-        <CustomInput
-          id="phone"
-          label="Phone Number"
-          type="number"
-          placeholder="080xxxxxx"
-          value={formData.phone}
-          onChange={handleChange}
-          className="my-3"
+
+        <Controller
+          control={control}
+          name='phone'
+          render={({ field }) => (
+            <CustomInput
+              label='Phone Number'
+              type='text'
+              placeholder='080xxxxxx'
+              {...field}
+            />
+          )}
         />
 
         <CustomButton
-          text="Verify Otp"
-          onClick={handleSubmit}
-          disabled={isFormEmpty}
-          className="w-full mt-3 py-3"
+          text='Verify Otp'
+          type='submit'
+          className='w-full py-3'
+          disabled={!isValid || isSubmitting}
         />
 
-        <Link href="/auth/login" className="mt-5">
+        <Link href={DashboardRoutes.LOGIN}>
           <CustomButton
-            text="Login"
-            className="w-full mt-3 py-3"
-            bgColor="bg-[#F2F4F7]"
-            color="text-black"
+            text='Login'
+            className='w-full py-3'
+            bgColor='bg-[#F2F4F7]'
+            color='text-black'
           />
         </Link>
-      </section>
-    </>
+      </form>
+    </section>
   );
 };
 

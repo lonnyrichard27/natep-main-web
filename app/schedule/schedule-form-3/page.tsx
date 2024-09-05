@@ -1,6 +1,5 @@
 'use client';
 
-import CustomButton from '@/components/Custom/CustomButton';
 import React, { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
@@ -9,6 +8,7 @@ import { getLocalStorageItem } from '@/util/localStorage';
 import axiosInstance from '@/util/axios';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { CustomButton } from '@/components/elements';
 
 const page = () => {
   const timeSlots = generateTimeSlots(60);
@@ -31,7 +31,7 @@ const page = () => {
       email: extractedData.email,
       phone: extractedData.phone,
       applicant_id: extractedData.applicantID,
-      activity_type: extractedData.activity
+      activity_type: extractedData.activity,
     };
 
     try {
@@ -51,21 +51,21 @@ const page = () => {
   };
 
   return (
-    <main className="md:flex md:min-h-screen flex-col md:items-center md:justify-center">
-      <section className="border rounded-md p-5">
-        <Link href='/schedule' className="flex gap-2 items-center">
+    <main className='flex-col md:flex md:min-h-screen md:items-center md:justify-center'>
+      <section className='rounded-md border p-5'>
+        <Link href='/schedule' className='flex items-center gap-2'>
           <FaRegArrowAltCircleLeft /> <span>Select Date and Time</span>
         </Link>
 
-        <p className="font-light text-[14px] mt-2 mb-6">
+        <p className='mb-6 mt-2 text-[14px] font-light'>
           Select your preferred date and time below.
         </p>
 
         <Calendar
-          mode="single"
+          mode='single'
           selected={date}
           onSelect={setDate}
-          className="rounded-md border"
+          className='rounded-md border'
         />
 
         <div>
@@ -73,7 +73,7 @@ const page = () => {
           <select
             value={selectedTime}
             onChange={handleChange}
-            className="w-full p-2 mt-2 border rounded text-gray-600"
+            className='mt-2 w-full rounded border p-2 text-gray-600'
           >
             {timeSlots.map((time, index) => (
               <option key={index} value={time}>
@@ -84,9 +84,9 @@ const page = () => {
         </div>
         {/* <Link href="/schedule/schedule-final"> */}
         <CustomButton
-          text="Continue"
+          text='Continue'
           onClick={submit}
-          className="w-full mt-3"
+          className='mt-3 w-full'
         />
         {/* </Link> */}
       </section>
