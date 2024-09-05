@@ -15,10 +15,18 @@ interface CustomSelectProps {
   className?: string;
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ label, name, id, options, value, onChange, className }) => {
+const CustomSelect: React.FC<CustomSelectProps> = ({
+  label,
+  name,
+  id,
+  options,
+  value,
+  onChange,
+  className,
+}) => {
   return (
     <div className={className}>
-      <label htmlFor={id} className="block text-[16px] font-medium text-gray-900">
+      <label htmlFor={id} className='block text-sm font-medium text-gray-900'>
         {label}
       </label>
       <select
@@ -26,9 +34,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ label, name, id, options, v
         id={id}
         value={value}
         onChange={onChange}
-        className="mt-1.5 w-full rounded-lg border-gray-300 border px-3 py-3 text-gray-700 sm:text-sm"
+        className='mt-1.5 w-full rounded-lg border border-gray-300 px-3 py-3 text-gray-700 sm:text-sm'
       >
-        <option value="">Please select</option>
+        <option value=''>Please select</option>
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}

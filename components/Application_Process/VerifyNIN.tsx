@@ -1,9 +1,8 @@
-'use client'
+'use client';
 
 import React from 'react';
-import CustomInput from '../Custom/CustomInput';
-import CustomButton from '../Custom/CustomButton';
 import { useFormContext } from '@/context/ApplicationFormContext';
+import { CustomButton, CustomInput } from '../elements';
 
 const VerifyNIN = () => {
   const { formData, updateFormData, nextStep } = useFormContext();
@@ -13,37 +12,39 @@ const VerifyNIN = () => {
   };
 
   return (
-    <section className="md:grid items-center justify-center">
-      <section className="border md:max-w-7xl w-auto rounded-lg p-6 md:p-16">
-        <p className="font-bold text-xl">Verify NIN</p>
-        <p className="mt-2">Input the Applicant’s NIN and required details.</p>
+    <section className='items-center justify-center md:grid'>
+      <section className='w-auto rounded-lg border p-6 md:max-w-7xl md:p-16'>
+        <p className='text-xl font-bold'>Verify NIN</p>
+        <p className='mt-2'>
+          Input the Applicant&apos;s NIN and required details.
+        </p>
         <CustomInput
-          id="nin"
-          label="NIN"
-          placeholder="81200398"
+          id='nin'
+          label='NIN'
+          placeholder='81200398'
           value={formData.nin || ''}
           onChange={handleChange}
-          className="my-3 mt-7"
+          className='my-3 mt-7'
         />
         <CustomInput
-          id="email"
-          label="Email Address"
-          placeholder="j@gmail.com"
+          id='email'
+          label='Email Address'
+          placeholder='j@gmail.com'
           onChange={(e) => console.log(e.target.value)}
-          className="my-3 mt-7"
+          className='my-3 mt-7'
         />
         <CustomInput
-          id="phone"
-          label="Phone Number"
-          placeholder="81200398"
+          id='phone'
+          label='Phone Number'
+          placeholder='81200398'
           onChange={(e) => console.log(e.target.value)}
-          className="my-3 mt-7"
+          className='my-3 mt-7'
         />
-        
+
         <CustomButton
-          text="Continue"
-          color="text-white"
-          className="py-3 w-full flex mt-7 justify-center"
+          text='Continue'
+          color='text-white'
+          className='mt-7 flex w-full justify-center py-3'
           onClick={nextStep}
         />
       </section>

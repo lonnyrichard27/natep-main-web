@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface InputProps {
-  id: string;
+  id?: string;
   label: string;
   type?: string;
   placeholder?: string;
@@ -21,7 +21,7 @@ const CustomInput: React.FC<InputProps> = ({
 }) => {
   return (
     <div className={className}>
-      <label htmlFor={id} className="block font-medium text-[16px] text-gray-700">
+      <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
         {label}
       </label>
       <input
@@ -30,7 +30,7 @@ const CustomInput: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="mt-1 w-full border px-3 py-3 rounded-md border-gray-200 shadow-sm sm:text-sm"
+        className='mt-1 w-full rounded-md border border-gray-200 px-3 py-3 shadow-sm sm:text-sm'
       />
     </div>
   );

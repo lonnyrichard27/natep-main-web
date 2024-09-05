@@ -1,8 +1,6 @@
 'use client';
 
-import CustomButton from '@/components/Custom/CustomButton';
-import CustomInput from '@/components/Custom/CustomInput';
-import CustomSelect from '@/components/Custom/CustomSelect';
+import { CustomButton, CustomInput, CustomSelect } from '@/components/elements';
 import { setLocalStorageItem } from '@/util/localStorage';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -59,78 +57,78 @@ const page = () => {
   ];
 
   return (
-    <section className="border rounded-md py-10 px-6 bg-white w-96">
-      <p className="">Schedule Appointment</p>
-      <p className="font-light text-[14px] mt-5 mb-6">
-        Fill in the required fields appropriately.
-      </p>
-
-      <CustomSelect
-        label="Is this your first time?"
-        name="selectedOption"
-        id="firstTime-select"
-        options={options}
-        // @ts-ignore
-
-        value={selectedOption}
-        onChange={handleSelectChange}
-        className="mt-5"
-      />
-      {selectedOption ? (
-        <div className="mt-3 w-full">
-          <CustomInput
-            id="nin"
-            label="NIN"
-            type="number"
-            placeholder="123456789"
-            value={formData.nin}
-            onChange={handleChange}
-          />
-          <CustomInput
-            id="email"
-            label="Email"
-            type="email"
-            placeholder="john@gmail.com"
-            value={formData.email}
-            onChange={handleChange}
-            className="my-3"
-          />
-          <CustomInput
-            id="phone"
-            label="Phone Number"
-            type="number"
-            placeholder="080xxxxx"
-            value={formData.phone}
-            onChange={handleChange}
-          />
+    <section className='w-96 rounded-md border bg-white px-6 py-10'>
+      <div className='flex flex-col gap-6'>
+        <div>
+          <h2 className='font-semibold'>Schedule Appointment</h2>
+          <p className='mt-2 text-sm font-light'>
+            Fill in the required fields appropriately.
+          </p>
         </div>
-      ) : (
-        <div className="mt-4">
-          <CustomSelect
-            label="Activity Type"
-            name="activityType"
-            id="activityType-select"
-            options={activities}
-            value={activityType}
-            onChange={handleActivity}
-            className="mt-5"
-          />
-          <CustomInput
-            id="applicantId"
-            label="Applicant ID"
-            type="text"
-            placeholder="NP-9438593"
-            value={formData.applicantId}
-            onChange={handleChange}
-            className="my-5"
-          />
-        </div>
-      )}
-      <div className="flex gap-4 mt-3"></div>
+
+        <CustomSelect
+          label='Is this your first time?'
+          name='selectedOption'
+          id='firstTime-select'
+          options={options}
+          // @ts-ignore
+
+          value={selectedOption}
+          onChange={handleSelectChange}
+        />
+        {selectedOption ? (
+          <>
+            <CustomInput
+              id='nin'
+              label='NIN'
+              type='number'
+              placeholder='123456789'
+              value={formData.nin}
+              onChange={handleChange}
+            />
+            <CustomInput
+              id='email'
+              label='Email'
+              type='email'
+              placeholder='john@gmail.com'
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <CustomInput
+              id='phone'
+              label='Phone Number'
+              type='number'
+              placeholder='080xxxxx'
+              value={formData.phone}
+              onChange={handleChange}
+            />
+          </>
+        ) : (
+          <>
+            <CustomSelect
+              label='Activity Type'
+              name='activityType'
+              id='activityType-select'
+              options={activities}
+              value={activityType}
+              onChange={handleActivity}
+            />
+            <CustomInput
+              id='applicantId'
+              label='Applicant ID'
+              type='text'
+              placeholder='NP-9438593'
+              value={formData.applicantId}
+              onChange={handleChange}
+            />
+          </>
+        )}
+      </div>
+      <div className='mt-3 flex gap-4'></div>
 
       <CustomButton
-        text="Continue"
-        className="w-full mt-3"
+        text='Continue'
+        className='mt-3 w-full'
         onClick={handleContinue}
       />
     </section>

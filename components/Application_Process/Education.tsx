@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import CustomButton from '../Custom/CustomButton';
 import { useFormContext } from '@/context/ApplicationFormContext';
-import CustomSelect from '../Custom/CustomSelect';
 import FileUpload from '../FileUpload';
 import HeaderNav from '../HeaderNav';
+import { CustomButton, CustomSelect } from '../elements';
 
 const Education = () => {
   const { formData, updateFormData, nextStep, prevStep } = useFormContext();
@@ -27,49 +26,51 @@ const Education = () => {
     updateFormData(e.target.name, e.target.value);
   };
   return (
-    <section className="md:grid items-center justify-center mt-10">
-      <section className="border rounded-lg p-6">
-        <HeaderNav onClick={prevStep} title="Education" />
+    <section className='mt-10 items-center justify-center md:grid'>
+      <section className='rounded-lg border p-6'>
+        <HeaderNav onClick={prevStep} title='Education' />
 
-        <p className="mt-2 text-lg font-light">Kindly provide your educational documents here.</p>
+        <p className='mt-2 text-lg font-light'>
+          Kindly provide your educational documents here.
+        </p>
 
         <CustomSelect
-          label="Educational Level"
-          name="color"
-          id="color-select"
+          label='Educational Level'
+          name='color'
+          id='color-select'
           options={options}
           value={selectedOption}
           onChange={handleSelectChange}
-          className="mt-5"
+          className='mt-5'
         />
 
         <CustomSelect
-          label="Select Institution"
-          name="color"
-          id="color-select"
+          label='Select Institution'
+          name='color'
+          id='color-select'
           options={options}
           value={selectedOption}
           onChange={handleSelectChange}
-          className="my-5"
+          className='my-5'
         />
 
         <FileUpload
           onFileUpload={handleFileUpload}
-          title="Upload Certificate"
+          title='Upload Certificate'
         />
-        <div className="md:flex gap-4">
+        <div className='gap-4 md:flex'>
           <CustomButton
-            text="Save & Exit"
-            color="text-black"
-            className="py-3 w-full flex mt-7 justify-center"
+            text='Save & Exit'
+            color='text-black'
+            className='mt-7 flex w-full justify-center py-3'
             onClick={nextStep}
-            bgColor="bg-[#F2F4F7]"
+            bgColor='bg-[#F2F4F7]'
           />
 
           <CustomButton
-            text="Continue"
-            color="text-white"
-            className="py-3 w-full flex mt-7 justify-center"
+            text='Continue'
+            color='text-white'
+            className='mt-7 flex w-full justify-center py-3'
             onClick={nextStep}
           />
         </div>

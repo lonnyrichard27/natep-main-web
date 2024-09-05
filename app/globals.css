@@ -63,7 +63,38 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+body {
+  font-family: 'Switzer', sans-serif;
+}
+
+* {
+  font-family: 'Switzer', sans-serif;
+}
+
+/* otp styling */
+.otp_style {
+  width: 3rem !important;
+  height: 3rem;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+  color: #626364;
+  font-size: 20px;
+}
+
+.otp_style:focus {
+  border: 1px solid #7e8da4;
+}
+
+@media screen and (max-width: 640px) {
+  .otp_style {
+    width: 3rem !important;
+    height: 3rem;
   }
 }
