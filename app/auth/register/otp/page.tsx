@@ -12,11 +12,15 @@ import toast from 'react-hot-toast';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import OTPInput from 'react-otp-input';
 
+interface newAccountTypes {
+  phone: string;
+  email: string;
+  nin: string;
+}
+
 const Page = () => {
   const { push } = useRouter();
   const [otp, setOtp] = useState('');
-
-  const storedUser = localStorage.getItem('new_account');
 
   const [seconds, setSeconds] = useState(1); // Initial countdown time in seconds
 
@@ -39,16 +43,24 @@ const Page = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [user, setUser] = useState<newAccountTypes>({
+    email: '',
+    nin: '',
+    phone: '',
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Safe to use localStorage here
+      const storedUser: any = localStorage.getItem('new_account');
+      if (storedUser) {
+        setUser(storedUser);
+      }
+    }
+  }, []);
+
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    let user;
-
-    if (storedUser) {
-      user = JSON.parse(storedUser);
-    } else {
-      return;
-    }
 
     setIsSubmitting(true);
     try {
@@ -72,14 +84,6 @@ const Page = () => {
 
   const [isSending, setIsSending] = useState(false);
   const handleResendOTP = async () => {
-    let user;
-
-    if (storedUser) {
-      user = JSON.parse(storedUser);
-    } else {
-      return;
-    }
-
     setIsSending(true);
     try {
       const response = await axiosInstance.post('/auth/resend-otp', {

@@ -43,7 +43,7 @@ const SideDrawer: FC<SideDrawerProps> = ({
           onClick={toggleDrawer}
         >
           <button
-            className={`absolute right-[460px] top-4 z-[1000] w-fit rounded-full border border-white bg-white/20 px-6 py-1.5 font-bold text-white`}
+            className={`absolute right-[460px] top-4 z-[1000] w-fit rounded-full border border-white bg-[#124024]/40 px-6 py-1.5 font-bold text-white`}
             onClick={toggleDrawer}
           >
             X close
