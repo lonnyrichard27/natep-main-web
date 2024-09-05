@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { verify } from '@/api/user';
 import { useReactToPrint } from 'react-to-print';
@@ -37,7 +37,6 @@ const page = () => {
 
   const searchParams = useSearchParams();
   const search = searchParams.get('reference');
-  // const componentRef = useRef<HTMLDivElement>(null);
 
   const {
     data: viewReq,
@@ -62,119 +61,6 @@ const page = () => {
 
   return (
     <>
-      {/* <div ref={contentRef} className="p-5">
-      <div className="text-center mb-7">
-        <Image
-          src="/images/pdfprintlogo.png"
-          alt="nav logo"
-          width={150}
-          height={150}
-          className="w-full"
-        />
-      </div>
-
-      <div className="border-b border-r border-t bg-[#E4E7EC] border-gray-200 p-4">
-        <p className="text-gray-600 font-medium">Appointment Schedule</p>
-      </div>
-      <div className="border border-gray-200 rounded-md overflow-hidden">
-        <div className="grid grid-cols-2 gap-0">
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Tracking ID</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{viewReq?.trackingID}</p>
-          </div>
-
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Date</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{formattedDate}</p>
-          </div>
-
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Time</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{formattedTime}</p>
-          </div>
-
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Activity Type</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{viewReq?.delivery_type}</p>
-          </div>
-
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Address</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{viewReq?.address}</p>
-          </div>
-
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Phone Number</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{viewReq?.phone}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-b border-r border-t mt-7 bg-[#E4E7EC] border-gray-200 p-4">
-        <p className="text-gray-600 font-medium">Applicant Details</p>
-      </div>
-      <div className="border border-gray-200 rounded-md overflow-hidden">
-        <div className="grid grid-cols-2 gap-0">
-
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Applicant ID</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{viewReq?.user_code}</p>
-          </div>
-
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Full Name</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{viewReq?.name}</p>
-          </div>
-
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-gray-600 font-medium">Email</p>
-          </div>
-          <div className="border-b border-r border-t border-gray-200 p-4">
-            <p className="text-black font-medium">{viewReq?.email}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-gray-50 border border-gray-200 rounded-md p-6">
-        <p className="text-lg font-semibold text-gray-900 mb-4">
-          Carefully follow these instructions:
-        </p>
-        <ol className="list-decimal list-inside text-gray-700 space-y-2">
-          <li>
-            Ensure you are the NATEP office at least 30mins before your
-            scheduled time.
-          </li>
-          <li>
-            Carry along the following documents for your application:
-            <ul className="list-inside list-[lower-alpha] pl-5 space-y-1">
-              <li>Appointment Schedule</li>
-              <li>Passport Document</li>
-              <li>Clear Photograph</li>
-              <li>Education Certificates</li>
-              <li>Employment Letter</li>
-              <li>Police Report</li>
-              <li>Medical Report</li>
-            </ul>
-          </li>
-        </ol>
-      </div>
-    </div> */}
       <main className='flex min-h-screen flex-col items-center justify-center'>
         <section className='grid items-center justify-center rounded-md border p-5 md:w-[368px]'>
           <Image

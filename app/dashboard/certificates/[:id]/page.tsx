@@ -15,6 +15,7 @@ const page = () => {
   function route() {
     router.push('/dashboard/certificates');
   }
+  
   return (
     <div className='md:mx-24'>
       <HeaderNav onClick={route} title='Digital Certificate' />
