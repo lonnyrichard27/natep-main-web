@@ -29,7 +29,7 @@ const Page = () => {
     },
   ];
 
-  const websiteLink = 'www.google.come';
+  const websiteLink = 'www.google.com';
 
   return (
     <section className='flex w-96 flex-col gap-6 rounded-lg border bg-white px-6 py-10'>

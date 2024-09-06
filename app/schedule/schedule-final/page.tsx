@@ -6,19 +6,15 @@ import Link from 'next/link';
 import React, { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { verify } from '@/api/user';
-import { useReactToPrint } from 'react-to-print';
-// import PrintableComponent from '@/components/PrintableComponent';
 import axiosInstance from '@/util/axios';
 import { convertIsoToDate } from '@/util/formatDate';
 import { SuccessImg } from '@/public/assets/images';
 import { CustomButton } from '@/components/elements';
 
+
 const page = () => {
   const contentRef = useRef<HTMLDivElement>(null);
-  const componentRef = useRef();
-  // const handlePrint = useReactToPrint({
-  //   // @ts-ignore
-  //   content: () => componentRef.current
+  const componentRef = useRef(); componentRef.current
   // });
   const handlePrint = () => {
     if (contentRef.current) {

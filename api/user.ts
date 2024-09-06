@@ -1,5 +1,7 @@
 import axiosInstance from "@/util/axios";
+import { handleError } from "@/util/errorHandler";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export const verify = async (ref: string) => {
   try {
@@ -10,34 +12,47 @@ export const verify = async (ref: string) => {
     // handleAnyError(error);
   }
 };
-// {
-//   "id": "eb6575e6-e19c-428a-8242-82374d131556",
-//   "nin": "9002277477",
-//   "name": "Dnial OLUWALONI",
-//   "email": "richy@yopmail.com",
-//   "phone": "12131",
-//   "otp_hash": null,
-//   "passcode": null,
-//   "has_scanned_passport": 0,
-//   "state": "FCT",
-//   "lga": null,
-//   "address": "Natep Office",
-//   "has_education": 0,
-//   "has_employment": 0,
-//   "has_police_report": 0,
-//   "has_medicals": 0,
-//   "user_code": "NP-936561805",
-//   "status": "pickup",
-//   "tracking_id": "OYKNRQD74PKYDTC",
-//   "request_update": "dormant",
-//   "photograph": null,
-//   "agent_code": null,
-//   "created_at": "2024-08-27T17:10:49.000Z",
-//   "updated_at": "2024-08-27T17:10:49.000Z",
-//   "country": "NGN",
-//   "certificate_id": "c807556f-51f3-41a5-bd48-c935f550e018",
-//   "delivery_type": "scheduled",
-//   "delivery_time": "2024-08-28T08:00:00.000Z",
-//   "user": "3151368d-482c-4e86-8f33-02c9b0047606",
-//   "activity_type": "fresh registration"
+
+
+// export const fetchActivities = async(data:any, setLoading: (value:boolean) => void) => {
+//   setLoading(true);
+//   try {
+//     const response = await axiosInstance.post('/activity/fetch-activities', data)
+//     console.log(response.data.data,' activities')
+//     return response.data.data
+//   } catch (error) {
+//     setLoading(false);
+//     handleError(error)
+//   } finally {
+//     setLoading(false)
+//   }
 // }
+
+export const fetchActivities = async() => {
+  try {
+    const response = await axiosInstance.get('/activity/fetch-activities')
+    console.log(response.data.data,' activities')
+    return response.data.data
+  } catch (error) {
+    handleError(error)
+  }
+}
+
+export const getHistory = async ({
+  page_num,
+  search,
+}: {
+  page_num: number;
+  search?: string;
+}) => {
+  try {
+    const response = await axiosInstance.get(
+      `/history/fetch-history?page_no=${page_num}${
+        search ? `&search=${search}` : ''
+      }`
+    );
+    return response.data.data;
+  } catch (error) {
+    handleError(error);
+  }
+};

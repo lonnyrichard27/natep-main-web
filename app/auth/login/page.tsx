@@ -28,7 +28,6 @@ const page = () => {
       const response = await axiosInstance.post('/auth/email-access', data);
       if (response.status === 200 || response.status === 201) {
         push(DashboardRoutes.LOGIN_OTP);
-        console.log(response);
         setIsSubmitting(false);
       }
     } catch (error) {
