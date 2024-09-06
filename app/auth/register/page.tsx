@@ -30,7 +30,7 @@ const page = () => {
       );
       if (response.status === 200 || response.status === 201) {
         const user = response.data.data;
-        localStorage.setItem('new_account', JSON.stringify(user));
+        localStorage.setItem('user_account', JSON.stringify(user));
 
         push(DashboardRoutes.REGISTER_OTP);
         setIsSubmitting(false);

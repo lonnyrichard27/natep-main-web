@@ -12,17 +12,17 @@ import toast from 'react-hot-toast';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import OTPInput from 'react-otp-input';
 
-interface newAccountTypes {
+export interface newAccountTypes {
   phone: string;
   email: string;
   nin: string;
 }
 
 const Page = () => {
-  const { push } = useRouter();
+  const { push, back } = useRouter();
   const [otp, setOtp] = useState('');
 
-  const [seconds, setSeconds] = useState(1); // Initial countdown time in seconds
+  const [seconds, setSeconds] = useState(120); // Initial countdown time in seconds
 
   useEffect(() => {
     if (seconds > 0) {
@@ -52,9 +52,9 @@ const Page = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Safe to use localStorage here
-      const storedUser: any = localStorage.getItem('new_account');
+      const storedUser: any = localStorage.getItem('user_account');
       if (storedUser) {
-        setUser(storedUser);
+        setUser(JSON.parse(storedUser));
       }
     }
   }, []);
@@ -105,10 +105,12 @@ const Page = () => {
     <section className='w-96 rounded-lg border bg-white px-6 py-10'>
       <form onSubmit={(e) => handleRegister(e)} className='flex flex-col gap-6'>
         <div>
-          <h2 className='flex items-center gap-2 font-semibold'>
-            <FaRegArrowAltCircleLeft className='text-xl' />
-            <span>Input OTP</span>
-          </h2>
+          <button onClick={back}>
+            <h2 className='flex items-center gap-2 font-semibold'>
+              <FaRegArrowAltCircleLeft className='text-xl' />
+              <span>Input OTP</span>
+            </h2>
+          </button>
           <p className='mt-2 text-sm font-light'>
             Input the 6 digit OTP sent to your email.
           </p>

@@ -19,7 +19,7 @@ const page = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm({ mode: 'onChange', resolver: yupResolver(loginSchema) });
 
   const handleLogin = async (data: any) => {
@@ -27,8 +27,10 @@ const page = () => {
     try {
       const response = await axiosInstance.post('/auth/email-access', data);
       if (response.status === 200 || response.status === 201) {
+        const user = response.data.data;
+        localStorage.setItem('user_account', JSON.stringify(user));
+
         push(DashboardRoutes.LOGIN_OTP);
-        console.log(response);
         setIsSubmitting(false);
       }
     } catch (error) {

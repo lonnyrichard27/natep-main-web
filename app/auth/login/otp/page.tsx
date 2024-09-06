@@ -6,11 +6,18 @@ import React, { useEffect, useState } from 'react';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { CustomButton } from '@/components/elements';
+import { handleError } from '@/util/errorHandler';
+import { loginUser } from '@/util/helpers';
+import axiosInstance from '@/util/axios';
+import { newAccountTypes } from '../../register/otp/page';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 const page = () => {
+  const { push, back } = useRouter();
   const [otp, setOtp] = useState('');
 
-  const [seconds, setSeconds] = useState(56); // Initial countdown time in seconds
+  const [seconds, setSeconds] = useState(120); // Initial countdown time in seconds
 
   useEffect(() => {
     if (seconds > 0) {
@@ -18,17 +25,83 @@ const page = () => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
 
-      // Cleanup the interval on component unmount or when countdown reaches 0
+      // Cleanup the interval on component unmount or when seconds reach 0
       return () => clearInterval(interval);
     }
   }, [seconds]);
 
+  // Calculate minutes and seconds
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  const disablBtn = otp.length < 6;
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [user, setUser] = useState<newAccountTypes>({
+    email: '',
+    nin: '',
+    phone: '',
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Safe to use localStorage here
+      const storedUser: any = localStorage.getItem('user_account');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, []);
+
+  const handleVerifyLogin = async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await axiosInstance.post('/auth/verify-otp', {
+        ...user,
+        otp: otp,
+      });
+      if (response.status === 200 || response.status === 201) {
+        const data = { token: response.data.data, isAuthenticated: true };
+
+        loginUser(data);
+        push(DashboardRoutes.BIODATA);
+        setIsSubmitting(false);
+      }
+    } catch (error) {
+      setIsSubmitting(false);
+      handleError(error);
+    }
+  };
+
+  const [isSending, setIsSending] = useState(false);
+  const handleResendOTP = async () => {
+    setIsSending(true);
+    try {
+      const response = await axiosInstance.post('/auth/resend-otp', {
+        email: user.email,
+        phone: user.phone,
+        nin: user.nin,
+      });
+      if (response.status === 200 || response.status === 201) {
+        toast.success('OTP sent. Please check your email');
+        setIsSending(false);
+      }
+    } catch (error) {
+      setIsSending(false);
+      handleError(error);
+    }
+  };
+
   return (
     <section className='flex w-96 flex-col gap-6 rounded-lg border bg-white px-6 py-10'>
       <div>
-        <h2 className='flex items-center gap-2 font-semibold'>
-          <FaRegArrowAltCircleLeft className='text-xl' /> <span>Input OTP</span>
-        </h2>
+        <button onClick={back}>
+          <h2 className='flex items-center gap-2 font-semibold'>
+            <FaRegArrowAltCircleLeft className='text-xl' />
+            <span>Input OTP</span>
+          </h2>
+        </button>
         <p className='mt-2 text-sm font-light'>
           Input the 6 digit OTP sent to your email.
         </p>
@@ -49,17 +122,29 @@ const page = () => {
         <div className='text-xs font-medium'>
           {seconds > 0 ? (
             <span className='text-[#D0D5DD]'>
-              OTP expires in 00:{seconds < 10 ? `0${seconds}` : seconds}
+              OTP expires in {minutes < 10 ? `0${minutes}` : minutes}:
+              {remainingSeconds < 10
+                ? `0${remainingSeconds}`
+                : remainingSeconds}
             </span>
           ) : (
-            <span className='text-red-300'>OTP has expired!</span>
+            <button
+              onClick={handleResendOTP}
+              className='text-green-500'
+              disabled={isSending}
+            >
+              {isSending ? 'Sending...' : 'Resend OTP!'}
+            </button>
           )}
         </div>
       </div>
 
-      <Link href={DashboardRoutes.BIODATA}>
-        <CustomButton text='Authorize Access' className='w-full py-3' />
-      </Link>
+      <CustomButton
+        text='Authorize Access'
+        onClick={handleVerifyLogin}
+        disabled={disablBtn || isSubmitting}
+        className='w-full py-3'
+      />
 
       <Link href={DashboardRoutes.REGISTER}>
         <CustomButton
