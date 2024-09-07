@@ -1,5 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from 'cookies-next';
-import { useRouter } from 'next/navigation';
+import { getCookie, setCookie } from 'cookies-next';
 import moment from 'moment';
 
 export const getAuthCookies = () => {
@@ -19,13 +18,6 @@ export const loginUser = (data: any) => {
   setCookie('natep_user', JSON.stringify(data), {
     path: '/',
   });
-};
-
-export const logoutUser = () => {
-  const { push } = useRouter();
-
-  deleteCookie('natep_user', { path: '/' });
-  push('/');
 };
 
 export const textReplacer = (value: string, replace_item: string) => {

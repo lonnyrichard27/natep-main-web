@@ -5,7 +5,6 @@ import { MdCreditCard, MdOutlineMail } from 'react-icons/md';
 import { DashboardRoutes } from './Routes';
 import { usePathname } from 'next/navigation';
 import { FiCheckCircle, FiSearch } from 'react-icons/fi';
-import { logoutUser } from '@/util/helpers';
 
 interface navItemProps {
   item: {
@@ -102,15 +101,15 @@ const DashboardNav = () => {
         ))}
       </div>
 
-      <button
-        onClick={logoutUser}
+      <Link
+        href={DashboardRoutes.LOGOUT}
         className='mt-auto flex items-center gap-3 px-1 text-[#B42318]'
       >
         <span className='text-2xl'>
           <BiLogOutCircle />
         </span>
         <span className='capitalize'>Logout</span>
-      </button>
+      </Link>
     </div>
   );
 };
