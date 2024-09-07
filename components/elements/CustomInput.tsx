@@ -1,13 +1,17 @@
 import React from 'react';
+import { FieldError } from 'react-hook-form';
 
 interface InputProps {
   id?: string;
   label: string;
   type?: string;
   placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: any;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void | any;
   className?: string;
+  error?: FieldError | undefined | string;
+  min?: string | number;
+  max?: string | number;
 }
 
 const CustomInput: React.FC<InputProps> = ({
@@ -18,6 +22,10 @@ const CustomInput: React.FC<InputProps> = ({
   value,
   onChange,
   className = '',
+  error,
+  max,
+  min,
+  ...props
 }) => {
   return (
     <div className={className}>
@@ -31,7 +39,15 @@ const CustomInput: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         className='mt-1.5 w-full rounded-md border border-gray-200 px-3 py-3 sm:text-sm'
+        min={min}
+        max={max}
+        {...props}
       />
+      {error && (
+        <div className='text-xsm ml-1 mt-2 text-red-500'>
+          {error.toString()}
+        </div>
+      )}
     </div>
   );
 };

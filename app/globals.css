@@ -98,3 +98,19 @@ body {
     height: 3rem;
   }
 }
+
+.slow__trans {
+  transition: all ease-in-out;
+  transition-duration: 500ms;
+}
+
+.react-calendar__tile--now {
+  background-color: #F2F4F7 !important;
+  color: #000000 !important;
+  border-radius: 4px !important;
+}
+
+.react-calendar__tile--active {
+  background-color: #248048 !important;
+  border-radius: 4px !important;
+}
