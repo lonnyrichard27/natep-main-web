@@ -12,4 +12,5 @@ export const DashboardRoutes = {
   VIEW_CERTIFICATES: '/dashboard/certificates',
   DELIVER_CERTIFICATES: '/dashboard/certificates/deliver-certificate',
   PAYMENT: '/dashboard/payment',
+  LOGOUT: '/logout',
 };

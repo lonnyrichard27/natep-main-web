@@ -39,11 +39,11 @@ const SideDrawer: FC<SideDrawerProps> = ({
 
       {isOpen && (
         <div
-          className='fixed bottom-0 left-0 top-0 z-[888] h-full w-full bg-green-900/50 backdrop-blur-sm'
+          className='fixed bottom-0 left-0 top-0 z-[888] h-full w-full bg-[#124024]/40 backdrop-blur-sm'
           onClick={toggleDrawer}
         >
           <button
-            className={`absolute right-[460px] top-4 z-[1000] w-fit rounded-full border border-white bg-[#124024]/40 px-6 py-1.5 font-bold text-white`}
+            className={`absolute right-[460px] top-4 z-[1000] w-fit rounded-full border border-white bg-[white]/20 px-6 py-1.5 font-bold text-white`}
             onClick={toggleDrawer}
           >
             X close

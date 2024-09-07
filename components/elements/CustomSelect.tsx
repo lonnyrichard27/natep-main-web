@@ -10,8 +10,8 @@ interface CustomSelectProps {
   name: string;
   id: string;
   options: Option[];
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
 }
 

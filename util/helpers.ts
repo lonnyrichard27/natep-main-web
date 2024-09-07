@@ -16,15 +16,18 @@ export const getAuthCookies = () => {
 
 export const loginUser = (data: any) => {
   setCookie('natep_user', JSON.stringify(data), {
-    path: '/'
+    path: '/',
   });
 };
 
+export const textReplacer = (value: string, replace_item: string) => {
+  return value.replaceAll(replace_item, ' ');
+};
 
 export const formatDateAndTime = (date: moment.MomentInput) => {
   const value = {
     Date: date ? moment(date).format('DD MMM, YYYY') : 'N/A',
-    Time: date ? moment(date).format('h:mm A') : 'N/A'
+    Time: date ? moment(date).format('h:mm A') : 'N/A',
   };
   return value;
 };

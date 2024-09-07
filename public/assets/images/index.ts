@@ -5,6 +5,7 @@ import GuyImg from './guy.png';
 import EmptyStateImg from './emptystate.png';
 import SuccessImg from './success.png';
 import PermissionImg from './permission.png';
+import LooperImg from './looper.png';
 
 export {
   NtepLogo,
@@ -14,4 +15,5 @@ export {
   EmptyStateImg,
   SuccessImg,
   PermissionImg,
+  LooperImg,
 };

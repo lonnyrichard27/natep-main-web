@@ -17,7 +17,7 @@ export default function ScheduleLayout({
           <DashboardNav />
         </div>
 
-        <div className='flex-1 overflow-x-hidden py-10'>
+        <div className='flex-1 overflow-x-hidden px-6 py-10 md:px-12'>
           <FormProvider>{children}</FormProvider>
         </div>
       </div>

@@ -21,7 +21,7 @@ const CustomInput: React.FC<InputProps> = ({
 }) => {
   return (
     <div className={className}>
-      <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
+      <label htmlFor={id} className='block text-sm font-medium text-[#344054]'>
         {label}
       </label>
       <input
@@ -30,7 +30,7 @@ const CustomInput: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className='mt-1 w-full rounded-md border border-gray-200 px-3 py-3 shadow-sm sm:text-sm'
+        className='mt-1.5 w-full rounded-md border border-gray-200 px-3 py-3 sm:text-sm'
       />
     </div>
   );
