@@ -8,7 +8,7 @@ interface Option {
 interface CustomSelectProps {
   label: string;
   name: string;
-  id: string;
+  id?: string;
   options: Option[];
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
