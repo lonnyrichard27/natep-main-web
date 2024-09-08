@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { SideDrawer } from '../elements';
 
-// const ViewTransaction = ({ trnx }: { trnx: HistoryTypes }) => {
   const ViewTransaction = () => {
   const [isOpen, setisOpen] = useState(false);
 
