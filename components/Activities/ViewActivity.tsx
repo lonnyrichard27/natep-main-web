@@ -10,7 +10,8 @@ import Link from 'next/link';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { SideDrawer } from '../elements';
 
-  const ViewTransaction = () => {
+// const ViewTransaction = ({ trnx }: { trnx: HistoryTypes }) => {
+const ViewTransaction = () => {
   const [isOpen, setisOpen] = useState(false);
 
   const handleOpen = () => {
@@ -30,15 +31,15 @@ import { SideDrawer } from '../elements';
           <div className='flex flex-col divide-y divide-gray-100 text-sm'>
             <div className='flex justify-between gap-1 py-5'>
               <div className='font-light text-[#475467]'>Timestamp</div>
-              <div className='flex gap-2 font-semibold'>
+              {/* <div className='flex gap-2 font-semibold'>
                 <span>{formatDateAndTime(trnx.created_at).Date}</span>
                 <span>{formatDateAndTime(trnx.created_at).Time}</span>
-              </div>
+              </div> */}
             </div>
 
             <div className='flex justify-between gap-1 py-5'>
               <div className='font-light text-[#475467]'>Reference</div>
-              <div className='flex gap-2 font-semibold'>{trnx.reference}</div>
+              {/* <div className='flex gap-2 font-semibold'>{trnx.reference}</div> */}
             </div>
 
             <div className='flex justify-between gap-1 py-5'>
@@ -51,7 +52,7 @@ import { SideDrawer } from '../elements';
             <div className='flex justify-between gap-1 py-5'>
               <div className='font-light text-[#475467]'>Cost</div>
               <div className='flex gap-2 font-semibold'>
-                {moneyFormat(trnx.cost)}
+                {/* {moneyFormat(trnx.cost)} */}
               </div>
             </div>
 
@@ -69,13 +70,13 @@ import { SideDrawer } from '../elements';
 
             <div className='flex justify-between gap-1 py-5'>
               <div className='font-light text-[#475467]'>Applicant</div>
-              <Link
-                // href={`${DashboardRoutes.APPLICANTS}/${trnx.user}`}
+              {/* <Link
+                href={`${DashboardRoutes.APPLICANTS}/${trnx.user}`}
                 className='flex items-center gap-2 font-semibold'
               >
                 <span className='text-[#36BF6D]'>View Profile</span>
                 <LiaExternalLinkAltSolid className='text-lg' />
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

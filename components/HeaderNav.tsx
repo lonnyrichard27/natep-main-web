@@ -8,12 +8,15 @@ interface HeaderNavProps {
 
 const HeaderNav = ({ title, onClick }: HeaderNavProps) => {
   return (
-    <div onClick={onClick} className="flex gap-3 cursor-pointer items-center">
-      <div className="bg-[#F2F4F7] h-8 w-8 rounded-full flex items-center justify-center">
+    <div
+      onClick={onClick}
+      className='flex w-fit cursor-pointer items-center gap-3'
+    >
+      <div className='flex h-8 w-8 items-center justify-center rounded-full bg-[#F2F4F7]'>
         <BackSvg />
       </div>
       <div>
-        <p className="text-[#101828] font-bold text-lg">{title}</p>
+        <p className='text-lg font-semibold text-[#101828]'>{title}</p>
       </div>
     </div>
   );
