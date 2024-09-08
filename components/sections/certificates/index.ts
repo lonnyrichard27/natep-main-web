@@ -5,3 +5,4 @@ export { default as RequestDeliveryForm } from './RequestDeliveryForm';
 export { default as OngoingDeliveries } from './OngoingDeliveries';
 export { default as ScheduleDelivery } from './ScheduleDelivery';
 export { default as SelectPickupDate } from './SelectPickupDate';
+export { default as ViewDelivery } from './ViewDelivery';
