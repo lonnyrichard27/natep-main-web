@@ -23,23 +23,22 @@ const ViewTransaction = () => {
       <button onClick={handleOpen}>
         <Badge title='Details' />
       </button>
-
-      <SideDrawer isOpen={isOpen} toggleDrawer={handleOpen}>
+      {/* <SideDrawer isOpen={isOpen} toggleDrawer={handleOpen}>
         <div>
           <h2 className='mb-8 text-lg font-semibold'>Transaction Details</h2>
 
           <div className='flex flex-col divide-y divide-gray-100 text-sm'>
             <div className='flex justify-between gap-1 py-5'>
               <div className='font-light text-[#475467]'>Timestamp</div>
-              {/* <div className='flex gap-2 font-semibold'>
+              <div className='flex gap-2 font-semibold'>
                 <span>{formatDateAndTime(trnx.created_at).Date}</span>
                 <span>{formatDateAndTime(trnx.created_at).Time}</span>
-              </div> */}
+              </div>
             </div>
 
             <div className='flex justify-between gap-1 py-5'>
               <div className='font-light text-[#475467]'>Reference</div>
-              {/* <div className='flex gap-2 font-semibold'>{trnx.reference}</div> */}
+              <div className='flex gap-2 font-semibold'>{trnx.reference}</div>
             </div>
 
             <div className='flex justify-between gap-1 py-5'>
@@ -52,7 +51,7 @@ const ViewTransaction = () => {
             <div className='flex justify-between gap-1 py-5'>
               <div className='font-light text-[#475467]'>Cost</div>
               <div className='flex gap-2 font-semibold'>
-                {/* {moneyFormat(trnx.cost)} */}
+                {moneyFormat(trnx.cost)}
               </div>
             </div>
 
@@ -70,17 +69,17 @@ const ViewTransaction = () => {
 
             <div className='flex justify-between gap-1 py-5'>
               <div className='font-light text-[#475467]'>Applicant</div>
-              {/* <Link
+              <Link
                 href={`${DashboardRoutes.APPLICANTS}/${trnx.user}`}
                 className='flex items-center gap-2 font-semibold'
               >
                 <span className='text-[#36BF6D]'>View Profile</span>
                 <LiaExternalLinkAltSolid className='text-lg' />
-              </Link> */}
+              </Link>
             </div>
           </div>
         </div>
-      </SideDrawer>
+      </SideDrawer> */}
     </div>
   );
 };
