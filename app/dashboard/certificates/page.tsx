@@ -2,21 +2,14 @@
 
 import React from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
-import { IoIosAlert } from 'react-icons/io';
-import Image from 'next/image';
-import { MapImg } from '@/public/assets/images';
 import { CustomButton } from '@/components/elements';
 import { getCertificates } from '@/services/certificate-services';
 import { useQuery } from '@tanstack/react-query';
 import { CertificatesCard } from '@/components/sections/certificates';
+import { PageLoader } from '@/components/Navigation';
 
 const Page = () => {
-  const {
-    data: allCertificates,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
+  const { data: allCertificates, isLoading: certificatesLoading } = useQuery({
     queryKey: ['certificates'],
     queryFn: () => getCertificates(),
   });
@@ -37,12 +30,15 @@ const Page = () => {
         />
       </div>
 
-      {/* cards */}
-      <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6'>
-        <CertificatesCard />
-        <CertificatesCard />
-        <CertificatesCard />
-      </div>
+      {certificatesLoading ? (
+        <PageLoader />
+      ) : (
+        <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6'>
+          <CertificatesCard />
+          <CertificatesCard />
+          <CertificatesCard />
+        </div>
+      )}
     </div>
   );
 };
