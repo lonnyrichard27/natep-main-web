@@ -38,7 +38,7 @@ const CustomInput: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className='mt-1.5 w-full rounded-md border border-gray-200 px-3 py-3 sm:text-sm'
+        className='mt-1.5 w-full rounded-md border border-gray-200 px-3 py-3 outline-none focus-within:border-primary sm:text-sm'
         min={min}
         max={max}
         {...props}

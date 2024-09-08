@@ -1,11 +1,28 @@
+'use client';
+
 import Footer from '@/components/Navigation/Footer';
 import Navbar from '@/components/Navigation/Navbar';
+import { DashboardRoutes } from '@/components/Navigation/Routes';
+import { getAuthCookies } from '@/util/helpers';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
-export default function AuthLayout({
+export default function BiometricsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { push } = useRouter();
+  const { isAuthenticated } = getAuthCookies();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      toast.error('You are not authorized!');
+      push(DashboardRoutes.LOGIN);
+    }
+  }, [isAuthenticated, push]);
+
   return (
     <div className='flex h-screen flex-col'>
       <Navbar />

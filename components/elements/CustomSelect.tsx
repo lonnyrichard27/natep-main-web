@@ -34,7 +34,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         id={id}
         value={value}
         onChange={onChange}
-        className='mt-1.5 w-full rounded-lg border border-gray-300 px-3 py-3 text-gray-700 sm:text-sm'
+        className='mt-1.5 w-full rounded-lg border border-gray-300 px-3 py-3 text-gray-700 outline-none focus-within:border-primary sm:text-sm'
       >
         <option value=''>Please select</option>
         {options.map((option, index) => (

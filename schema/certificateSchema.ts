@@ -35,10 +35,7 @@ const requestDeliverySchema = yup.object().shape({
     .matches(phoneRegex, 'Invalid phone format')
     .required('Phone is required')
     .min(10, 'Enter a valid phone number'),
-  country: yup
-    .string()
-    .required('NIN is required')
-    .length(11, 'Please enter a valid NIN!'),
+  country: yup.string().required('Country is required'),
   address: yup.string().required('Address is required'),
   state: yup.string().required('State is required'),
 });
