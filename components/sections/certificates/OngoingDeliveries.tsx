@@ -7,16 +7,25 @@ const OngoingDeliveries = () => {
       <h2 className='font-semibold'>Ongoing Deliveries</h2>
 
       <div>
-        <p className='text-muted-foreground'>TUESDAY, 06 DEC 2022</p>
+        <h3 className='text-xs font-light text-[#98A2B3]'>
+          TUESDAY, 06 DEC 2022
+        </h3>
         <hr className='my-4 text-gray-400' />
-        <article className='flex justify-between'>
-          <article>
-            <p className='text-xl font-bold'>Consular Services, Germany</p>
-            <p>REF #34928427</p>
-          </article>
-          <article className='flex items-center'>
-            <GoChevronRight />
-          </article>
+
+        <article>
+          <div className='flex items-center justify-between'>
+            <div>
+              <p className='mb-1 text-sm font-semibold text-[#101828]'>
+                Consular Services, Germany
+              </p>
+              <p className='text-xs font-medium text-[#667085]'>
+                REF #34928427
+              </p>
+            </div>
+            <span className='text-2xl'>
+              <GoChevronRight />
+            </span>
+          </div>
         </article>
       </div>
     </div>
