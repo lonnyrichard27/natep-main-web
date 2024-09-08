@@ -22,7 +22,7 @@ import { SideDrawer } from '../elements';
       <button onClick={handleOpen}>
         <Badge title='Details' />
       </button>
-
+{/* 
       <SideDrawer isOpen={isOpen} toggleDrawer={handleOpen}>
         <div>
           <h2 className='mb-8 text-lg font-semibold'>Transaction Details</h2>
@@ -79,7 +79,7 @@ import { SideDrawer } from '../elements';
             </div>
           </div>
         </div>
-      </SideDrawer>
+      </SideDrawer> */}
     </div>
   );
 };
