@@ -7,7 +7,7 @@ export const DashboardRoutes = {
   BIOMETRICS: '/biometrics',
   BIOMETRICS_CAPTURE: '/biometrics/capture',
 
-  BIODATA: '/dashboard/biodata',
+  BIODATA: '/dashboard/biodata/new-application',
   VIEW_ACTIVITIES: '/dashboard/activities',
   VIEW_CERTIFICATES: '/dashboard/certificates',
   DELIVER_CERTIFICATES: '/dashboard/certificates/deliver-certificate',
