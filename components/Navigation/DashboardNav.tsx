@@ -71,7 +71,7 @@ const DashboardNav = () => {
       title: 'View Certificates',
     },
     {
-      href: DashboardRoutes.DELIVER_CERTIFICATES,
+      href: DashboardRoutes.DELIVER_CERTIFICATE,
       icon: <MdOutlineMail />,
       title: 'Deliver Certificate',
     },

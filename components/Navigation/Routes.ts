@@ -10,7 +10,7 @@ export const DashboardRoutes = {
   BIODATA: '/dashboard/biodata/new-application',
   VIEW_ACTIVITIES: '/dashboard/activities',
   VIEW_CERTIFICATES: '/dashboard/certificates',
-  DELIVER_CERTIFICATES: '/dashboard/certificates/deliver-certificate',
+  DELIVER_CERTIFICATE: '/dashboard/deliver-certificate',
   PAYMENT: '/dashboard/payment',
   LOGOUT: '/logout',
 };
