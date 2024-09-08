@@ -1,24 +1,17 @@
 import { ReactNode } from 'react';
+import { IoCheckmarkCircle } from 'react-icons/io5';
 
 interface Step {
   title: string;
   subtitle: string;
   icon: ReactNode;
-  completed?: ReactNode;
   isCompleted: boolean;
-  otherIcon?: ReactNode;
+  name?: string;
 }
 
-const StepList = ({
-  icon,
-  title,
-  subtitle,
-  completed,
-  isCompleted,
-  otherIcon,
-}: Step) => {
+const StepList = ({ icon, title, subtitle, isCompleted }: Step) => {
   return (
-    <div className="p-4">
+    <div className="py-4">
       <div className={`flex items-center gap-4`}>
         <div
           className={`w-10 h-10 flex items-center justify-center rounded-full bg-green-800`}
@@ -29,7 +22,12 @@ const StepList = ({
           <h3 className="text-lg text-[#344054] font-medium">{title}</h3>
           <p className="text-sm text-[#667085] font-light">{subtitle}</p>
         </div>
-        {isCompleted ? completed : otherIcon}
+
+        {isCompleted ? (
+          <IoCheckmarkCircle className="text-[#2B9957] text-2xl" />
+        ) : (
+          <IoCheckmarkCircle className="text-gray-300 text-2xl" />
+        )}
       </div>
     </div>
   );

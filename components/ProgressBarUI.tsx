@@ -3,41 +3,34 @@ import React from 'react';
 
 const ProgressbarUi = () => {
   const steps = [
-    {
-      label: 'Verify NIN',
-      route: '/dashboard/new-application/verify-nin',
-    },
-    {
-      label: 'Biometrics',
-      route: '/dashboard/new-application/verify-biometrics',
-    },
+    
     {
       label: 'Passport',
-      route: '/dashboard/new-application/passport',
+      route: '/dashboard/biodata/new-application/passport',
     },
     {
       label: 'Photograph',
-      route: '/dashboard/new-application/photograph',
+      route: '/dashboard/biodata/new-application/photograph',
     },
     {
       label: 'Address',
-      route: '/dashboard/new-application/address',
+      route: '/dashboard/biodata/new-application/address',
     },
     {
       label: 'Education',
-      route: '/dashboard/new-application/education',
+      route: '/dashboard/biodata/new-application/education',
     },
     {
       label: 'Employment',
-      route: '/dashboard/new-application/employment',
+      route: '/dashboard/biodata/new-application/employment',
     },
     {
       label: 'Police Report',
-      route: '/dashboard/new-application/police-report',
+      route: '/dashboard/biodata/new-application/police-report',
     },
     {
       label: 'Medical Report',
-      route: '/dashboard/new-application/medical_report',
+      route: '/dashboard/biodata/new-application/medical_report'
     }
   ];
   const pathname = usePathname();

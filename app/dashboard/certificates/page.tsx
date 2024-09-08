@@ -6,7 +6,7 @@ import { IoIosAlert } from 'react-icons/io';
 import Image from 'next/image';
 import { MapImg } from '@/public/assets/images';
 import { CustomButton } from '@/components/elements';
-import { getCertificates } from '@/services/certificate-services';
+import { getCertificates } from '@/api/certificate-services';
 import { useQuery } from '@tanstack/react-query';
 import { CertificatesCard } from '@/components/sections/certificates';
 
