@@ -1,13 +1,15 @@
 'use client';
 
-import CustomButton from '@/components/Custom/CustomButton';
+// import CustomButton from '@/components/Custom/CustomButton';
 import HeaderNav from '@/components/HeaderNav';
 import React from 'react';
 import { LuPrinter } from 'react-icons/lu';
-import BasicDetailsCard from '@/components/BasicDetailsCard';
+// import BasicDetailsCard from '@/components/BasicDetailsCard';
 import Badge from '@/components/Badge';
 import { GoPaperclip } from 'react-icons/go';
 import { useRouter } from 'next/navigation';
+import { CustomButton } from '@/components/elements';
+import BasicDetailsCard from '@/components/elements/BasicDetailsCard';
 
 const page = () => {
   const router = useRouter()

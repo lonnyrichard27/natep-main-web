@@ -2,12 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import HeaderNav from '@/components/HeaderNav';
-import CustomInput from '@/components/Custom/CustomInput';
 import FileUpload from '@/components/FileUpload';
-import CustomButton from '@/components/Custom/CustomButton';
 import { useRouter } from 'next/navigation';
-import { updatePoliceReport } from '@/services/applications';
+import { updatePoliceReport } from '@/api/application';
 import CopyIcon from '@/components/CopyIcon';
+import { CustomButton, CustomInput } from '@/components/elements';
 
 const page = () => {
   const router = useRouter();
@@ -85,6 +84,7 @@ const page = () => {
           fileName={fileName}
           fileSize={fileSize}
           title="Upload Police Report"
+          accept='.pdf'
         />
         {base64File && (
           <div className="mt-4">

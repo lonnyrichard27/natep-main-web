@@ -1,10 +1,10 @@
 'use client';
 
-import CustomButton from '@/components/Custom/CustomButton';
 import Image from 'next/image';
 import React from 'react';
 import { FiCopy } from 'react-icons/fi';
 import { BsArrowUpRight } from 'react-icons/bs';
+import { CustomButton } from '@/components/elements';
 const page = () => {
   return (
     <div className="grid justify-center h-screen items-center">

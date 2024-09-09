@@ -2,13 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { submitEducation, updateAddress, updateEducation } from '@/services/applications';
+import { updateEducation } from '@/api/application';
 import HeaderNav from '@/components/HeaderNav';
-import CustomSelect from '@/components/Custom/CustomSelect';
-import CustomButton from '@/components/Custom/CustomButton';
 import FileUpload from '@/components/FileUpload';
-import CustomInput from '@/components/Custom/CustomInput';
 import CopyIcon from '@/components/CopyIcon';
+import { CustomButton, CustomInput, CustomSelect } from '@/components/elements';
 
 const page = () => {
   const router = useRouter();
@@ -130,7 +128,7 @@ const page = () => {
             <iframe
               src={base64File}
               title="File Preview"
-              className="w-full h-64 border rounded"
+              className="w-full h-[30rem] border rounded"
             ></iframe>
           </div>
         )}

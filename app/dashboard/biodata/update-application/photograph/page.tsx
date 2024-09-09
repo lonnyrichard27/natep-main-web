@@ -1,14 +1,12 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import CustomButton from '@/components/Custom/CustomButton';
 import FileUpload from '@/components/FileUpload';
 import HeaderNav from '@/components/HeaderNav';
 import { useRouter } from 'next/navigation';
-import { submitPhotograph, updatePhotograph } from '@/services/applications';
-import { Photograph } from '@/components/svg';
+import { updatePhotograph } from '@/api/application';
 import CopyIcon from '@/components/CopyIcon';
-
+import { CustomButton } from '@/components/elements';
 
 const page = () => {
   const router = useRouter();  
@@ -49,7 +47,6 @@ const page = () => {
 
     const data = { offer_letter: base64Data, section: 'photograph' };
     const res = await updatePhotograph(data, setLoading);
-    const getId = localStorage.getItem('quickActionsId')
     if (res) router.back();
   };
 
@@ -57,8 +54,9 @@ const page = () => {
     const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
 
     const data = { offer_letter: base64Data, section: 'photograph' };
-    await updatePhotograph(data, setLoadingExit);
-    router.back()
+    const res = await updatePhotograph(data, setLoadingExit);
+    if (res) router.back();
+
   };
 
   return (
