@@ -38,6 +38,16 @@ export const fetchActivities = async() => {
   }
 }
 
+export const getUserProfile = async() => {
+  try {
+    const response = await axiosInstance.get('/auth/profile')
+    console.log(response.data.data, 'user profile')
+    return response.data.data
+  } catch (error) {
+    handleError(error)
+  }
+}
+
 export const getHistory = async ({
   page_num,
   search,

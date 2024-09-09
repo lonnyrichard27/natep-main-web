@@ -3,26 +3,10 @@ import { handleError } from "@/util/errorHandler";
 import toast from "react-hot-toast";
 
 
-  export const submitNin = async(data:any, setLoading: (value:boolean) => void) => {
-    setLoading(true);
-    try {
-      const response = await axiosInstance.post('biodata/verify-nin', data)
-      toast.success(response.data.message)
-      return response.data.data
-    } catch (error) {
-      setLoading(false);
-      handleError(error)
-    } finally {
-      setLoading(false)
-    }
-}
-
 export const submitBiometrics = async(data:any,  setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('id');
-
   try {
-    const response = await axiosInstance.post(`biodata/face-recognition/${id}`, data)
+    const response = await axiosInstance.post(`biodata/face-recognition/`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {
@@ -36,10 +20,8 @@ export const submitBiometrics = async(data:any,  setLoading: (value:boolean) => 
 
 export const submitPassport = async(data:any, setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('id');
-
   try {
-    const response = await axiosInstance.post(`/biodata/scan-passport/${id}`, data)
+    const response = await axiosInstance.post(`/biodata/scan-passport`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {
@@ -52,10 +34,8 @@ export const submitPassport = async(data:any, setLoading: (value:boolean) => voi
 
 export const submitPhotograph = async(data:any, setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('id');
-
   try {
-    const response = await axiosInstance.post(`/biodata/update-photo/${id}`, data)
+    const response = await axiosInstance.post(`/biodata/update-photo/`, data)
     return response.data.data 
   } catch (error) {
     setLoading(false);
@@ -68,9 +48,8 @@ export const submitPhotograph = async(data:any, setLoading: (value:boolean) => v
 
 export const submitAddress = async( data:any, setLoading: (value:boolean) => void ) => {
   setLoading(true);
-  const id = localStorage.getItem('id');
   try {
-    const response = await axiosInstance.post(`/biodata/update-address/${id}`, data)
+    const response = await axiosInstance.post(`/biodata/update-address/`, data)
     return response.data.data 
   } catch (error) {
     setLoading(false);
@@ -82,10 +61,9 @@ export const submitAddress = async( data:any, setLoading: (value:boolean) => voi
 
 export const submitEducation = async( data:any, setLoading: (value:boolean) => void ) => {
   setLoading(true);
-  const id = localStorage.getItem('id');
   try {
-    const response = await axiosInstance.post(`/biodata/update-education/${id}`, data)
-    return response.data.data 
+    const response = await axiosInstance.post(`/biodata/update-education/`, data)
+    return response.data.data;
   } catch (error) {
     setLoading(false);
     handleError(error)
@@ -96,9 +74,8 @@ export const submitEducation = async( data:any, setLoading: (value:boolean) => v
 
 export const submitEmployment = async( data:any, setLoading: (value:boolean) => void ) => {
   setLoading(true);
-  const id = localStorage.getItem('id');
   try {
-    const response = await axiosInstance.post(`/biodata/update-employment/${id}`, data)
+    const response = await axiosInstance.post(`/biodata/update-employment/`, data)
     return response.data.data 
   } catch (error) {
     setLoading(false);
@@ -111,9 +88,8 @@ export const submitEmployment = async( data:any, setLoading: (value:boolean) => 
 
 export const submitPoliceReport = async(data:any, setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('id');
   try {
-    const response = await axiosInstance.post(`/biodata/update-police-report/${id}`, data)
+    const response = await axiosInstance.post(`/biodata/update-police-report/`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {
@@ -126,9 +102,8 @@ export const submitPoliceReport = async(data:any, setLoading: (value:boolean) =>
 
 export const submitMedicalReport = async(data:any, setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('id');
   try {
-    const response = await axiosInstance.post(`/biodata/update-medical-report/${id}`, data)
+    const response = await axiosInstance.post(`/biodata/update-medical-report/`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {
@@ -158,13 +133,11 @@ export const getState = async (countryCode:any) => {
   }
 }
 
-// update 
+// update application
 export const updatePassport = async(data:any, setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('idq');
-
   try {
-    const response = await axiosInstance.patch(`/biodata/update-biodata/${id}`, data)
+    const response = await axiosInstance.patch(`/biodata/update-biodata/`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {
@@ -177,10 +150,8 @@ export const updatePassport = async(data:any, setLoading: (value:boolean) => voi
 
 export const updatePhotograph = async(data:any, setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('idq');
-
   try {
-    const response = await axiosInstance.patch(`/biodata/update-biodata/${id}`, data)
+    const response = await axiosInstance.patch(`/biodata/update-biodata/`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {
@@ -194,9 +165,8 @@ export const updatePhotograph = async(data:any, setLoading: (value:boolean) => v
 
 export const updateAddress = async( data:any, setLoading: (value:boolean) => void ) => {
   setLoading(true);
-  const id = localStorage.getItem('idq');
   try {
-    const response = await axiosInstance.patch(`/biodata/update-biodata/${id}`, data)
+    const response = await axiosInstance.patch(`/biodata/update-biodata/`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {
@@ -209,9 +179,8 @@ export const updateAddress = async( data:any, setLoading: (value:boolean) => voi
 
 export const updateEducation = async( data:any, setLoading: (value:boolean) => void ) => {
   setLoading(true);
-  const id = localStorage.getItem('idq');
   try {
-    const response = await axiosInstance.patch(`/biodata/update-biodata/${id}`, data)
+    const response = await axiosInstance.patch(`/biodata/update-biodata/`, data)
     return response.data.data 
   } catch (error) {
     setLoading(false);
@@ -223,9 +192,8 @@ export const updateEducation = async( data:any, setLoading: (value:boolean) => v
 
 export const updateEmployment = async( data:any, setLoading: (value:boolean) => void ) => {
   setLoading(true);
-  const id = localStorage.getItem('idq');
   try {
-    const response = await axiosInstance.patch(`/biodata/update-biodata/${id}`, data)
+    const response = await axiosInstance.patch(`/biodata/update-biodata/`, data)
     return response.data.data 
   } catch (error) {
     setLoading(false);
@@ -238,9 +206,8 @@ export const updateEmployment = async( data:any, setLoading: (value:boolean) => 
 
 export const updatePoliceReport = async(data:any, setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('idq');
   try {
-    const response = await axiosInstance.patch(`/biodata/update-biodata/${id}`, data)
+    const response = await axiosInstance.patch(`/biodata/update-biodata/`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {
@@ -253,9 +220,8 @@ export const updatePoliceReport = async(data:any, setLoading: (value:boolean) =>
 
 export const updateMedicalReport = async(data:any, setLoading: (value:boolean) => void) => {
   setLoading(true);
-  const id = localStorage.getItem('idq');
   try {
-    const response = await axiosInstance.patch(`/biodata/update-biodata/${id}`, data)
+    const response = await axiosInstance.patch(`/biodata/update-biodata/`, data)
     toast.success(response.data.message)
     return response.data.data 
   } catch (error) {

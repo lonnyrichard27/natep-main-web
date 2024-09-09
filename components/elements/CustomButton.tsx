@@ -15,6 +15,7 @@ interface CustomButtonProps {
   type?: 'button' | 'submit' | 'reset';
   ariaLabel?: string;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -31,7 +32,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   iconPosition = 'left',
   type = 'button',
   ariaLabel,
-  disabled = false
+  disabled = false,
+  loading = false
 }) => {
   return (
     <button
@@ -39,7 +41,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       className={`${disabled ? `${disabledBgColor} ${disabledTextColor}` : `${bgColor} ${color} ${hoverBgColor} ${activeBgColor}`} px-6 py-2 rounded-full focus:outline-none flex items-center justify-center ${className}`}
       onClick={disabled ? undefined : onClick}
       aria-label={ariaLabel || text}
-      disabled={disabled} 
+      disabled={disabled || loading}
+
     >
       {icon && iconPosition === 'left' && (
         <span className="mr-2">{icon}</span>

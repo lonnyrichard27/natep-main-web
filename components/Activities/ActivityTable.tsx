@@ -4,7 +4,7 @@ import { FaSort } from 'react-icons/fa';
 import { CiSearch } from 'react-icons/ci';
 import { IoFilterOutline } from 'react-icons/io5';
 
-// import { getHistory } from '@/services/admin';
+// import { getHistory } from '@/api/admin';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { formatDateAndTime, moneyFormat } from '@/util/helpers';

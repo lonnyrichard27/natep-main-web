@@ -3,7 +3,7 @@
 import React from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 import { CustomButton } from '@/components/elements';
-import { getCertificates } from '@/services/certificate-services';
+import { getCertificates } from '@/api/certificate-services';
 import { useQuery } from '@tanstack/react-query';
 import { CertificatesCard } from '@/components/sections/certificates';
 import { PageLoader } from '@/components/Navigation';

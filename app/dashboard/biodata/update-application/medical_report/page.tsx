@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import HeaderNav from '@/components/HeaderNav';
+import CustomInput from '@/components/Custom/CustomInput';
 import FileUpload from '@/components/FileUpload';
+import CustomButton from '@/components/Custom/CustomButton';
 import { useRouter } from 'next/navigation';
-import { submitMedicalReport } from '@/api/application';
-import CopyIcon from '@/components/CopyIcon';
-import { CustomButton } from '@/components/elements';
+import { submitMedicalReport, updateMedicalReport } from '@/services/applications';
 import Modal from '@/components/Modal';
+import Link from 'next/link';
+import CopyIcon from '@/components/CopyIcon';
 
 const page = () => {
   const router = useRouter();
@@ -22,11 +24,13 @@ const page = () => {
 
   useEffect(() => {
     const getTrackingId = () => {
-      const trackingId = localStorage?.getItem('trackingid') ?? '';
-      setTracking(trackingId);
-    };
+      const trackingId = localStorage?.getItem('trackingid') ?? ''
+      setTracking(trackingId)
+    }
     getTrackingId();
-  }, []);
+    
+  }, [])
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -49,14 +53,10 @@ const page = () => {
   };
 
   const handleSubmitMedicalReport = async () => {
-    // const base64Data = base64File.replace('data:image/png;base64,', '');
-    const base64Data = base64File.replace(
-      /^data:(image\/png|image\/jpeg|application\/pdf);base64,/,
-      ''
-    );
+    const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
+    const data = { offer_letter: base64Data, section: 'medical_report' };
 
-    const data = { base_64: base64Data };
-    const res = await submitMedicalReport(data, setLoading);
+    const res = await updateMedicalReport(data, setLoading);
     if (res) {
       // router.push('/dashboard/new-application/police-report');
       setIsModalOpen(true);
@@ -64,22 +64,19 @@ const page = () => {
   };
 
   const handleSaveAndExit = async () => {
-    const base64Data = base64File.replace(
-      /^data:(image\/png|image\/jpeg|application\/pdf);base64,/,
-      ''
-    );
+    const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
 
-    const data = { base_64: base64Data };
-    const res = await submitMedicalReport(data, setLoadingExit);
-    if (res) router.push('/dashboard');
+    const data = { offer_letter: base64Data, section: 'medical_report' };
+    const res = await updateMedicalReport(data, setLoadingExit);
+    if (res) router.back();
   };
 
   return (
-    <section className='mt-10 items-center justify-center md:grid'>
-      <section className='rounded-lg border p-6'>
-        <HeaderNav onClick={() => router.back()} title='Medical Report' />
+    <section className="md:grid items-center justify-center mt-10">
+      <section className="border rounded-lg p-6">
+        <HeaderNav onClick={() => router.back()} title="Medical Report" />
 
-        <p className='mt-2 text-lg font-light'>
+        <p className="mt-2 text-lg font-light">
           Kindly provide your medical report details here.
         </p>
 
@@ -88,61 +85,60 @@ const page = () => {
           onRetake={handleRetake}
           fileName={fileName}
           fileSize={fileSize}
-          title='Upload Photograph'
-          accept='.pdf'
+          title="Upload Photograph"
         />
         {base64File && (
-          <div className='mt-4'>
+          <div className="mt-4">
             <p>Preview:</p>
             <iframe
               src={base64File}
-              title='File Preview'
-              className='h-[30rem] w-full rounded border'
+              title="File Preview"
+              className="w-full h-64 border rounded"
             ></iframe>
           </div>
         )}
-        <div className='gap-4 md:flex'>
+        <div className="md:flex gap-4">
           <CustomButton
-            text='Save & Exit'
-            color='text-black'
-            className='mt-7 flex w-full justify-center py-3'
+            text="Save & Exit"
+            color="text-black"
+            className="py-3 w-full flex mt-7 justify-center"
             onClick={handleSaveAndExit}
-            bgColor='bg-[#F2F4F7]'
+            bgColor="bg-[#F2F4F7]"
             loading={loadingExit}
           />
 
           <CustomButton
-            text='Continue'
-            color='text-white'
-            className='mt-7 flex w-full justify-center py-3'
+            text="Continue"
+            color="text-white"
+            className="py-3 w-full flex mt-7 justify-center"
             onClick={handleSubmitMedicalReport}
             loading={loading}
           />
         </div>
-
         {/* Modal Component */}
         <Modal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          title='Submission Successful'
+          title="Submission Successful"
           content={
-            <div className='flex flex-col items-center text-center'>
+            <div className='text-center flex flex-col items-center'>
               <p>Your application has been successfully uploaded</p>
               <CustomButton
-                text='Go To Home Page'
-                color='text-white'
-                className='mt-7 flex w-full justify-center py-3'
-                bgColor='bg-primary'
+                text="Go To Home Page"
+                color="text-white"
+                className="py-3 w-full flex mt-7 justify-center"
+                bgColor="bg-primary"
                 onClick={() => router.push('/dashboard')}
               />
+              {/* <Link href="/" className='text-center'>Go To Home Page</Link> */}
             </div>
           }
         />
       </section>
-      <section className='mt-5 flex justify-between rounded-lg border p-5'>
-        <p>Tracking ID</p>
-        <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''} />
-      </section>
+      <section className="p-5 mt-5 border rounded-lg flex justify-between">
+          <p>Tracking ID</p>
+          <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''}/>
+        </section>
     </section>
   );
 };
