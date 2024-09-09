@@ -69,7 +69,7 @@ const page = () => {
       address: address
     };
     const res = await submitAddress(data, setLoadingExit);
-    if (res) router.push('/dashboard');
+    if (res) router.push('/dashboard/biodata');
   };
 
   return (
@@ -132,7 +132,7 @@ const page = () => {
       </section>
       <section className='mt-5 flex justify-between rounded-lg border p-5'>
         <p>Tracking ID</p>
-        {/* <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''} /> */}
+        <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''} />
       </section>
     </section>
   );

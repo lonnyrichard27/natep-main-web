@@ -1,14 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-// import CustomButton from '@/components/Custom/CustomButton';
 import FileUpload from '@/components/FileUpload';
 import HeaderNav from '@/components/HeaderNav';
 import { useRouter } from 'next/navigation';
 import { submitPhotograph } from '@/api/application';
 import { CustomButton } from '@/components/elements';
 import CopyIcon from '@/components/CopyIcon';
-// import CopyIcon from '@/components/CopyIcon';
 
 const page = () => {
   const router = useRouter();
@@ -17,7 +15,6 @@ const page = () => {
   const [base64File, setBase64File] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingExit, setLoadingExit] = useState<boolean>(false);
-
   const [tracking, setTracking] = useState<string>('');
 
   useEffect(() => {
@@ -114,10 +111,10 @@ const page = () => {
           />
         </div>
       </section>
-      {/* <section className='mt-5 flex justify-between rounded-lg border p-5'>
+      <section className='mt-5 flex justify-between rounded-lg border p-5'>
         <p>Tracking ID</p>
         <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''} />
-      </section> */}
+      </section>
     </section>
   );
 };

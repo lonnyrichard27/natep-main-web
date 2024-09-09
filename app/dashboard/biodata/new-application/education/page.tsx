@@ -6,7 +6,7 @@ import { submitEducation } from '@/api/application';
 import HeaderNav from '@/components/HeaderNav';
 import FileUpload from '@/components/FileUpload';
 import { CustomButton, CustomInput, CustomSelect } from '@/components/elements';
-// import CopyIcon from '@/components/CopyIcon';
+import CopyIcon from '@/components/CopyIcon';
 
 const page = () => {
   const router = useRouter();
@@ -156,7 +156,7 @@ const page = () => {
       </section>
       <section className='mt-5 flex justify-between rounded-lg border p-5'>
         <p>Tracking ID</p>
-        {/* <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''} /> */}
+        <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''} />
       </section>
     </section>
   );

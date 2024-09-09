@@ -57,10 +57,7 @@ const page = () => {
 
     const data = { base_64: base64Data };
     const res = await submitMedicalReport(data, setLoading);
-    if (res) {
-      // router.push('/dashboard/new-application/police-report');
-      setIsModalOpen(true);
-    }
+    if (res) setIsModalOpen(true);
   };
 
   const handleSaveAndExit = async () => {
@@ -71,7 +68,7 @@ const page = () => {
 
     const data = { base_64: base64Data };
     const res = await submitMedicalReport(data, setLoadingExit);
-    if (res) router.push('/dashboard');
+    if (res) router.push('/dashboard/biodata');
   };
 
   return (
@@ -133,7 +130,7 @@ const page = () => {
                 color='text-white'
                 className='mt-7 flex w-full justify-center py-3'
                 bgColor='bg-primary'
-                onClick={() => router.push('/dashboard')}
+                onClick={() => router.push('/dashboard/biodata')}
               />
             </div>
           }

@@ -115,11 +115,7 @@ const page = () => {
   };
 
   const handleSubmitEmployment = async () => {
-    // const base64Data = base64File.replace('data:image/png;base64,', '');
-    const base64Data = base64File.replace(
-      /^data:(image\/png|image\/jpeg|application\/pdf);base64,/,
-      ''
-    );
+    const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/,'');
 
     const data = {
       offer_letter: base64Data,
@@ -143,10 +139,10 @@ const page = () => {
       company_name: companyName,
       country: country,
       state: state,
-      address: officeAddress,
+      address: officeAddress
     };
     const res = await submitEmployment(data, setLoadingExit);
-    if (res) router.push('/dashboard/home');
+    if (res) router.push('/dashboard/biodata');
   };
 
   return (

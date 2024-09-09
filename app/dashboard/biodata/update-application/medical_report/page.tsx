@@ -2,14 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import HeaderNav from '@/components/HeaderNav';
-import CustomInput from '@/components/Custom/CustomInput';
 import FileUpload from '@/components/FileUpload';
-import CustomButton from '@/components/Custom/CustomButton';
 import { useRouter } from 'next/navigation';
-import { submitMedicalReport, updateMedicalReport } from '@/services/applications';
+import { updateMedicalReport } from '@/api/application';
 import Modal from '@/components/Modal';
-import Link from 'next/link';
 import CopyIcon from '@/components/CopyIcon';
+import { CustomButton } from '@/components/elements';
 
 const page = () => {
   const router = useRouter();
@@ -19,7 +17,6 @@ const page = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingExit, setLoadingExit] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [tracking, setTracking] = useState<string>('');
 
   useEffect(() => {
@@ -54,19 +51,16 @@ const page = () => {
 
   const handleSubmitMedicalReport = async () => {
     const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
-    const data = { offer_letter: base64Data, section: 'medical_report' };
+    const data = { base64: base64Data, section: 'medical_report' };
 
     const res = await updateMedicalReport(data, setLoading);
-    if (res) {
-      // router.push('/dashboard/new-application/police-report');
-      setIsModalOpen(true);
-    }
+    if (res) router.back()
   };
 
   const handleSaveAndExit = async () => {
     const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
 
-    const data = { offer_letter: base64Data, section: 'medical_report' };
+    const data = { base64: base64Data, section: 'medical_report' };
     const res = await updateMedicalReport(data, setLoadingExit);
     if (res) router.back();
   };
@@ -85,7 +79,8 @@ const page = () => {
           onRetake={handleRetake}
           fileName={fileName}
           fileSize={fileSize}
-          title="Upload Photograph"
+          title="Upload Medical Report"
+          accept='.pdf'
         />
         {base64File && (
           <div className="mt-4">
@@ -93,7 +88,7 @@ const page = () => {
             <iframe
               src={base64File}
               title="File Preview"
-              className="w-full h-64 border rounded"
+              className="w-full h-[30rem] border rounded"
             ></iframe>
           </div>
         )}
@@ -130,7 +125,6 @@ const page = () => {
                 bgColor="bg-primary"
                 onClick={() => router.push('/dashboard')}
               />
-              {/* <Link href="/" className='text-center'>Go To Home Page</Link> */}
             </div>
           }
         />

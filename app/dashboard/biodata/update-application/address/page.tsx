@@ -2,14 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CustomButton from '@/components/Custom/CustomButton';
-import CustomSelect from '@/components/Custom/CustomSelect';
-import CustomTextArea from '@/components/Custom/CustomTextArea';
 import HeaderNav from '@/components/HeaderNav';
 // @ts-ignore
 import NaijaStates from 'naija-state-local-government';
-import { submitAddress, updateAddress } from '@/services/applications';
+import { updateAddress } from '@/api/application';
 import CopyIcon from '@/components/CopyIcon';
+import { CustomButton, CustomSelect, CustomTextArea } from '@/components/elements';
 
 interface Option {
   value: string;

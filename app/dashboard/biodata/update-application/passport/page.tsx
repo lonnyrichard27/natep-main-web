@@ -1,12 +1,12 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import CopyIcon from '@/components/CopyIcon';
-import CustomButton from '@/components/Custom/CustomButton';
 import FileUpload from '@/components/FileUpload';
 import HeaderNav from '@/components/HeaderNav';
-import { submitPassport, updatePassport } from '@/services/applications';
+import { updatePassport } from '@/api/application';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { CustomButton } from '@/components/elements';
 const page = () => {
   const router = useRouter();
   const [fileName, setFileName] = useState<string | null>(null);
@@ -47,8 +47,6 @@ const page = () => {
 
     const data = { base_64: base64Data, section: 'passport' };
     const res = await updatePassport(data, setLoading);
-    const getId = localStorage.getItem('quickActionsId')
-    if (res) router.push(`/dashboard/quick-action/${getId}`);
     if (res) router.back();
   };
 

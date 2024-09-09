@@ -2,15 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import HeaderNav from '@/components/HeaderNav';
-import CustomInput from '@/components/Custom/CustomInput';
-import CustomButton from '@/components/Custom/CustomButton';
 import FileUpload from '@/components/FileUpload';
-import CustomTextArea from '@/components/Custom/CustomTextArea';
 import { useRouter } from 'next/navigation';
-import { getCountries, getState, submitEmployment, updateEducation } from '@/services/applications';
+import { getCountries, getState, updateEducation } from '@/api/application';
 import { useQuery } from '@tanstack/react-query';
 import Select from 'react-select';
 import CopyIcon from '@/components/CopyIcon';
+import { CustomButton, CustomInput, CustomTextArea } from '@/components/elements';
 
 const page = () => {
   const router = useRouter();
@@ -190,6 +188,7 @@ const page = () => {
             fileName={fileName}
             fileSize={fileSize}
             title="Signed Offer Letter"
+            accept='.pdf'
           />
           {base64File && (
             <div className="mt-4">
