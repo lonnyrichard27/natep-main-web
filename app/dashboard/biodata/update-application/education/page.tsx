@@ -21,7 +21,7 @@ const page = () => {
 
   useEffect(() => {
     const getTrackingId = () => {
-      const trackingId = localStorage?.getItem('trackingid') ?? ''
+      const trackingId = localStorage?.getItem('tracking_id') ?? ''
       setTracking(trackingId)
     }
     getTrackingId();
