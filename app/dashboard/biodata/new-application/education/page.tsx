@@ -7,9 +7,11 @@ import HeaderNav from '@/components/HeaderNav';
 import FileUpload from '@/components/FileUpload';
 import { CustomButton, CustomInput, CustomSelect } from '@/components/elements';
 import CopyIcon from '@/components/CopyIcon';
+import { useQueryClient } from '@tanstack/react-query';
 
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileSize, setFileSize] = useState<number | null>(null);
@@ -57,7 +59,10 @@ const page = () => {
       institution_name: institution
     };
     const res = await submitEducation(data, setLoading);
-    if (res) router.push('/dashboard/biodata/new-application/employment');
+    if (res) {
+      await queryClient.invalidateQueries({ queryKey: ['user'] })
+      router.push('/dashboard/biodata/new-application/employment')
+    }
   };
 
   const handleSaveAndExit = async () => {
@@ -72,7 +77,10 @@ const page = () => {
       institution_name: institution
     };
     const res = await submitEducation(data, setLoadingExit);
-    if (res) router.push('/dashboard');
+    if (res) {
+      await queryClient.invalidateQueries({ queryKey: ['user'] })
+      router.push('/dashboard/biodata')
+    }
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

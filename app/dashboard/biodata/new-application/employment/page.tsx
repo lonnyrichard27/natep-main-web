@@ -5,13 +5,14 @@ import HeaderNav from '@/components/HeaderNav';
 import FileUpload from '@/components/FileUpload';
 import { useRouter } from 'next/navigation';
 import { getCountries, getState, submitEmployment } from '@/api/application';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Select from 'react-select';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton, CustomInput, CustomTextArea } from '@/components/elements';
 
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [companyName, setCompanyName] = useState<string>('');
   const [officeAddress, setOfficeAddress] = useState<string>('');
   const [fileName, setFileName] = useState<string | null>(null);
@@ -126,7 +127,10 @@ const page = () => {
     };
 
     const res = await submitEmployment(data, setLoading);
-    if (res) router.push('/dashboard/biodata/new-application/police-report');
+    if (res) {
+      await queryClient.invalidateQueries({ queryKey: ['user'] })
+      router.push('/dashboard/biodata/new-application/police-report')
+    }
   };
 
   const handleSaveAndExit = async () => {
@@ -142,7 +146,10 @@ const page = () => {
       address: officeAddress
     };
     const res = await submitEmployment(data, setLoadingExit);
-    if (res) router.push('/dashboard/biodata');
+    if (res) {
+      await queryClient.invalidateQueries({ queryKey: ['user'] })
+      router.push('/dashboard/biodata')
+    }
   };
 
   return (

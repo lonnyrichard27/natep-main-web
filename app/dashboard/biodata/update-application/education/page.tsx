@@ -28,6 +28,7 @@ const page = () => {
     
   }, [])
 
+  console.log(tracking, 'tracking id')
   const handleFileUpload = (file: File) => {
     setFileName(file.name);
     setFileSize(file.size / 1024);
@@ -46,7 +47,6 @@ const page = () => {
   };
 
   const handleSubmitEducation = async () => {
-    // const base64Data = base64File.replace('data:image/png;base64,', '');
     const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
 
     const data = {
@@ -60,7 +60,6 @@ const page = () => {
   };
 
   const handleSaveAndExit = async () => {
-    // const base64Data = base64File.replace('data:image/png;base64,', '');
     const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
 
     const data = {
@@ -90,9 +89,7 @@ const page = () => {
       <section className="border rounded-lg p-6">
         <HeaderNav onClick={() => router.back()} title="Education" />
 
-        <p className="mt-2 text-lg font-light">
-          Kindly provide your educational documents here.
-        </p>
+        <p className="mt-2 text-lg font-light">Kindly provide your educational documents here.</p>
 
         <CustomSelect
           label="Educational Level"
@@ -101,8 +98,7 @@ const page = () => {
           options={options}
           value={selectedOption}
           onChange={handleSelectChange}
-          className="mt-5"
-          
+          className="mt-5"   
         />
 
         <CustomInput
