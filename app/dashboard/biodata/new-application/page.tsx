@@ -71,7 +71,7 @@ const page = () => {
       title: 'Photograph',
       subtitle: 'Upload recent photograph',
       icon: <Photograph />,
-      isCompleted: oneApplicant?.has_photograph === 1,
+      isCompleted: oneApplicant?.photograph,
       name: 'photograph',
     },
     {

@@ -8,6 +8,7 @@ import { submitAddress } from '@/api/application';
 import { CustomButton, CustomSelect, CustomTextArea } from '@/components/elements';
 import CopyIcon from '@/components/CopyIcon';
 import HeaderNav from '@/components/HeaderNav';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Option {
   value: string;
@@ -16,6 +17,7 @@ interface Option {
 
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient()
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedState, setSelectedState] = useState<string>('');
@@ -59,7 +61,10 @@ const page = () => {
       address: address
     };
     const res = await submitAddress(data, setLoading);
-    if (res) router.push('/dashboard/biodata/new-application/education');
+    if (res) {
+      await queryClient.invalidateQueries({ queryKey: ['user'] })
+      router.push('/dashboard/biodata/new-application/education')
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -69,7 +74,10 @@ const page = () => {
       address: address
     };
     const res = await submitAddress(data, setLoadingExit);
-    if (res) router.push('/dashboard/biodata');
+    if (res) {
+      await queryClient.invalidateQueries({ queryKey: ['user'] })
+      router.push('/dashboard/biodata')
+    }
   };
 
   return (
