@@ -56,7 +56,7 @@ const page = () => {
       icon: <Passport />,
       isCompleted: oneApplicant?.has_scanned_passport === 1,
       name: 'passport',
-      link: oneApplicant?.has_scanned_passport === 1 ? '/dashboard/biodata/update-application/passport' : '/dashboard/biodata'
+      link: oneApplicant?.has_scanned_passport === 1 ? '/dashboard/biodata/update-application/passport' : '/dashboard/biodata/new-application/passport'
     },
     {
       title: 'Photograph',
