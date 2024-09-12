@@ -29,9 +29,8 @@ const page = () => {
     }
 
     storeTrackingid();
-  }, [])
+  }, [applicant])
   
-  // console.log(error)
 
   const oneApplicant = useMemo(() => { return applicant }, [applicant]);
 
