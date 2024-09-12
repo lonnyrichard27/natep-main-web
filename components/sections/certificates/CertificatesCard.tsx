@@ -5,25 +5,36 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
-const CertificatesCard = () => {
+const CertificatesCard = ({
+  certificate_id,
+  title,
+  is_revoked,
+  id,
+}: {
+  certificate_id: string;
+  title: string;
+  is_revoked: number;
+  id: string;
+}) => {
   const { push } = useRouter();
 
-  const route = `${DashboardRoutes.VIEW_CERTIFICATES}/23`;
+  const route = `${DashboardRoutes.VIEW_CERTIFICATES}/${id}`;
 
   return (
-    <div className='relative rounded-lg bg-[#2B9957] p-6'>
+    <button
+      className='relative rounded-lg bg-[#2B9957] disabled:bg-[#101828]'
+      disabled={is_revoked === 1}
+    >
       <button
         onClick={() => push(route)}
-        className='relative z-10 flex flex-col gap-14 text-left'
-        disabled
+        className='relative z-30 flex flex-col gap-10 rounded-lg p-6 text-left'
+        disabled={is_revoked === 1}
       >
         <div className='flex-1'>
-          <h3 className='mb-1.5 font-semibold text-white'>
-            Digital Certificate
+          <h3 className='mb-1.5 font-semibold capitalize leading-5 text-white'>
+            {title}
           </h3>
-          <p className='text-xs text-white/50'>
-            did:ntep:c40f38a844efa54a4daa8d71cec5a548
-          </p>
+          <p className='text-xs text-white/50'>{certificate_id}</p>
         </div>
 
         <div>
@@ -31,16 +42,16 @@ const CertificatesCard = () => {
         </div>
       </button>
 
-      <span className='absolute right-6 top-6 text-white'>
+      <span className='absolute right-4 top-4 text-white'>
         <FaCheckCircle />
       </span>
 
       <Image
         src={LooperImg}
-        className='absolute right-0 top-0'
+        className='absolute bottom-0 left-0 right-0 top-0 object-cover'
         alt='looper image'
       />
-    </div>
+    </button>
   );
 };
 
