@@ -2,13 +2,26 @@
 
 import React, { useState } from 'react';
 import HeaderNav from '@/components/HeaderNav';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { CertDetails, CertProfile } from '@/components/sections/certificates';
+import { getSingleCertificate } from '@/services/certificate-services';
+import { useQuery } from '@tanstack/react-query';
 
 const page = () => {
   const { back } = useRouter();
 
+  const params = useParams();
+  const { id } = params;
+
   const [hide, setHide] = useState(true);
+
+  const { data: singleCertificate, isLoading: certificateLoading } = useQuery({
+    queryKey: ['single-certificate'],
+    queryFn: () => getSingleCertificate({ id }),
+    enabled: !!id,
+  });
+
+  console.log(singleCertificate);
 
   return (
     <div>
