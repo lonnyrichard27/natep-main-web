@@ -140,7 +140,7 @@ const page = () => {
       </div>
 
       <CustomButton
-        text='Authorize Access'
+        text={isSubmitting ? 'Authorizing...' : 'Authorize Access'}
         onClick={handleVerifyLogin}
         disabled={disablBtn || isSubmitting}
         className='w-full py-3'
