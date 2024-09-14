@@ -34,44 +34,53 @@ const page = () => {
 
   const oneApplicant = useMemo(() => { return applicant }, [applicant]);
 
+  const queryHeaders = oneApplicant?.bio_query?.query_headers ?? [];
+
   const steps = [
     {
       title: 'Verify NIN',
       subtitle: 'National Identification Number',
       icon: <IDCard />,
-      isCompleted: true,
-      name: 'verify_NIN'
+      isCompleted: true
     },
     {
       title: 'Biometrics',
-      subtitle: 'Complete your biometrics',
+      subtitle: 'SComplete your biometrics',
       icon: <BiometricSvg />,
-      isCompleted: true,
-      name: 'biometrics'
+      isCompleted: true
     },
     {
       title: 'Passport',
       subtitle: 'Scan your passport',
       icon: <Passport />,
       isCompleted: oneApplicant?.has_scanned_passport === 1,
+      isQueried: queryHeaders.includes('scanned_passport'),
       name: 'passport',
-      link: oneApplicant?.has_scanned_passport === 1 ? '/dashboard/biodata/update-application/passport' : '/dashboard/biodata/new-application/passport'
+      link: queryHeaders.includes('scanned_passport')
+        ? '/dashboard/quick-action/update-application/passport'
+        : ''
     },
     {
       title: 'Photograph',
       subtitle: 'Upload recent photograph',
       icon: <Photograph />,
-      isCompleted: oneApplicant?.photograph,
+      isCompleted: oneApplicant?.bio_data?.photography?.has_photography,
       name: 'photograph',
-      link: oneApplicant?.photograph ? '/dashboard/biodata/update-application/photograph' : '/dashboard/biodata/new-application/photograph'
+      isQueried: queryHeaders.includes('photograph'),
+      link: queryHeaders.includes('photograph')
+        ? '/dashboard/quick-action/update-application/photograph'
+        : ''
     },
     {
       title: 'Address',
       subtitle: 'Input delivery address',
       icon: <LocationSvg />,
-      isCompleted: oneApplicant?.address,
+      isCompleted: oneApplicant?.bio_data?.address?.has_address === 1,
       name: 'address',
-      link: oneApplicant?.address ? '/dashboard/biodata/update-application/address' : '/dashboard/biodata/new-application/address'
+      isQueried: queryHeaders.includes('address'),
+      link: queryHeaders.includes('address')
+        ? '/dashboard/quick-action/update-application/address'
+        : ''
     },
     {
       title: 'Education',
@@ -79,7 +88,10 @@ const page = () => {
       icon: <DocumentSvg />,
       isCompleted: oneApplicant?.has_education === 1,
       name: 'education',
-      link: oneApplicant?.has_education === 1 ? '/dashboard/biodata/update-application/education' : '/dashboard/biodata/new-application/education'
+      isQueried: queryHeaders.includes('education'),
+      link: queryHeaders.includes('education')
+        ? '/dashboard/quick-action/update-application/education'
+        : ''
     },
     {
       title: 'Employment',
@@ -87,24 +99,33 @@ const page = () => {
       icon: <EmploymentSvg />,
       isCompleted: oneApplicant?.has_employment === 1,
       name: 'employment',
-      link: oneApplicant?.has_employment === 1 ? '/dashboard/biodata/update-application/employment' : '/dashboard/biodata/new-application/employment'
+      isQueried: queryHeaders.includes('employment'),
+      link: queryHeaders.includes('employment')
+        ? '/dashboard/quick-action/update-application/employment'
+        : ''
     },
     {
       title: 'Police Report',
-      subtitle: 'Request Police Report',
+      subtitle: 'Request police report',
       icon: <ShieldSvg />,
       isCompleted: oneApplicant?.has_police_report === 1,
       name: 'police_Report',
-      link: oneApplicant?.has_police_report === 1 ? '/dashboard/biodata/update-application/police-report' : '/dashboard/biodata/new-application/police-report'
+      isQueried: queryHeaders.includes('police_report'),
+      link: queryHeaders.includes('police_report')
+        ? '/dashboard/quick-action/update-application/police-report'
+        : ''
     },
     {
       title: 'Medical Report',
-      subtitle: 'Scan Medical Report',
+      subtitle: 'Scan medical report',
       icon: <CrossSvg />,
       isCompleted: oneApplicant?.has_medicals === 1,
       name: 'medical_report',
-      link: oneApplicant?.has_medicals === 1 ? '/dashboard/biodata/update-application/medical_report' : '/dashboard/biodata/new-application/medical_report'
-    }
+      isQueried: queryHeaders.includes('medicals'),
+      link: queryHeaders.includes('medicals')
+        ? '/dashboard/quick-action/update-application/medical_report'
+        : ''
+    },
   ];
 
   const has_item_count = steps?.filter((step) => step.isCompleted == true).length;
@@ -123,15 +144,16 @@ const page = () => {
           </p>
           <p className='my-5'> You need to complete your application in order to request for your NATEP Certificate.</p>
           {steps.map((step, index) => (
-            <StepList
-              key={index}
-              icon={step.icon}
-              title={step.title}
-              subtitle={step.subtitle}
-              isCompleted={step.isCompleted}
-              link={step.link}
-            />
-          ))}
+          <StepList
+            key={index}
+            icon={step.icon}
+            title={step.title}
+            subtitle={step.subtitle}
+            isCompleted={step.isCompleted}
+            link={step.link}
+            isQueried={step.isQueried}
+          />
+        ))}
         </section>
       </div>
     }
