@@ -36,15 +36,11 @@ const page = () => {
     };
 
     storeTrackingid();
-  }, []);
-
-  // console.log(error)
+  }, [applicant]);
 
   const oneApplicant = useMemo(() => {
     return applicant;
   }, [applicant]);
-
-  console.log(oneApplicant);
 
   const steps = [
     {
