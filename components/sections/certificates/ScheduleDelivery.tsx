@@ -1,19 +1,18 @@
 'use client';
 
 import { CustomButton, SideDrawer } from '@/components/elements';
-import { DashboardRoutes } from '@/components/Navigation/Routes';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { getDate } from '@/util/helpers';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ScheduleDelivery = ({
   certificate_id,
 }: {
   certificate_id: string | string[];
 }) => {
-  const { push } = useRouter();
+  const queryClient = useQueryClient();
 
   const [isOpen, setisOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,8 +47,9 @@ const ScheduleDelivery = ({
         { certificate_id }
       );
       if (response.status === 200 || response.status === 201) {
-        push(DashboardRoutes.VIEW_CERTIFICATES);
+        queryClient.invalidateQueries({ queryKey: ['single-certificate'] });
         setIsSubmitting(false);
+        handleOpen();
       }
     } catch (error) {
       setIsSubmitting(false);
