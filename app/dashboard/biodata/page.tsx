@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import StepList from '@/components/StepList'
-import React, { useEffect, useMemo } from 'react'
+import StepList from '@/components/StepList';
+import React, { useEffect, useMemo } from 'react';
 import {
   BiometricSvg,
   CrossSvg,
@@ -11,26 +11,32 @@ import {
   LocationSvg,
   Passport,
   Photograph,
-  ShieldSvg
+  ShieldSvg,
 } from '@/components/svgs';
 import { getUserProfile } from '@/api/user';
 import { useQuery } from '@tanstack/react-query';
 
 const page = () => {
-  const { data: applicant, isLoading, error } = useQuery({
+  const {
+    data: applicant,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['user'],
     queryFn: getUserProfile
   });
 
   useEffect(() => {
     const storeTrackingid = () => {
-      const tracking = localStorage.setItem('tracking_id', applicant?.tracking_id)
-      return tracking
-    }
+      const tracking = localStorage.setItem(
+        'tracking_id',
+        applicant?.tracking_id
+      );
+      return tracking;
+    };
 
     storeTrackingid();
-  }, [applicant])
-  
+  }, [applicant]);
 
   const oneApplicant = useMemo(() => { return applicant }, [applicant]);
 
@@ -57,8 +63,10 @@ const page = () => {
       isQueried: queryHeaders.includes('scanned_passport'),
       name: 'passport',
       link: queryHeaders.includes('scanned_passport')
-        ? '/dashboard/quick-action/update-application/passport'
-        : ''
+        ? '/dashboard/biodata/update-application/passport'
+        : oneApplicant?.has_scanned_passport === 1
+        ? ''
+        : '/dashboard/biodata/new-application/passport'
     },
     {
       title: 'Photograph',
@@ -68,8 +76,10 @@ const page = () => {
       name: 'photograph',
       isQueried: queryHeaders.includes('photograph'),
       link: queryHeaders.includes('photograph')
-        ? '/dashboard/quick-action/update-application/photograph'
-        : ''
+        ? '/dashboard/biodata/update-application/photograph'
+        : oneApplicant?.bio_data?.photography?.has_photography
+        ? ''
+        : '/dashboard/biodata/new-application/photograph'
     },
     {
       title: 'Address',
@@ -79,8 +89,10 @@ const page = () => {
       name: 'address',
       isQueried: queryHeaders.includes('address'),
       link: queryHeaders.includes('address')
-        ? '/dashboard/quick-action/update-application/address'
-        : ''
+        ? '/dashboard/biodata/update-application/address'
+        : oneApplicant?.bio_data?.address?.has_address === 1
+        ? ''
+        : '/dashboard/biodata/new-application/address'
     },
     {
       title: 'Education',
@@ -90,8 +102,10 @@ const page = () => {
       name: 'education',
       isQueried: queryHeaders.includes('education'),
       link: queryHeaders.includes('education')
-        ? '/dashboard/quick-action/update-application/education'
-        : ''
+        ? '/dashboard/biodata/update-application/education'
+        : oneApplicant?.has_education === 1
+        ? ''
+        : '/dashboard/biodata/new-application/education'
     },
     {
       title: 'Employment',
@@ -101,8 +115,10 @@ const page = () => {
       name: 'employment',
       isQueried: queryHeaders.includes('employment'),
       link: queryHeaders.includes('employment')
-        ? '/dashboard/quick-action/update-application/employment'
-        : ''
+        ? '/dashboard/biodata/update-application/employment'
+        : oneApplicant?.has_employment === 1
+        ? ''
+        : '/dashboard/biodata/new-application/employment'
     },
     {
       title: 'Police Report',
@@ -112,8 +128,10 @@ const page = () => {
       name: 'police_Report',
       isQueried: queryHeaders.includes('police_report'),
       link: queryHeaders.includes('police_report')
-        ? '/dashboard/quick-action/update-application/police-report'
-        : ''
+        ? '/dashboard/biodata/update-application/police-report'
+        : oneApplicant?.has_police_report === 1
+        ? ''
+        : '/dashboard/biodata/new-application/police-report'
     },
     {
       title: 'Medical Report',
@@ -123,43 +141,48 @@ const page = () => {
       name: 'medical_report',
       isQueried: queryHeaders.includes('medicals'),
       link: queryHeaders.includes('medicals')
-        ? '/dashboard/quick-action/update-application/medical_report'
-        : ''
-    },
+        ? '/dashboard/biodata/update-application/medical_report'
+        : oneApplicant?.has_medicals === 1
+        ? ''
+        : '/dashboard/biodata/new-application/medical_report'
+    }
   ];
 
   const has_item_count = steps?.filter((step) => step.isCompleted == true).length;
-  
+
   return (
     <>
-    {isLoading ? 
-      <div className='flex justify-center items-center'>
-        <p>Loading Application Details.....</p>
-      </div>
-    : 
-      <div className='grid justify-center'>
-        <section className='col-span-5 h-fit rounded-lg border p-10'>
-          <p className='text-lg font-semibold'>
-            Applicant Biodata ({has_item_count}/{steps?.length})
-          </p>
-          <p className='my-5'> You need to complete your application in order to request for your NATEP Certificate.</p>
-          {steps.map((step, index) => (
-          <StepList
-            key={index}
-            icon={step.icon}
-            title={step.title}
-            subtitle={step.subtitle}
-            isCompleted={step.isCompleted}
-            link={step.link}
-            isQueried={step.isQueried}
-          />
-        ))}
-        </section>
-      </div>
-    }
-  </>
-  )
-}
+      {isLoading ? (
+        <div className='flex items-center justify-center'>
+          <p>Loading Application Details.....</p>
+        </div>
+      ) : (
+        <div className='grid justify-center'>
+          <section className='col-span-5 h-fit rounded-lg border p-10'>
+            <p className='text-lg font-semibold'>
+              Applicant Biodata ({has_item_count}/{steps?.length})
+            </p>
+            <p className='my-5'>
+              {' '}
+              You need to complete your application in order to request for your
+              NATEP Certificate.
+            </p>
+            {steps.map((step, index) => (
+              <StepList
+                key={index}
+                icon={step.icon}
+                title={step.title}
+                subtitle={step.subtitle}
+                isCompleted={step.isCompleted}
+                link={step.link}
+                isQueried={step.isQueried}
+              />
+            ))}
+          </section>
+        </div>
+      )}
+    </>
+  );
+};
 
-
-export default page
+export default page;
