@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { BiLogOutCircle, BiPolygon } from 'react-icons/bi';
 import { MdCreditCard, MdOutlineMail } from 'react-icons/md';
@@ -13,10 +13,9 @@ interface navItemProps {
     icon: string;
     base?: string;
   };
-  open: boolean;
 }
 
-const NavItem = ({ open, item }: navItemProps) => {
+const NavItem = ({ item }: navItemProps) => {
   const pathname = usePathname();
 
   return (
@@ -31,34 +30,17 @@ const NavItem = ({ open, item }: navItemProps) => {
         <span
           className={`absolute bottom-0 left-0 right-0 top-0 z-20 block rounded-md ${pathname.includes(item?.base || item?.href) ? '' : ''}`}
         />
-        {open ? (
-          <div className={`flex items-center gap-3 px-1`}>
-            <span className='text-xl'>{item?.icon}</span>
-            <span className={`text-sm capitalize`}>{item?.title}</span>
-          </div>
-        ) : (
-          <span
-            className={`flex items-center justify-center ${pathname.includes(item?.href)}`}
-          >
-            <span className='text-xl'>{item?.icon}</span>
-          </span>
-        )}
+
+        <div className={`flex items-center gap-3 px-1`}>
+          <span className='text-xl'>{item?.icon}</span>
+          <span className={`text-sm capitalize`}>{item?.title}</span>
+        </div>
       </li>
     </Link>
   );
 };
 
 const DashboardNav = () => {
-  const [open, setOpen] = useState(true);
-
-  const handleOpenNav = () => {
-    setOpen(true);
-  };
-
-  const handleCloseNave = () => {
-    setOpen(false);
-  };
-
   const nav_items = [
     {
       href: DashboardRoutes.BIODATA,
@@ -89,15 +71,13 @@ const DashboardNav = () => {
 
   return (
     <div
-      className={`scrollbar-hide relative z-50 flex h-full flex-col gap-10 overflow-y-scroll border border-[#F2F4F7] bg-[#F7F9FC] px-8 py-12 text-white duration-300 ${
-        open ? 'w-[312px]' : 'w-20'
-      }`}
+      className={`scrollbar-hide relative z-50 flex h-full w-[312px] flex-col gap-10 overflow-y-scroll border border-[#F2F4F7] bg-[#F7F9FC] px-8 py-12 text-white duration-300`}
     >
       <div className='text-sm font-medium text-[#98A2B3]'>QUICK ACTIONS</div>
 
-      <div className={`${open ? 'px-0' : 'px-3'} flex flex-col gap-8`}>
+      <div className={`flex flex-col gap-8`}>
         {nav_items?.map((item: any, index: any) => (
-          <NavItem key={index} item={item} open={open} />
+          <NavItem key={index} item={item} />
         ))}
       </div>
 

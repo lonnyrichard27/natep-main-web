@@ -1,5 +1,6 @@
 'use client';
 
+import { getCountries, getState } from '@/api/application';
 import {
   CustomButton,
   CustomInput,
@@ -10,28 +11,55 @@ import { requestDeliverySchema } from '@/schema/certificateSchema';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 const RequestDeliveryForm = () => {
   const { push } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const options = [
-    { value: 'red', label: 'Red' },
-    { value: 'blue', label: 'Blue' },
-    { value: 'green', label: 'Green' },
-  ];
-
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(requestDeliverySchema),
   });
+
+  const country = watch('country');
+
+  const { data: countries } = useQuery({
+    queryKey: ['countries'],
+    queryFn: getCountries,
+  });
+
+  const countryOptions = useMemo(() => {
+    return (
+      countries?.map((item: any) => ({
+        label: item.name,
+        value: item.iso2,
+      })) || []
+    );
+  }, [countries]);
+
+  const { data: states } = useQuery({
+    queryKey: ['states', country],
+    queryFn: () => getState(country),
+    enabled: !!country,
+  });
+
+  const stateOptions = useMemo(() => {
+    return (
+      states?.map((item: any) => ({
+        value: item.name,
+        label: item.name,
+      })) || []
+    );
+  }, [states]);
 
   const handleRequest = async (data: any) => {
     setIsSubmitting(true);
@@ -110,7 +138,7 @@ const RequestDeliveryForm = () => {
         name='country'
         control={control}
         render={({ field }) => (
-          <CustomSelect label='Country' options={options} {...field} />
+          <CustomSelect label='Country' options={countryOptions} {...field} />
         )}
       />
 
@@ -118,7 +146,7 @@ const RequestDeliveryForm = () => {
         name='state'
         control={control}
         render={({ field }) => (
-          <CustomSelect label='State' options={options} {...field} />
+          <CustomSelect label='State' options={stateOptions} {...field} />
         )}
       />
 
