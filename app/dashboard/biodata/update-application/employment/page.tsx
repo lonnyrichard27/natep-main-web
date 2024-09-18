@@ -5,7 +5,7 @@ import HeaderNav from '@/components/HeaderNav';
 import FileUpload from '@/components/FileUpload';
 import { useRouter } from 'next/navigation';
 import { getCountries, getState, updateEducation } from '@/api/application';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Select from 'react-select';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton, CustomInput, CustomTextArea } from '@/components/elements';
@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [companyName, setCompanyName] = useState<string>('');
   const [officeAddress, setOfficeAddress] = useState<string>('');
   const [fileName, setFileName] = useState<string | null>(null);
@@ -125,7 +126,10 @@ const page = () => {
     };
 
     const res = await updateEducation(data, setLoading);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -139,7 +143,10 @@ const page = () => {
       section: 'employment'
     };
     const res = await updateEducation(data, setLoadingExit);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   return (
@@ -179,14 +186,15 @@ const page = () => {
           instanceId={instanceIds.select2} 
 
         />
-
-        <CustomTextArea
-          label="Office Address"
-          id="textarea-address"
-          placeholder="Enter an address..."
-          value={officeAddress}
-          onChange={(e) => setOfficeAddress(e.target.value)}
-        />
+        <div className="mt-5">    
+          <CustomTextArea
+            label="Office Address"
+            id="textarea-address"
+            placeholder="Enter an address..."
+            value={officeAddress}
+            onChange={(e) => setOfficeAddress(e.target.value)}
+          />
+        </div>
 
         <section className="mt-5">  
           <FileUpload
@@ -203,7 +211,7 @@ const page = () => {
               <iframe
                 src={base64File}
                 title="File Preview"
-                className="w-full h-64 border rounded"
+                className="w-full h-[30rem] border rounded"
               ></iframe>
             </div>
           )}

@@ -8,9 +8,11 @@ import FileUpload from '@/components/FileUpload';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton, CustomInput, CustomSelect } from '@/components/elements';
 import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileSize, setFileSize] = useState<number | null>(null);
@@ -64,7 +66,10 @@ const page = () => {
       section: 'education'
     };
     const res = await updateEducation(data, setLoading);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -77,7 +82,10 @@ const page = () => {
       section: 'education'
     };
     const res = await updateEducation(data, setLoadingExit);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
