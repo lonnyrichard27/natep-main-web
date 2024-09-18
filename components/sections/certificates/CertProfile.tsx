@@ -13,7 +13,7 @@ import { FaRegArrowAltCircleDown } from 'react-icons/fa';
 import { LuMinusCircle } from 'react-icons/lu';
 import ScheduleDelivery from './ScheduleDelivery';
 import SelectPickupDate from './SelectPickupDate';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { CertificateType } from '@/types/CertificateType';
 
 const CertProfile = ({
@@ -25,7 +25,6 @@ const CertProfile = ({
   setHide: any;
   certificate: CertificateType | undefined;
 }) => {
-  const { push } = useRouter();
   const params = useParams();
   const { id: certificate_id } = params;
 

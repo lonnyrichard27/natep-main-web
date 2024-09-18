@@ -10,10 +10,12 @@ import { requestDeliverySchema } from '@/schema/certificateSchema';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 const RequestDeliveryForm = () => {
+  const { push } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const options = [
@@ -39,6 +41,8 @@ const RequestDeliveryForm = () => {
         data
       );
       if (response.status === 200 || response.status === 201) {
+        const paystack_url = response.data.data;
+        push(paystack_url);
         setIsSubmitting(false);
       }
     } catch (error) {

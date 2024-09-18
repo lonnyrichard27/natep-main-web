@@ -2,6 +2,12 @@ import { getCookie, setCookie } from 'cookies-next';
 import moment from 'moment';
 import toast from 'react-hot-toast';
 
+import countries from 'i18n-iso-countries';
+import enLocale from 'i18n-iso-countries/langs/en.json';
+
+// Register the language locale (English in this case)
+countries.registerLocale(enLocale);
+
 export const getAuthCookies = () => {
   const cookie: any = getCookie('natep_user', {
     path: '/',
@@ -80,4 +86,26 @@ export const downloadCertificate = (url: string | undefined) => {
   }
 
   window.open(url);
+};
+
+export const getISOCode = (name: string) => {
+  // Try to get the ISO code for a country
+  let isoCode = countries.getAlpha2Code(name, 'en');
+
+  if (!isoCode) {
+    console.log(`ISO code not found for: ${name}`);
+  }
+
+  return isoCode;
+};
+
+export const getCountryName = (isoCode: string) => {
+  // Try to get the country name from the ISO code
+  const countryName = countries.getName(isoCode, 'en') || isoCode;
+
+  if (!countryName) {
+    console.log(`Country name not found for ISO code: ${isoCode}`);
+  }
+
+  return countryName;
 };
