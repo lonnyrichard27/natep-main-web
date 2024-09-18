@@ -11,10 +11,11 @@ import {
   LocationSvg,
   Passport,
   Photograph,
-  ShieldSvg,
+  ShieldSvg
 } from '@/components/svgs';
 import { getUserProfile } from '@/api/user';
 import { useQuery } from '@tanstack/react-query';
+import { PageLoader } from '@/components/Navigation';
 
 const page = () => {
   const {
@@ -72,12 +73,12 @@ const page = () => {
       title: 'Photograph',
       subtitle: 'Upload recent photograph',
       icon: <Photograph />,
-      isCompleted: oneApplicant?.bio_data?.photography?.has_photography,
+      isCompleted: oneApplicant?.bio_data?.photography?.has_photography === 1,
       name: 'photograph',
       isQueried: queryHeaders.includes('photograph'),
       link: queryHeaders.includes('photograph')
         ? '/dashboard/biodata/update-application/photograph'
-        : oneApplicant?.bio_data?.photography?.has_photography
+        : oneApplicant?.bio_data?.photography?.has_photography === 1
         ? ''
         : '/dashboard/biodata/new-application/photograph'
     },
@@ -152,11 +153,7 @@ const page = () => {
 
   return (
     <>
-      {isLoading ? (
-        <div className='flex items-center justify-center'>
-          <p>Loading Application Details.....</p>
-        </div>
-      ) : (
+      {isLoading ? <PageLoader /> : (
         <div className='grid justify-center'>
           <section className='col-span-5 h-fit rounded-lg border p-10'>
             <p className='text-lg font-semibold'>

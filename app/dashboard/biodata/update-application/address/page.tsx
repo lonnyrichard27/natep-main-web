@@ -8,6 +8,7 @@ import NaijaStates from 'naija-state-local-government';
 import { updateAddress } from '@/api/application';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton, CustomSelect, CustomTextArea } from '@/components/elements';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Option {
   value: string;
@@ -16,6 +17,7 @@ interface Option {
 
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedState, setSelectedState] = useState<string>('');
@@ -61,7 +63,10 @@ const page = () => {
       section: 'address'
     };
     const res = await updateAddress(data, setLoading);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -72,7 +77,10 @@ const page = () => {
       section: 'address'
     };
     const res = await updateAddress(data, setLoadingExit);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   return (

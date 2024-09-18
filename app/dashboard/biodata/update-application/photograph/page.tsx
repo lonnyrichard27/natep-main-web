@@ -8,9 +8,11 @@ import { updatePhotograph } from '@/api/application';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton } from '@/components/elements';
 import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 const page = () => {
-  const router = useRouter();  
+  const router = useRouter(); 
+  const queryClient = useQueryClient();
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileSize, setFileSize] = useState<number | null>(null);
   const [base64File, setBase64File] = useState<string>('');
@@ -55,7 +57,10 @@ const page = () => {
 
     const data = { offer_letter: base64Data, section: 'photograph' };
     const res = await updatePhotograph(data, setLoading);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -63,8 +68,10 @@ const page = () => {
 
     const data = { offer_letter: base64Data, section: 'photograph' };
     const res = await updatePhotograph(data, setLoadingExit);
-    if (res) router.back();
-
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   return (

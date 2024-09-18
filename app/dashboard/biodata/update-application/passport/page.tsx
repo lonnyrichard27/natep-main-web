@@ -8,8 +8,10 @@ import { updatePassport } from '@/api/application';
 import { useRouter } from 'next/navigation';
 import { CustomButton } from '@/components/elements';
 import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileSize, setFileSize] = useState<number | null>(null);
   const [base64File, setBase64File] = useState<string>('');
@@ -55,7 +57,10 @@ const page = () => {
 
     const data = { base_64: base64Data, section: 'passport' };
     const res = await updatePassport(data, setLoading);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -63,8 +68,10 @@ const page = () => {
 
     const data = { base_64: base64Data, section: 'passport' };
     const res = await updatePassport(data, setLoadingExit);
-    const getId = localStorage.getItem('quickActionsId')
-    if (res) router.push(`/dashboard/quick-action/${getId}`);
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   return (
