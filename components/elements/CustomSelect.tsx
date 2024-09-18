@@ -1,4 +1,5 @@
 import React from 'react';
+import { FieldError } from 'react-hook-form';
 
 interface Option {
   value: string;
@@ -13,6 +14,7 @@ interface CustomSelectProps {
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
+  error?: FieldError | undefined | string;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -23,6 +25,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   value,
   onChange,
   className,
+  error,
 }) => {
   return (
     <div className={className}>
@@ -43,6 +46,12 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           </option>
         ))}
       </select>
+
+      {error && (
+        <div className='text-xsm ml-1 mt-2 text-red-500'>
+          {error.toString()}
+        </div>
+      )}
     </div>
   );
 };

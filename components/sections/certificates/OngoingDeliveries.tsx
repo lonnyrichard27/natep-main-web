@@ -36,9 +36,9 @@ const OngoingDeliveries = () => {
 
       {deliveriesLoading ? (
         <PageLoader />
-      ) : Object.keys(groupedData)?.length > 0 ? (
+      ) : Object?.keys(groupedData)?.length > 0 ? (
         <div className='flex flex-col gap-8'>
-          {Object.keys(groupedData).map((date) => {
+          {Object?.keys(groupedData).map((date) => {
             // Format the date to a human-readable form
             const formattedDate = new Date(date).toLocaleDateString('en-US', {
               weekday: 'long',
