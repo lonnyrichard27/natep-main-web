@@ -7,6 +7,7 @@ import { submitPassport } from '@/api/application';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { CustomButton } from '@/components/elements';
+import toast from 'react-hot-toast';
 const page = () => {
   const router = useRouter();
   const [fileName, setFileName] = useState<string | null>(null);
@@ -27,9 +28,17 @@ const page = () => {
 
   
   const handleFileUpload = (file: File) => {
+    const fileSizeInKB = file.size / 1024; // Convert bytes to KB
     setFileName(file.name);
-    setFileSize(file.size / 1024);
+    setFileSize(fileSizeInKB);
 
+    // Check if the file size is greater than or equals to 800KB
+    if (fileSizeInKB >= 800) {
+      toast.error('File too large, please try again');
+      return;
+    }
+
+    // If file size is valid, proceed with base64 encoding
     const reader = new FileReader();
     reader.onloadend = () => {
       setBase64File(reader.result as string);
@@ -56,7 +65,7 @@ const page = () => {
 
     const data = { base_64: base64Data };
     const res = await submitPassport(data, setLoadingExit);
-    if (res) router.push('/dashboard');
+    if (res) router.push('/dashboard/biodata');
   };
 
   return (

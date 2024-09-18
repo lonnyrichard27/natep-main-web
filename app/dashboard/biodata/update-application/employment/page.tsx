@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import Select from 'react-select';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton, CustomInput, CustomTextArea } from '@/components/elements';
+import toast from 'react-hot-toast';
 
 const page = () => {
   const router = useRouter();
@@ -25,7 +26,6 @@ const page = () => {
   const [state, setState] = useState<string>('');
   const [selectedState, setSelectedState] = useState<string>('');
 
-  // /  // Generate stable instance IDs for the Select components
   const [instanceIds, setInstanceIds] = useState<{ select1: string; select2: string }>({
     select1: '',
     select2: ''
@@ -38,7 +38,6 @@ const page = () => {
       setTracking(trackingId)
     }
     getTrackingId();
-    
   }, [])
 
   useEffect(() => {
@@ -49,9 +48,17 @@ const page = () => {
   }, []);
 
   const handleFileUpload = (file: File) => {
+    const fileSizeInKB = file.size / 1024; // Convert bytes to KB
     setFileName(file.name);
-    setFileSize(file.size / 1024);
+    setFileSize(fileSizeInKB);
 
+    // Check if the file size is greater than or equals to 800KB
+    if (fileSizeInKB >= 800) {
+      toast.error('File too large, please try again');
+      return;
+    }
+
+    // If file size is valid, proceed with base64 encoding
     const reader = new FileReader();
     reader.onloadend = () => {
       setBase64File(reader.result as string);
