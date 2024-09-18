@@ -12,13 +12,14 @@ import { handleError } from '@/util/errorHandler';
 import { useRouter } from 'next/navigation';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { combineDateAndTime } from '@/util/helpers';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SelectPickupDate = ({
   certificate_id,
 }: {
   certificate_id: string | string[];
 }) => {
-  const { push } = useRouter();
+  const queryClient = useQueryClient();
 
   const [isOpen, setisOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,8 +47,9 @@ const SelectPickupDate = ({
         pickupLoad
       );
       if (response.status === 200 || response.status === 201) {
-        push(DashboardRoutes.VIEW_CERTIFICATES);
+        queryClient.invalidateQueries({ queryKey: ['single-certificate'] });
         setIsSubmitting(false);
+        handleOpen();
       }
     } catch (error) {
       setIsSubmitting(false);
@@ -80,6 +82,7 @@ const SelectPickupDate = ({
                 className='!border-0'
                 onChange={field.onChange}
                 value={field.value}
+                minDate={new Date()}
               />
             )}
           />

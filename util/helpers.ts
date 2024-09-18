@@ -1,5 +1,6 @@
 import { getCookie, setCookie } from 'cookies-next';
 import moment from 'moment';
+import toast from 'react-hot-toast';
 
 export const getAuthCookies = () => {
   const cookie: any = getCookie('natep_user', {
@@ -61,4 +62,22 @@ export const combineDateAndTime = (selectedDate: string, time: string) => {
     date.getTime() - date.getTimezoneOffset() * 60000
   );
   return offsetDate.toISOString().slice(0, 19); // returns YYYY-MM-DDTHH:mm:ss
+};
+
+export const getDocument = (id: string | undefined | string[]) => {
+  if (!id) {
+    return;
+  }
+
+  const file = `${process.env.NEXT_PUBLIC_BASE_URL}/certificate/download-certificate/${id}`;
+
+  return file;
+};
+
+export const downloadCertificate = (url: string | undefined) => {
+  if (!url) {
+    return toast.error('Invalid download URL');
+  }
+
+  window.open(url);
 };

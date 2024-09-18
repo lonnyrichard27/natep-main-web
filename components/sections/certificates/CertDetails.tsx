@@ -1,11 +1,15 @@
+import { CertificateType } from '@/types/CertificateType';
 import { textReplacer } from '@/util/helpers';
-import React from 'react';
 
-const CertDetails = () => {
+const CertDetails = ({
+  certificate,
+}: {
+  certificate: CertificateType | undefined;
+}) => {
   const cert_details: any = {
-    surname: 'Abifoluwa',
-    given_names: 'Aanuoluwakiishi, Tolu',
-    address: '00000000000',
+    surname: certificate?.surname,
+    given_names: `${certificate?.firstname && certificate?.firstname} ${certificate?.middlename && certificate?.middlename}`,
+    address: certificate?.address,
   };
 
   return (
@@ -24,12 +28,12 @@ const CertDetails = () => {
       <article className='grid grid-cols-2 gap-4'>
         <article className='rounded bg-[#F9FAFB] p-4 font-medium'>
           <h3 className='mb-1 text-sm text-[#667085]'>PASSPORT NUMBER</h3>
-          <p>B123456789</p>
+          <p>{certificate?.passport_number}</p>
         </article>
 
         <article className='rounded bg-[#F9FAFB] p-4 font-medium'>
           <h3 className='mb-1 text-sm text-[#667085]'>CERTIFICATE ID</h3>
-          <p>00000000000</p>
+          <p>{certificate?.certificate_id}</p>
         </article>
       </article>
     </div>

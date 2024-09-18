@@ -1,4 +1,5 @@
 import { ApiResponse, PaginationData } from '@/types/ApiResponse';
+import { CertificateType } from '@/types/CertificateType';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 
@@ -19,7 +20,7 @@ export const getSingleCertificate = async ({
   id: string | string[];
 }) => {
   try {
-    const response = await axiosInstance.get<ApiResponse<PaginationData>>(
+    const response = await axiosInstance.get<ApiResponse<CertificateType>>(
       `/certificate/view-certificate/${id}`
     );
     return response.data.data;
