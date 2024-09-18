@@ -1,9 +1,10 @@
 import { SideDrawer } from '@/components/elements';
-import { getDate } from '@/util/helpers';
+import { DeliveryTypes } from '@/types/DeliveryTypes';
+import { getCountryName, getDate } from '@/util/helpers';
 import React, { useState } from 'react';
 import { GoChevronRight } from 'react-icons/go';
 
-const ViewDelivery = () => {
+const ViewDelivery = ({ delivery }: { delivery: DeliveryTypes }) => {
   const [isOpen, setisOpen] = useState(false);
 
   const handleOpen = () => {
@@ -36,18 +37,20 @@ const ViewDelivery = () => {
       >
         <div>
           <p className='mb-1 text-sm font-semibold text-[#101828]'>
-            Consular Services, Germany
+            {delivery.address}, {getCountryName(delivery.country)}
           </p>
-          <p className='text-xs font-medium text-[#667085]'>REF #34928427</p>
+          <p className='text-xs font-medium text-[#667085]'>
+            REF {delivery.tracking_ref}
+          </p>
         </div>
-        <span className='text-2xl'>
+        <span className='text-2xl text-[#98A2B3]'>
           <GoChevronRight />
         </span>
       </div>
 
       <SideDrawer isOpen={isOpen} toggleDrawer={handleOpen}>
         <div className='flex h-full flex-col gap-8'>
-          <h2 className='font-semibold'>REF #34928427</h2>
+          <h2 className='font-semibold'>REF {delivery.tracking_ref}</h2>
 
           <div className='bg-[#F9FAFB] p-4'>
             {events.map((task, index) => (

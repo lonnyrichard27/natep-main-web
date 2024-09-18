@@ -8,8 +8,8 @@ import {
 } from './schemaRegex';
 
 const objectShape = {
-  value: yup.string().required('Please select an option'),
   label: yup.string().required('Please select an option'),
+  value: yup.string().required('Please select an option'),
 };
 
 const pickDateSchema = yup.object().shape({
@@ -36,8 +36,8 @@ const requestDeliverySchema = yup.object().shape({
     .required('Phone is required')
     .min(10, 'Enter a valid phone number'),
   country: yup.string().required('Country is required'),
-  address: yup.string().required('Address is required'),
   state: yup.string().required('State is required'),
+  address: yup.string().required('Address is required'),
 });
 
 export { pickDateSchema, requestDeliverySchema };

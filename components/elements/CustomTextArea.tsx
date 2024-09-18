@@ -1,4 +1,5 @@
 import React from 'react';
+import { FieldError } from 'react-hook-form';
 
 interface CustomTextAreaProps {
   label: string;
@@ -9,6 +10,7 @@ interface CustomTextAreaProps {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   className?: string;
   disabled?: boolean;
+  error?: FieldError | undefined | string;
 }
 
 const CustomTextArea: React.FC<CustomTextAreaProps> = ({
@@ -20,6 +22,7 @@ const CustomTextArea: React.FC<CustomTextAreaProps> = ({
   onChange,
   className = '',
   disabled = false,
+  error,
 }) => {
   return (
     <div>
@@ -34,7 +37,13 @@ const CustomTextArea: React.FC<CustomTextAreaProps> = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
-      ></textarea>
+      />
+
+      {error && (
+        <div className='text-xsm ml-1 mt-2 text-red-500'>
+          {error.toString()}
+        </div>
+      )}
     </div>
   );
 };

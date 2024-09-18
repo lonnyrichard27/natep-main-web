@@ -57,6 +57,10 @@ const config = withMT({
           foreground: 'hsl(var(--card-foreground))',
         },
       },
+      fontSize: {
+        xsm: ['13px', '16px'],
+        xxs: ['10px', '16px'],
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
