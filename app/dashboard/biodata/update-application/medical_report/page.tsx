@@ -73,7 +73,7 @@ const page = () => {
     if (res) {
       queryClient.invalidateQueries({ queryKey: ['user']})
       router.back()
-    };
+    }
   };
 
   return (
