@@ -7,9 +7,12 @@ import { useRouter } from 'next/navigation';
 import { updatePoliceReport } from '@/api/application';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton, CustomInput } from '@/components/elements';
+import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [possap, setPossap] = useState<string>('');
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileSize, setFileSize] = useState<number | null>(null);
@@ -24,12 +27,20 @@ const page = () => {
       setTracking(trackingId)
     }
     getTrackingId();
-    
   }, [])
 
   const handleFileUpload = (file: File) => {
+    const fileSizeInKB = file.size / 1024; // Convert bytes to KB
     setFileName(file.name);
-    setFileSize(file.size / 1024);
+    setFileSize(fileSizeInKB);
+
+    // Check if the file size is greater than or equals to 800KB
+    if (fileSizeInKB >= 800) {
+      toast.error('File too large, please try again');
+      return;
+    }
+
+    // If file size is valid, proceed with base64 encoding
     const reader = new FileReader();
     reader.onloadend = () => {
       setBase64File(reader.result as string);
@@ -52,7 +63,10 @@ const page = () => {
     const data = { possap_number: possap, base_64: base64Data, section: 'police_report' };
 
     const res = await updatePoliceReport(data, setLoading);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -60,7 +74,10 @@ const page = () => {
     const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
     const data = { possap_number: possap, base_64: base64Data, section: 'police_report' };
     const res = await updatePoliceReport(data, setLoadingExit);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   return (
@@ -92,7 +109,7 @@ const page = () => {
             <iframe
               src={base64File}
               title="File Preview"
-              className="w-full h-64 border rounded"
+              className="w-full h-[30rem] border rounded"
             ></iframe>
           </div>
         )}

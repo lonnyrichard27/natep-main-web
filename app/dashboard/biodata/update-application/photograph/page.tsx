@@ -7,9 +7,12 @@ import { useRouter } from 'next/navigation';
 import { updatePhotograph } from '@/api/application';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton } from '@/components/elements';
+import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 const page = () => {
-  const router = useRouter();  
+  const router = useRouter(); 
+  const queryClient = useQueryClient();
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileSize, setFileSize] = useState<number | null>(null);
   const [base64File, setBase64File] = useState<string>('');
@@ -22,13 +25,20 @@ const page = () => {
       const trackingId = localStorage?.getItem('tracking_id') ?? ''
       setTracking(trackingId)
     }
-    getTrackingId();
-    
+    getTrackingId(); 
   }, [])
   const handleFileUpload = (file: File) => {
+    const fileSizeInKB = file.size / 1024; // Convert bytes to KB
     setFileName(file.name);
-    setFileSize(file.size / 1024);
+    setFileSize(fileSizeInKB);
 
+    // Check if the file size is greater than or equals to 800KB
+    if (fileSizeInKB >= 800) {
+      toast.error('File too large, please try again');
+      return;
+    }
+
+    // If file size is valid, proceed with base64 encoding
     const reader = new FileReader();
     reader.onloadend = () => {
       setBase64File(reader.result as string);
@@ -47,7 +57,10 @@ const page = () => {
 
     const data = { offer_letter: base64Data, section: 'photograph' };
     const res = await updatePhotograph(data, setLoading);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -55,8 +68,10 @@ const page = () => {
 
     const data = { offer_letter: base64Data, section: 'photograph' };
     const res = await updatePhotograph(data, setLoadingExit);
-    if (res) router.back();
-
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   return (

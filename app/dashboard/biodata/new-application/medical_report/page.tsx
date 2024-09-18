@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { submitMedicalReport } from '@/api/application';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton } from '@/components/elements';
-import Modal from '@/components/Modal';
+import toast from 'react-hot-toast';
 
 const page = () => {
   const router = useRouter();
@@ -16,8 +16,6 @@ const page = () => {
   const [base64File, setBase64File] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingExit, setLoadingExit] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [tracking, setTracking] = useState<string>('');
 
   useEffect(() => {
@@ -27,14 +25,19 @@ const page = () => {
     };
     getTrackingId();
   }, []);
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
 
   const handleFileUpload = (file: File) => {
+    const fileSizeInKB = file.size / 1024; // Convert bytes to KB
     setFileName(file.name);
-    setFileSize(file.size / 1024);
+    setFileSize(fileSizeInKB);
 
+    // Check if the file size is greater than or equals to 800KB
+    if (fileSizeInKB >= 800) {
+      toast.error('File too large, please try again');
+      return;
+    }
+
+    // If file size is valid, proceed with base64 encoding
     const reader = new FileReader();
     reader.onloadend = () => {
       setBase64File(reader.result as string);
@@ -57,7 +60,7 @@ const page = () => {
 
     const data = { base_64: base64Data };
     const res = await submitMedicalReport(data, setLoading);
-    if (res) setIsModalOpen(true);
+    if (res) router.push('/dashboard/biodata');
   };
 
   const handleSaveAndExit = async () => {
@@ -116,25 +119,6 @@ const page = () => {
             loading={loading}
           />
         </div>
-
-        {/* Modal Component */}
-        <Modal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          title='Submission Successful'
-          content={
-            <div className='flex flex-col items-center text-center'>
-              <p>Your application has been successfully uploaded</p>
-              <CustomButton
-                text='Go To Home Page'
-                color='text-white'
-                className='mt-7 flex w-full justify-center py-3'
-                bgColor='bg-primary'
-                onClick={() => router.push('/dashboard/biodata')}
-              />
-            </div>
-          }
-        />
       </section>
       <section className='mt-5 flex justify-between rounded-lg border p-5'>
         <p>Tracking ID</p>

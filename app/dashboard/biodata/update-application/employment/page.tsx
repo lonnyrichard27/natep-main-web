@@ -5,13 +5,15 @@ import HeaderNav from '@/components/HeaderNav';
 import FileUpload from '@/components/FileUpload';
 import { useRouter } from 'next/navigation';
 import { getCountries, getState, updateEducation } from '@/api/application';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Select from 'react-select';
 import CopyIcon from '@/components/CopyIcon';
 import { CustomButton, CustomInput, CustomTextArea } from '@/components/elements';
+import toast from 'react-hot-toast';
 
 const page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [companyName, setCompanyName] = useState<string>('');
   const [officeAddress, setOfficeAddress] = useState<string>('');
   const [fileName, setFileName] = useState<string | null>(null);
@@ -25,7 +27,6 @@ const page = () => {
   const [state, setState] = useState<string>('');
   const [selectedState, setSelectedState] = useState<string>('');
 
-  // /  // Generate stable instance IDs for the Select components
   const [instanceIds, setInstanceIds] = useState<{ select1: string; select2: string }>({
     select1: '',
     select2: ''
@@ -38,7 +39,6 @@ const page = () => {
       setTracking(trackingId)
     }
     getTrackingId();
-    
   }, [])
 
   useEffect(() => {
@@ -49,9 +49,17 @@ const page = () => {
   }, []);
 
   const handleFileUpload = (file: File) => {
+    const fileSizeInKB = file.size / 1024; // Convert bytes to KB
     setFileName(file.name);
-    setFileSize(file.size / 1024);
+    setFileSize(fileSizeInKB);
 
+    // Check if the file size is greater than or equals to 800KB
+    if (fileSizeInKB >= 800) {
+      toast.error('File too large, please try again');
+      return;
+    }
+
+    // If file size is valid, proceed with base64 encoding
     const reader = new FileReader();
     reader.onloadend = () => {
       setBase64File(reader.result as string);
@@ -118,7 +126,10 @@ const page = () => {
     };
 
     const res = await updateEducation(data, setLoading);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   const handleSaveAndExit = async () => {
@@ -132,7 +143,10 @@ const page = () => {
       section: 'employment'
     };
     const res = await updateEducation(data, setLoadingExit);
-    if (res) router.back();
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ['user']})
+      router.back()
+    };
   };
 
   return (
@@ -172,14 +186,15 @@ const page = () => {
           instanceId={instanceIds.select2} 
 
         />
-
-        <CustomTextArea
-          label="Office Address"
-          id="textarea-address"
-          placeholder="Enter an address..."
-          value={officeAddress}
-          onChange={(e) => setOfficeAddress(e.target.value)}
-        />
+        <div className="mt-5">    
+          <CustomTextArea
+            label="Office Address"
+            id="textarea-address"
+            placeholder="Enter an address..."
+            value={officeAddress}
+            onChange={(e) => setOfficeAddress(e.target.value)}
+          />
+        </div>
 
         <section className="mt-5">  
           <FileUpload
@@ -196,7 +211,7 @@ const page = () => {
               <iframe
                 src={base64File}
                 title="File Preview"
-                className="w-full h-64 border rounded"
+                className="w-full h-[30rem] border rounded"
               ></iframe>
             </div>
           )}
