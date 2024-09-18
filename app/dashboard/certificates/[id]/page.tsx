@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import HeaderNav from '@/components/HeaderNav';
 import { useParams, useRouter } from 'next/navigation';
 import { CertDetails, CertProfile } from '@/components/sections/certificates';
 import { getSingleCertificate } from '@/services/certificate-services';
 import { useQuery } from '@tanstack/react-query';
+import { PageLoader } from '@/components/Navigation';
 
 const page = () => {
   const { back } = useRouter();
@@ -21,18 +22,27 @@ const page = () => {
     enabled: !!id,
   });
 
-  console.log(singleCertificate);
+  const oneCertificate = useMemo(() => {
+    return singleCertificate;
+  }, [singleCertificate]);
 
   return (
     <div>
       <HeaderNav onClick={back} title='Digital Certificate' />
 
-      {/* grids */}
-      <div className='mt-10 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8'>
-        <CertProfile hide={hide} setHide={setHide} />
+      {certificateLoading ? (
+        <PageLoader />
+      ) : (
+        <div className='mt-10 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8'>
+          <CertProfile
+            certificate={oneCertificate}
+            hide={hide}
+            setHide={setHide}
+          />
 
-        {!hide && <CertDetails />}
-      </div>
+          {!hide && <CertDetails certificate={oneCertificate} />}
+        </div>
+      )}
     </div>
   );
 };
