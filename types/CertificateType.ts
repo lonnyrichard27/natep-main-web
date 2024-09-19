@@ -42,3 +42,11 @@ export interface CertificateType {
   is_revoked: number;
   user: string;
 }
+
+export interface VerifiedCertTypes {
+  name: string;
+  issue_date: string;
+  status: string;
+  is_valid: number;
+  certificate_id: string;
+}

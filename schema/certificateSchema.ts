@@ -40,4 +40,8 @@ const requestDeliverySchema = yup.object().shape({
   address: yup.string().required('Address is required'),
 });
 
-export { pickDateSchema, requestDeliverySchema };
+const verifyCertSchema = yup.object().shape({
+  certificate_id: yup.string().required('Certificate ID is required'),
+});
+
+export { pickDateSchema, requestDeliverySchema, verifyCertSchema };
