@@ -9,6 +9,8 @@ import axiosInstance from '@/util/axios';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { CustomButton } from '@/components/elements';
+import { remitaPayment } from '@/util/remitaPayment';
+import { DashboardRoutes } from '@/components/Navigation/Routes';
 
 const page = () => {
   const timeSlots = generateTimeSlots(60);
@@ -40,9 +42,13 @@ const page = () => {
         dataToSend
       );
       if (response.status === 200 && 201) {
-        window.location.href = response?.data?.data;
+        const { rrr, txref } = response.data.data;
+        remitaPayment({
+          rrr,
+          transactionId: txref,
+          callbackURL: DashboardRoutes.SCHEDULE,
+        });
       }
-      console.log(response, 'delivery');
     } catch (error) {
       // @ts-ignore
       toast.error(error?.response?.data?.message);

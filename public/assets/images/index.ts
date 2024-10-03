@@ -7,6 +7,8 @@ import SuccessImg from './success.png';
 import PermissionImg from './permission.png';
 import LooperImg from './looper.png';
 import EmptyStateSvg from './empty-state.svg';
+import CertificateSuccess from './certificate-success.svg';
+import SupportedPayments from './supported-payments.png';
 
 export {
   NtepLogo,
@@ -18,4 +20,6 @@ export {
   PermissionImg,
   LooperImg,
   EmptyStateSvg,
+  CertificateSuccess,
+  SupportedPayments,
 };

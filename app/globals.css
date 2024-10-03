@@ -64,7 +64,7 @@ body {
 }
 
 * {
-  font-family: 'Switzer', sans-serif;
+  font-family: 'Switzer', sans-serif !important;
 }
 
 .all__trans {

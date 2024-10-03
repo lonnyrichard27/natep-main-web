@@ -4,15 +4,31 @@ import React, { useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 import { CustomButton } from '@/components/elements';
 import { useQuery } from '@tanstack/react-query';
-import { CertificatesCard } from '@/components/sections/certificates';
+import {
+  CertificatesCard,
+  CertificateSuccessModal,
+} from '@/components/sections/certificates';
 import { EmptyState, PageLoader } from '@/components/Navigation';
 import { getCertificates } from '@/services/certificate-services';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { remitaPayment } from '@/util/remitaPayment';
+import { DashboardRoutes } from '@/components/Navigation/Routes';
+import { validateTransaction } from '@/services/transaction-services';
 
 const Page = () => {
-  const { push } = useRouter();
+  const searchParams = useSearchParams();
+
+  // Retrieve the 'txref' and 'rrr' query parameters
+  const txref = searchParams.get('txref');
+  const rrr = searchParams.get('rrr');
+
+  const { isSuccess } = useQuery({
+    queryKey: ['verify-transaction'],
+    queryFn: () => validateTransaction({ rrr, txref }),
+    enabled: !!txref && !!rrr,
+  });
 
   const { data: allCertificates, isLoading: certificatesLoading } = useQuery({
     queryKey: ['certificates'],
@@ -28,9 +44,14 @@ const Page = () => {
         '/certificate/request-certificate'
       );
       if (response.status === 200 || response.status === 201) {
+        const { rrr, txref } = response.data.data;
+        remitaPayment({
+          rrr,
+          transactionId: txref,
+          callbackURL: DashboardRoutes.VIEW_CERTIFICATES,
+        });
+
         setIsRequesting(false);
-        const paystack_url = response.data.data;
-        push(paystack_url);
       }
     } catch (error) {
       setIsRequesting(false);
@@ -58,7 +79,7 @@ const Page = () => {
         <PageLoader />
       ) : allCertificates?.response && allCertificates?.response?.length > 0 ? (
         <div>
-          <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6'>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6 xl:grid-cols-3'>
             {allCertificates?.response.map((cert: any, index: number) => (
               <CertificatesCard key={index} {...cert} />
             ))}
@@ -70,6 +91,8 @@ const Page = () => {
           desc='You have not requested for any certificate yet.'
         />
       )}
+
+      {rrr && txref && isSuccess && <CertificateSuccessModal />}
     </div>
   );
 };
