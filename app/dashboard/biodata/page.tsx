@@ -11,20 +11,16 @@ import {
   LocationSvg,
   Passport,
   Photograph,
-  ShieldSvg
+  ShieldSvg,
 } from '@/components/svgs';
 import { getUserProfile } from '@/api/user';
 import { useQuery } from '@tanstack/react-query';
 import { PageLoader } from '@/components/Navigation';
 
 const page = () => {
-  const {
-    data: applicant,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: applicant, isLoading } = useQuery({
     queryKey: ['user'],
-    queryFn: getUserProfile
+    queryFn: getUserProfile,
   });
 
   useEffect(() => {
@@ -39,7 +35,9 @@ const page = () => {
     storeTrackingid();
   }, [applicant]);
 
-  const oneApplicant = useMemo(() => { return applicant }, [applicant]);
+  const oneApplicant = useMemo(() => {
+    return applicant;
+  }, [applicant]);
 
   const queryHeaders = oneApplicant?.bio_query?.query_headers ?? [];
 
@@ -48,13 +46,13 @@ const page = () => {
       title: 'Verify NIN',
       subtitle: 'National Identification Number',
       icon: <IDCard />,
-      isCompleted: true
+      isCompleted: true,
     },
     {
       title: 'Biometrics',
       subtitle: 'SComplete your biometrics',
       icon: <BiometricSvg />,
-      isCompleted: true
+      isCompleted: true,
     },
     {
       title: 'Passport',
@@ -66,8 +64,8 @@ const page = () => {
       link: queryHeaders.includes('scanned_passport')
         ? '/dashboard/biodata/update-application/passport'
         : oneApplicant?.has_scanned_passport === 1
-        ? ''
-        : '/dashboard/biodata/new-application/passport'
+          ? ''
+          : '/dashboard/biodata/new-application/passport',
     },
     {
       title: 'Photograph',
@@ -79,8 +77,8 @@ const page = () => {
       link: queryHeaders.includes('photograph')
         ? '/dashboard/biodata/update-application/photograph'
         : oneApplicant?.bio_data?.photography?.has_photography === 1
-        ? ''
-        : '/dashboard/biodata/new-application/photograph'
+          ? ''
+          : '/dashboard/biodata/new-application/photograph',
     },
     {
       title: 'Address',
@@ -92,8 +90,8 @@ const page = () => {
       link: queryHeaders.includes('address')
         ? '/dashboard/biodata/update-application/address'
         : oneApplicant?.bio_data?.address?.has_address === 1
-        ? ''
-        : '/dashboard/biodata/new-application/address'
+          ? ''
+          : '/dashboard/biodata/new-application/address',
     },
     {
       title: 'Education',
@@ -105,8 +103,8 @@ const page = () => {
       link: queryHeaders.includes('education')
         ? '/dashboard/biodata/update-application/education'
         : oneApplicant?.has_education === 1
-        ? ''
-        : '/dashboard/biodata/new-application/education'
+          ? ''
+          : '/dashboard/biodata/new-application/education',
     },
     {
       title: 'Employment',
@@ -118,8 +116,8 @@ const page = () => {
       link: queryHeaders.includes('employment')
         ? '/dashboard/biodata/update-application/employment'
         : oneApplicant?.has_employment === 1
-        ? ''
-        : '/dashboard/biodata/new-application/employment'
+          ? ''
+          : '/dashboard/biodata/new-application/employment',
     },
     {
       title: 'Police Report',
@@ -131,8 +129,8 @@ const page = () => {
       link: queryHeaders.includes('police_report')
         ? '/dashboard/biodata/update-application/police-report'
         : oneApplicant?.has_police_report === 1
-        ? ''
-        : '/dashboard/biodata/new-application/police-report'
+          ? ''
+          : '/dashboard/biodata/new-application/police-report',
     },
     {
       title: 'Medical Report',
@@ -144,23 +142,26 @@ const page = () => {
       link: queryHeaders.includes('medicals')
         ? '/dashboard/biodata/update-application/medical_report'
         : oneApplicant?.has_medicals === 1
-        ? ''
-        : '/dashboard/biodata/new-application/medical_report'
-    }
+          ? ''
+          : '/dashboard/biodata/new-application/medical_report',
+    },
   ];
 
-  const has_item_count = steps?.filter((step) => step.isCompleted == true).length;
+  const has_item_count = steps?.filter(
+    (step) => step.isCompleted == true
+  ).length;
 
   return (
     <>
-      {isLoading ? <PageLoader /> : (
+      {isLoading ? (
+        <PageLoader />
+      ) : (
         <div className='grid justify-center'>
           <section className='col-span-5 h-fit rounded-lg border p-10'>
             <p className='text-lg font-semibold'>
               Applicant Biodata ({has_item_count}/{steps?.length})
             </p>
             <p className='my-5'>
-              {' '}
               You need to complete your application in order to request for your
               NATEP Certificate.
             </p>
