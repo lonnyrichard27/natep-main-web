@@ -1,8 +1,11 @@
 'use client';
 
 import { CustomButton, CustomInput, CustomSelect } from '@/components/elements';
+import { ScheduleSuccessModal } from '@/components/sections/schedule';
+import { validateTransaction } from '@/services/transaction-services';
 import { setLocalStorageItem } from '@/util/localStorage';
-import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
 const page = () => {
@@ -55,6 +58,18 @@ const page = () => {
     { value: 'true', label: 'Yes' },
     { value: 'false', label: 'No' },
   ];
+
+  const searchParams = useSearchParams();
+
+  // Retrieve the 'txref' and 'rrr' query parameters
+  const txref = searchParams.get('txref');
+  const rrr = searchParams.get('rrr');
+
+  const { isSuccess } = useQuery({
+    queryKey: ['verify-transaction'],
+    queryFn: () => validateTransaction({ rrr, txref }),
+    enabled: !!txref && !!rrr,
+  });
 
   return (
     <section className='w-96 rounded-md border bg-white px-6 py-10'>
@@ -131,6 +146,8 @@ const page = () => {
         className='mt-3 w-full'
         onClick={handleContinue}
       />
+
+      {rrr && txref && isSuccess && <ScheduleSuccessModal />}
     </section>
   );
 };

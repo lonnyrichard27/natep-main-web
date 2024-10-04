@@ -9,9 +9,10 @@ export const DashboardRoutes = {
   BIOMETRICS_CAPTURE: '/biometrics/capture',
 
   BIODATA: '/dashboard/biodata',
+  SCHEDULE: '/schedule',
   VIEW_ACTIVITIES: '/dashboard/activities',
   VIEW_CERTIFICATES: '/dashboard/certificates',
   DELIVER_CERTIFICATE: '/dashboard/deliver-certificate',
-  PAYMENT: '/dashboard/payment',
+  PAYMENT: '/dashboard/validate-payment',
   LOGOUT: '/logout',
 };

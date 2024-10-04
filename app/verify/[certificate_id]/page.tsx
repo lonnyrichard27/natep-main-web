@@ -7,7 +7,7 @@ import { getVerifiedCertificate } from '@/services/certificate-services';
 import { getDate, textReplacer } from '@/util/helpers';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import { MdCheck } from 'react-icons/md';
 
