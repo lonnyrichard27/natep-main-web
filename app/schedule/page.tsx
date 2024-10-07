@@ -45,6 +45,7 @@ const Page = () => {
     router.push('/schedule/schedule-form-3');
   };
 
+  
   const activities = [
     { value: 'certificate delivery', label: 'Certificate Delivery' },
     { value: 'certificate renewal', label: 'Certificate Renewal' },
