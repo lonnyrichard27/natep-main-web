@@ -18,10 +18,11 @@ const pickDateSchema = yup.object().shape({
     .nullable() // Allow null values
     .required('Date is required')
     .min(new Date(), 'Date cannot be in the past'),
-  time: yup
-    .string()
-    .matches(/^([0-1]\d|2[0-3]):([0-5]\d)$/, 'Time must be in HH:MM format')
-    .required('Time is required'),
+  time: yup.object().shape(objectShape).required('Time is required'),
+  // time: yup
+  //   .string()
+  //   .matches(/^([0-1]\d|2[0-3]):([0-5]\d)$/, 'Time must be in HH:MM format')
+  //   .required('Time is required'),
 });
 
 const requestDeliverySchema = yup.object().shape({
