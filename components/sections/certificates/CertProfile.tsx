@@ -58,7 +58,7 @@ const CertProfile = ({
       <section>
         {certificate?.has_delivery === 0 ? (
           <div className='grid grid-cols-2 gap-4'>
-            <ScheduleDelivery certificate_id={certificate_id} />
+            {/* <ScheduleDelivery certificate_id={certificate_id} /> */}
             <SelectPickupDate certificate_id={certificate_id} />
           </div>
         ) : (
