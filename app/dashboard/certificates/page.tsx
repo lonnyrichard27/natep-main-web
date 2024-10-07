@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 import { CustomButton } from '@/components/elements';
 import { useQuery } from '@tanstack/react-query';
@@ -17,7 +17,7 @@ import { remitaPayment } from '@/util/remitaPayment';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { validateTransaction } from '@/services/transaction-services';
 
-const Page = () => {
+const PageContent = () => {
   const searchParams = useSearchParams();
 
   // Retrieve the 'txref' and 'rrr' query parameters
@@ -94,6 +94,14 @@ const Page = () => {
 
       {rrr && txref && isSuccess && <CertificateSuccessModal />}
     </div>
+  );
+};
+
+const Page = () => {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <PageContent />
+    </Suspense>
   );
 };
 
