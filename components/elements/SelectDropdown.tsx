@@ -1,4 +1,4 @@
-import { dropdownIcon } from '@/util/DropdownIcon';
+import { dropdownIcons } from '@/util/dropdownIcons';
 import React, { ReactNode } from 'react';
 import Select from 'react-select';
 
@@ -118,7 +118,7 @@ const SelectDropdown = React.forwardRef(function SelectDropdown(
               isMulti
               components={{
                 DropdownIndicator: () => (
-                  <span className='pr-4'>{dropdownIcon(icon || 1)}</span>
+                  <span className='pr-4'>{dropdownIcons(icon || 1)}</span>
                 ),
                 IndicatorSeparator: () => null,
               }}
@@ -143,7 +143,7 @@ const SelectDropdown = React.forwardRef(function SelectDropdown(
               isClearable
               components={{
                 DropdownIndicator: () => (
-                  <span className='pr-4'>{dropdownIcon(icon || 1)}</span>
+                  <span className='pr-4'>{dropdownIcons(icon || 1)}</span>
                 ),
                 IndicatorSeparator: () => null,
               }}

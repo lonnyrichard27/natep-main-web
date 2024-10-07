@@ -1,4 +1,4 @@
-export const dropdownIcon = (img: any) => {
+export const dropdownIcons = (img: any) => {
   if (img == 1) {
     return (
       <svg
