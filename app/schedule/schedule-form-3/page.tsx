@@ -33,7 +33,7 @@ const page = () => {
       email: extractedData.email,
       phone: extractedData.phone,
       applicant_id: extractedData.applicantID,
-      activity_type: extractedData.activity,
+      activity_type: extractedData.activity
     };
 
     try {
