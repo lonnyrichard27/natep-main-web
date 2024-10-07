@@ -8,7 +8,7 @@ import {
   CertificatesCard,
   CertificateSuccessModal,
 } from '@/components/sections/certificates';
-import { EmptyState, PageLoader } from '@/components/Navigation';
+import { EmptyState, LoaderModal, PageLoader } from '@/components/Navigation';
 import { getCertificates } from '@/services/certificate-services';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
@@ -24,8 +24,8 @@ const PageContent = () => {
   const txref = searchParams.get('txref');
   const rrr = searchParams.get('rrr');
 
-  const { isSuccess } = useQuery({
-    queryKey: ['verify-transaction'],
+  const { isLoading: isVerifying, isSuccess } = useQuery({
+    queryKey: ['verify-transaction', txref, rrr],
     queryFn: () => validateTransaction({ rrr, txref }),
     enabled: !!txref && !!rrr,
   });
@@ -92,7 +92,12 @@ const PageContent = () => {
         />
       )}
 
-      {rrr && txref && isSuccess && <CertificateSuccessModal />}
+      {rrr && txref && (
+        <>
+          {isVerifying && <LoaderModal />}
+          {isSuccess && <CertificateSuccessModal />}
+        </>
+      )}
     </div>
   );
 };

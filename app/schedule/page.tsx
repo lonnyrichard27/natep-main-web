@@ -1,6 +1,7 @@
 'use client';
 
 import { CustomButton, CustomInput, CustomSelect } from '@/components/elements';
+import { LoaderModal } from '@/components/Navigation';
 import { ScheduleSuccessModal } from '@/components/sections/schedule';
 import { validateTransaction } from '@/services/transaction-services';
 import { setLocalStorageItem } from '@/util/localStorage';
@@ -65,8 +66,8 @@ const Page = () => {
   const txref = searchParams.get('txref');
   const rrr = searchParams.get('rrr');
 
-  const { isSuccess } = useQuery({
-    queryKey: ['verify-transaction'],
+  const { isLoading: isVerifying, isSuccess } = useQuery({
+    queryKey: ['verify-transaction', txref, rrr],
     queryFn: () => validateTransaction({ rrr, txref }),
     enabled: !!txref && !!rrr,
   });
@@ -145,7 +146,12 @@ const Page = () => {
         onClick={handleContinue}
       />
 
-      {rrr && txref && isSuccess && <ScheduleSuccessModal />}
+      {rrr && txref && (
+        <>
+          {isVerifying && <LoaderModal />}
+          {isSuccess && <ScheduleSuccessModal />}
+        </>
+      )}
     </section>
   );
 };

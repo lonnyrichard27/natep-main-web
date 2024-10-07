@@ -52,11 +52,11 @@ const DashboardNav = () => {
       icon: <BiPolygon />,
       title: 'View Certificates',
     },
-    {
-      href: DashboardRoutes.DELIVER_CERTIFICATE,
-      icon: <MdOutlineMail />,
-      title: 'Deliver Certificate',
-    },
+    // {
+    //   href: DashboardRoutes.DELIVER_CERTIFICATE,
+    //   icon: <MdOutlineMail />,
+    //   title: 'Deliver Certificate',
+    // },
     {
       href: DashboardRoutes.PAYMENT,
       icon: <MdCreditCard />,

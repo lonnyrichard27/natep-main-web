@@ -22,7 +22,7 @@ const VerifyCertificatePage = () => {
   };
 
   const { data: singleCertificate, isLoading: certificateLoading } = useQuery({
-    queryKey: ['verify-certificate'],
+    queryKey: ['verify-certificate', certificate_id],
     queryFn: () => getVerifiedCertificate({ id: certificate_id }),
     enabled: !!certificate_id,
   });
