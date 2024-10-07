@@ -1,6 +1,10 @@
 'use client';
 
-import { CustomButton, CustomInput, SideDrawer } from '@/components/elements';
+import {
+  CustomButton,
+  SelectDropdown,
+  SideDrawer,
+} from '@/components/elements';
 import { pickDateSchema } from '@/schema/certificateSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useState } from 'react';
@@ -9,10 +13,9 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
-import { useRouter } from 'next/navigation';
-import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { combineDateAndTime } from '@/util/helpers';
 import { useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 const SelectPickupDate = ({
   certificate_id,
@@ -28,6 +31,12 @@ const SelectPickupDate = ({
     setisOpen(!isOpen);
   };
 
+  const timeOptions = [
+    { label: '10:00AM', value: '10:00' },
+    { label: '12:00PM', value: '12:00' },
+    { label: '2:00PM', value: '14:00' },
+  ];
+
   const {
     handleSubmit,
     control,
@@ -36,7 +45,7 @@ const SelectPickupDate = ({
 
   const handlePickup = async (data: any) => {
     const pickupLoad = {
-      pickup_time: combineDateAndTime(data.selectedDate, data.time),
+      pickup_time: combineDateAndTime(data.selectedDate, data.time.value),
       certificate_id,
     };
 
@@ -50,6 +59,7 @@ const SelectPickupDate = ({
         queryClient.invalidateQueries({ queryKey: ['single-certificate'] });
         setIsSubmitting(false);
         handleOpen();
+        toast.success('Requested Successfully!');
       }
     } catch (error) {
       setIsSubmitting(false);
@@ -91,15 +101,12 @@ const SelectPickupDate = ({
             control={control}
             name='time'
             render={({ field }) => (
-              <CustomInput
+              <SelectDropdown
                 label='Select Time'
-                type='time'
-                placeholder='09:00'
-                min='08:00'
-                max='18:00'
-                value={field.value}
-                onChange={(date: any) => field.onChange(date)}
+                options={timeOptions}
                 error={errors.time?.message}
+                required
+                {...field}
               />
             )}
           />

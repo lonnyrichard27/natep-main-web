@@ -19,7 +19,7 @@ export const remitaPayment = async ({
   transactionId: string;
   callbackURL: string;
 }) => {
-  console.log(remita_script, remita_key);
+  console.log(remita_script);
   // Load Remita script
   const loadRemitaScript = () => {
     return new Promise((resolve, reject) => {
@@ -65,7 +65,9 @@ export const remitaPayment = async ({
           ],
         },
         onSuccess: (res: any) => {
-          window.open(`${callbackURL}?rrr=${rrr}&txref=${res?.transactionId}`);
+          window.location.href = `${callbackURL}?rrr=${rrr}&txref=${res?.transactionId}`;
+
+          // change the powered by paystack image to remita
         },
         onError: (response: any) => {
           console.log('Payment Error', response);
