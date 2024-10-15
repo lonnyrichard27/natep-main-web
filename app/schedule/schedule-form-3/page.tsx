@@ -14,15 +14,16 @@ import { remitaPayment } from '@/util/remitaPayment';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 
 const page = () => {
-  const { push } = useRouter()
   const timeSlots = generateTimeSlots(60);
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [selectedTime, setSelectedTime] = useState<string>('9:00 AM');
+  const [selectedTime, setSelectedTime] = useState<string>('01:00');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTime(event.target.value);
   };
   const submit = async () => {
+    setLoading(true);
     const data = getLocalStorageItem('schedule-data');
     const extractedData = JSON.parse(data);
     const dateWithT = date?.toISOString().slice(0, 11);
@@ -35,7 +36,7 @@ const page = () => {
       email: extractedData.email,
       phone: extractedData.phone,
       applicant_id: extractedData.applicantID,
-      activity_type: extractedData.activity
+      activity_type: extractedData.activity,
     };
 
     try {
@@ -44,6 +45,8 @@ const page = () => {
         dataToSend
       );
       if (response.status === 200 && 201) {
+        setLoading(false);
+
         const { rrr, txref } = response.data.data;
         remitaPayment({
           rrr,
@@ -52,9 +55,12 @@ const page = () => {
         });
       }
     } catch (error) {
+      setLoading(false);
       // @ts-ignore
       toast.error(error?.response?.data?.message);
       //  console.log(error?.response?.data?.message, 'error')
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,13 +96,13 @@ const page = () => {
             ))}
           </select>
         </div>
-        {/* <Link href="/schedule/schedule-final"> */}
         <CustomButton
+          loading={loading}
+          disabled={loading}
           text='Continue'
           onClick={submit}
           className='mt-3 w-full'
         />
-        {/* </Link> */}
       </section>
     </main>
   );
