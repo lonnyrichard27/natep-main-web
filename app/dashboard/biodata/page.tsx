@@ -23,17 +23,16 @@ import { FiCopy } from 'react-icons/fi';
 import CopyIcon from '@/components/CopyIcon';
 import { useRouter } from 'next/navigation';
 
+
+
 const page = () => {
   const { push } = useRouter();
   const [tracking, setTracking] = useState<string>('');
-  const {
-    data: applicant,
-    isLoading,
-    error,
-  } = useQuery({
+
+  const { data: applicant, isLoading } = useQuery({
     queryKey: ['user'],
-    queryFn: getUserProfile,
-  });
+    queryFn: getUserProfile
+  })
 
   useEffect(() => {
     const getTrackingId = () => {
@@ -246,6 +245,26 @@ const page = () => {
               ))}
             </section>
           )}
+          <section className='col-span-5 h-fit rounded-lg border p-10'>
+            <p className='text-lg font-semibold'>
+              Applicant Biodata ({has_item_count}/{steps?.length})
+            </p>
+            <p className='my-5'>
+              You need to complete your application in order to request for your
+              NATEP Certificate.
+            </p>
+            {steps.map((step, index) => (
+              <StepList
+                key={index}
+                icon={step.icon}
+                title={step.title}
+                subtitle={step.subtitle}
+                isCompleted={step.isCompleted}
+                link={step.link}
+                isQueried={step.isQueried}
+              />
+            ))}
+          </section>
         </div>
       )}
     </>

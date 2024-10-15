@@ -59,22 +59,17 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 body {
   font-family: 'Switzer', sans-serif;
 }
 
 * {
-  font-family: 'Switzer', sans-serif;
+  font-family: 'Switzer', sans-serif !important;
+}
+
+.all__trans {
+  transition: all ease-in-out;
+  transition-duration: 300ms;
 }
 
 /* otp styling */

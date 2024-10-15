@@ -10,6 +10,7 @@ const CertDetails = ({
     surname: certificate?.surname,
     given_names: `${certificate?.firstname && certificate?.firstname} ${certificate?.middlename && certificate?.middlename}`,
     address: certificate?.address,
+    certificate_ID: certificate?.certificate_id,
   };
 
   return (
@@ -25,17 +26,17 @@ const CertDetails = ({
         </article>
       ))}
 
-      <article className='grid grid-cols-2 gap-4'>
+      {/* <article className='grid grid-cols-2 gap-4'>
         <article className='rounded bg-[#F9FAFB] p-4 font-medium'>
           <h3 className='mb-1 text-sm text-[#667085]'>PASSPORT NUMBER</h3>
           <p>{certificate?.passport_number}</p>
-        </article>
+        </article> 
 
         <article className='rounded bg-[#F9FAFB] p-4 font-medium'>
           <h3 className='mb-1 text-sm text-[#667085]'>CERTIFICATE ID</h3>
           <p>{certificate?.certificate_id}</p>
         </article>
-      </article>
+      </article> */}
     </div>
   );
 };

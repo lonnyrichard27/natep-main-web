@@ -10,6 +10,8 @@ import { getLocalStorageItem } from '@/util/localStorage';
 import axiosInstance from '@/util/axios';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { remitaPayment } from '@/util/remitaPayment';
+import { DashboardRoutes } from '@/components/Navigation/Routes';
 
 const page = () => {
   const { push } = useRouter()
@@ -42,10 +44,13 @@ const page = () => {
         dataToSend
       );
       if (response.status === 200 && 201) {
-        // window.location.href = response?.data?.data;
-        push('/schedule/schedule-final')
+        const { rrr, txref } = response.data.data;
+        remitaPayment({
+          rrr,
+          transactionId: txref,
+          callbackURL: DashboardRoutes.SCHEDULE,
+        });
       }
-      console.log(response, 'delivery');
     } catch (error) {
       // @ts-ignore
       toast.error(error?.response?.data?.message);

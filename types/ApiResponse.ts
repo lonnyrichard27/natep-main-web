@@ -15,9 +15,11 @@ export interface PaginationData {
 }
 
 export interface PaginationData2<T> {
-  page_no: number;
-  available_pages: number;
-  fetchedData: [];
-  count: number;
+  total_records: number;
+  total_pages: number;
+  current_page_no: number;
+  next_page_no: null | number;
+  no_of_current_page_records: number;
+  response: any[]; // ensure this is always an array
   fileCode?: string;
 }
