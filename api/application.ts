@@ -231,29 +231,3 @@ export const updateMedicalReport = async(data:any, setLoading: (value:boolean) =
     setLoading(false);
   }
 }
-
-export const completeBiodata = async(setLoading: (value:boolean) => void) => {
-  setLoading(true);
-  const id = localStorage.getItem('id');
-  try {
-    const response = await axiosInstance.post(`/biodata/complete-application/${id}`)
-    toast.success(response.data.message)
-    return response.data.data 
-  } catch (error) {
-    setLoading(false);
-    handleError(error)
-  } finally {
-    setLoading(false);
-  }
-}
-
-export const previewBiodata = async() => {
-  const id = localStorage.getItem('id');
-  try {
-    const response = await axiosInstance.get(`/biodata/preview-biodata/${id}`)
-    toast.success(response.data.message)
-    return response.data.data 
-  } catch (error) {
-    handleError(error)
-  } 
-}

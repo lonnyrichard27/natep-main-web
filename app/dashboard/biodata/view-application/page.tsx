@@ -5,12 +5,11 @@ import { useRouter } from 'next/navigation';
 import { RiAttachment2 } from 'react-icons/ri';
 import { useQuery } from '@tanstack/react-query';
 import HeaderNav from '@/components/HeaderNav';
-import axiosInstance from '@/util/axios';
 import Modal from '@/components/Modal';
 import { CustomButton } from '@/components/elements';
 import BasicDetailsCard from '@/components/elements/BasicDetailsCard';
 import PageLoader from '@/components/PageLoader';
-import { completeBiodata, previewBiodata } from '@/api/application';
+import { getUserProfile } from '@/api/user';
 
 
 const page = () => {
@@ -18,11 +17,10 @@ const page = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [showDoc, setShowDoc] = useState('');
   const [stepText, setStepText] = useState('');
-  const [loading, setLoading] = useState<boolean>(false);
 
   const { data: oneApplicant, isLoading } = useQuery({
     queryKey: ['previewBiodata'],
-    queryFn: previewBiodata
+    queryFn: getUserProfile
   });
 
   const closeModal = () => setModalOpen(false);
@@ -34,43 +32,39 @@ const page = () => {
   // Get the other names (all elements except the last one), fallback to an empty string if nameParts is empty
   const otherNames = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : '';
 
-  const showit = async (text: string) => {
-    const response = await axiosInstance.get(`/biodata/view-document/${oneApplicant?.id}?section=${text}`);
-    setShowDoc(response?.data?.data.document);
+  const showit = (s: any) => {
+    setShowDoc(s.file);
+    setStepText(s.label);
     setModalOpen(true);
-    setStepText(text);
   };
 
   let mimeType = '';
 
-  if (showDoc.startsWith('/9j/')) {
+  if (showDoc?.startsWith('/9j/')) {
     mimeType = 'image/jpeg';
-  } else if (showDoc.startsWith('iVBORw0KGgo')) {
+  } else if (showDoc?.startsWith('iVBORw0KGgo')) {
     mimeType = 'image/png';
-  } else if (showDoc.startsWith('JVBER')) {
+  } else if (showDoc?.startsWith('JVBER')) {
     mimeType = 'application/pdf';
   }
 
   const viewTheDoc = `data:${mimeType};base64,${showDoc}`;
 
   const documents = [
-    { label: 'Passport', file: 'passport' },
-    { label: 'Education Certificate', file: 'education' },
-    { label: 'Employment Letter', file: 'employment' },
-    { label: 'Police Report', file: 'police_report' },
-    { label: 'Medical Report', file: 'medical_report' }
+    { label: 'Passport', file: oneApplicant?.bio_data?.scanned_passport?.details?.base_64 },
+    { label: 'Education Certificate', file: oneApplicant?.bio_data?.education?.details?.base_64 },
+    { label: 'Employment Letter', file: oneApplicant?.bio_data?.employment?.details?.base_64 },
+    { label: 'Police Report', file: oneApplicant?.bio_data?.police_report?.details?.base_64 },
+    { label: 'Medical Report', file: oneApplicant?.bio_data?.medicals?.details?.base_64 }
   ];
 
-  const handleConfirm = async () => {
-    await completeBiodata(setLoading);
-    push('/dashboard/quick-action')
-  };
+  const handleConfirm = () => push('/dashboard/biodata')
 
   return (
-    <div className="md:px-20 my-20 px-6">
+    <div className="md:px-20 my-10 px-6">
       <div className="flex justify-between">
         <HeaderNav onClick={back} title="Biodata Preview" />
-        <CustomButton text="Confirm Submission" loading={loading} disabled={!oneApplicant} onClick={handleConfirm} />
+        <CustomButton text="Confirm Submission" disabled={!oneApplicant} onClick={handleConfirm} />
       </div>
 
       {!isLoading ? 
@@ -94,7 +88,7 @@ const page = () => {
               <button
                 key={index}
                 className="flex w-fit my-5 items-center gap-1 rounded-2xl bg-[#F2F4F7] px-2 py-1 text-sm font-medium text-black"
-                onClick={() => showit(doc.file)}
+                onClick={() => showit(doc)}
               >
                 <RiAttachment2 className="text-xl" />
                 <span>{doc.label}</span>
@@ -131,20 +125,22 @@ const page = () => {
         title={stepText || ''}
         content={
           <>
-            {showDoc.length > 0 ? (
-              mimeType === 'application/pdf' 
-                ? 
-                  <iframe src={viewTheDoc} title="PDF Viewer" className='min-h-[600px] w-full' />
-                : 
+            {showDoc?.length > 0 ? (
+              <>
+                {mimeType === 'application/pdf' ? (
+                  <iframe src={viewTheDoc} title="PDF Viewer" className="min-h-[600px] w-full" />
+                ) : (
                   <img src={viewTheDoc} alt="Document Preview" style={{ maxWidth: '100%', minHeight: '600px' }} />
-              ) : (
+                )}
+              </>
+            ) : (
               <section className="flex justify-center items-center">
                 <p>Applicant hasn't uploaded their {stepText}</p>
               </section>
             )}
           </>
         }
-        />
+      />
     </div>
   );
 };
