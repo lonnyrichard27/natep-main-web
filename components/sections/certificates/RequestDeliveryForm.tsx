@@ -1,5 +1,6 @@
 'use client';
 
+import { getCountries, getState } from '@/api/application';
 import {
   CustomButton,
   CustomInput,
@@ -10,26 +11,59 @@ import { requestDeliverySchema } from '@/schema/certificateSchema';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { IoAlertCircle } from 'react-icons/io5';
+import { RxCaretDown } from 'react-icons/rx';
 
 const RequestDeliveryForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { push } = useRouter();
 
-  const options = [
-    { value: 'red', label: 'Red' },
-    { value: 'blue', label: 'Blue' },
-    { value: 'green', label: 'Green' },
-  ];
+  const [show, setShow] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(requestDeliverySchema),
   });
+
+  const country = watch('country');
+
+  const { data: countries } = useQuery({
+    queryKey: ['countries'],
+    queryFn: getCountries,
+  });
+
+  const countryOptions = useMemo(() => {
+    return (
+      countries?.map((item: any) => ({
+        label: item.name,
+        value: item.iso2,
+      })) || []
+    );
+  }, [countries]);
+
+  const { data: states } = useQuery({
+    queryKey: ['states', country],
+    queryFn: () => getState(country),
+    enabled: !!country,
+  });
+
+  const stateOptions = useMemo(() => {
+    return (
+      states?.map((item: any) => ({
+        value: item.name,
+        label: item.name,
+      })) || []
+    );
+  }, [states]);
 
   const handleRequest = async (data: any) => {
     setIsSubmitting(true);
@@ -39,6 +73,8 @@ const RequestDeliveryForm = () => {
         data
       );
       if (response.status === 200 || response.status === 201) {
+        const paystack_url = response.data.data;
+        push(paystack_url);
         setIsSubmitting(false);
       }
     } catch (error) {
@@ -60,7 +96,7 @@ const RequestDeliveryForm = () => {
         </p>
       </div>
 
-      <div>
+      <div className='flex flex-col gap-4'>
         <Controller
           name='name'
           control={control}
@@ -73,6 +109,34 @@ const RequestDeliveryForm = () => {
             />
           )}
         />
+
+        <div className='flex flex-col gap-4 rounded-lg bg-[#EFF5F9] p-4'>
+          <div className='flex items-center justify-between gap-4'>
+            <div className='flex items-center gap-2'>
+              <IoAlertCircle className='text-xl text-[#2B9957]' />
+              <h3 className='text-sm font-semibold text-[#1B0E44]'>
+                Who is a Relying Party?
+              </h3>
+            </div>
+
+            <button
+              className='flex items-center gap-2 rounded-full bg-white px-3 py-1'
+              onClick={() => setShow(!show)}
+            >
+              <span className='text-xxs font-medium text-[#101828]'>
+                {show ? 'Hide' : 'Show'}
+              </span>
+              <RxCaretDown />
+            </button>
+          </div>
+
+          {show && (
+            <div className='text-xs leading-5'>
+              A Relying Party is any institution or organization that needs to
+              verify your NATEP Certificate.
+            </div>
+          )}
+        </div>
       </div>
 
       <Controller
@@ -97,6 +161,7 @@ const RequestDeliveryForm = () => {
             label='Contact Phone'
             type='text'
             placeholder='080xxxxxx'
+            error={errors.phone?.message}
             {...field}
           />
         )}
@@ -106,7 +171,12 @@ const RequestDeliveryForm = () => {
         name='country'
         control={control}
         render={({ field }) => (
-          <CustomSelect label='Country' options={options} {...field} />
+          <CustomSelect
+            label='Country'
+            options={countryOptions}
+            error={errors.country?.message}
+            {...field}
+          />
         )}
       />
 
@@ -114,14 +184,25 @@ const RequestDeliveryForm = () => {
         name='state'
         control={control}
         render={({ field }) => (
-          <CustomSelect label='State' options={options} {...field} />
+          <CustomSelect
+            label='State'
+            options={stateOptions}
+            error={errors.state?.message}
+            {...field}
+          />
         )}
       />
 
       <Controller
         name='address'
         control={control}
-        render={({ field }) => <CustomTextArea label='Address' {...field} />}
+        render={({ field }) => (
+          <CustomTextArea
+            label='Address'
+            error={errors.address?.message}
+            {...field}
+          />
+        )}
       />
 
       <CustomButton

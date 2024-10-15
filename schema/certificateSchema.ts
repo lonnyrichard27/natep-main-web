@@ -8,8 +8,8 @@ import {
 } from './schemaRegex';
 
 const objectShape = {
-  value: yup.string().required('Please select an option'),
   label: yup.string().required('Please select an option'),
+  value: yup.string().required('Please select an option'),
 };
 
 const pickDateSchema = yup.object().shape({
@@ -18,10 +18,11 @@ const pickDateSchema = yup.object().shape({
     .nullable() // Allow null values
     .required('Date is required')
     .min(new Date(), 'Date cannot be in the past'),
-  time: yup
-    .string()
-    .matches(/^([0-1]\d|2[0-3]):([0-5]\d)$/, 'Time must be in HH:MM format')
-    .required('Time is required'),
+  time: yup.object().shape(objectShape).required('Time is required'),
+  // time: yup
+  //   .string()
+  //   .matches(/^([0-1]\d|2[0-3]):([0-5]\d)$/, 'Time must be in HH:MM format')
+  //   .required('Time is required'),
 });
 
 const requestDeliverySchema = yup.object().shape({
@@ -36,8 +37,12 @@ const requestDeliverySchema = yup.object().shape({
     .required('Phone is required')
     .min(10, 'Enter a valid phone number'),
   country: yup.string().required('Country is required'),
-  address: yup.string().required('Address is required'),
   state: yup.string().required('State is required'),
+  address: yup.string().required('Address is required'),
 });
 
-export { pickDateSchema, requestDeliverySchema };
+const verifyCertSchema = yup.object().shape({
+  certificate_id: yup.string().required('Certificate ID is required'),
+});
+
+export { pickDateSchema, requestDeliverySchema, verifyCertSchema };
