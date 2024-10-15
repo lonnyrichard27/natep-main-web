@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { CustomButton } from '@/components/elements';
 import { Calendar } from '@/components/ui/calendar';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { generateTimeSlots } from '@/util/time';
@@ -8,11 +10,11 @@ import { getLocalStorageItem } from '@/util/localStorage';
 import axiosInstance from '@/util/axios';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { CustomButton } from '@/components/elements';
 import { remitaPayment } from '@/util/remitaPayment';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 
 const page = () => {
+  const { push } = useRouter()
   const timeSlots = generateTimeSlots(60);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<string>('9:00 AM');

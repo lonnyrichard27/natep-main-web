@@ -23,18 +23,16 @@ import { FiCopy } from 'react-icons/fi';
 import CopyIcon from '@/components/CopyIcon';
 import { useRouter } from 'next/navigation';
 
+
+
 const page = () => {
   const { push } = useRouter();
   const [tracking, setTracking] = useState<string>('');
-  const {
-    data: applicant,
-    isLoading,
-    error,
-  } = useQuery({
+
   const { data: applicant, isLoading } = useQuery({
     queryKey: ['user'],
-    queryFn: getUserProfile,
-  });
+    queryFn: getUserProfile
+  })
 
   useEffect(() => {
     const getTrackingId = () => {
@@ -43,11 +41,6 @@ const page = () => {
     };
     getTrackingId();
   }, []);
-
-  const oneApplicant = useMemo(() => {
-    return applicant;
-  }, [applicant]);
-
 
   const oneApplicant = useMemo(() => {
     return applicant;
