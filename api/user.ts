@@ -40,6 +40,7 @@ export const fetchActivities = async() => {
 export const getUserProfile = async() => {
   try {
     const response = await axiosInstance.get('/auth/profile')
+    toast.success(response.data.message)
     return response.data.data
   } catch (error) {
     handleError(error)
