@@ -1,7 +1,7 @@
 'use client';
 
 import StepList from '@/components/StepList';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   BiometricSvg,
   CrossSvg,
@@ -16,24 +16,31 @@ import {
 import { getUserProfile } from '@/api/user';
 import { useQuery } from '@tanstack/react-query';
 import { PageLoader } from '@/components/Navigation';
+import Image from 'next/image';
+import { CustomButton } from '@/components/elements';
+import { BsArrowUpRight } from 'react-icons/bs';
+import { FiCopy } from 'react-icons/fi';
+import CopyIcon from '@/components/CopyIcon';
+import { useRouter } from 'next/navigation';
+
+
 
 const page = () => {
+  const { push } = useRouter();
+  const [tracking, setTracking] = useState<string>('');
+
   const { data: applicant, isLoading } = useQuery({
     queryKey: ['user'],
-    queryFn: getUserProfile,
-  });
+    queryFn: getUserProfile
+  })
 
   useEffect(() => {
-    const storeTrackingid = () => {
-      const tracking = localStorage.setItem(
-        'tracking_id',
-        applicant?.tracking_id
-      );
-      return tracking;
+    const getTrackingId = () => {
+      const trackingId = localStorage?.getItem('tracking_id') ?? '';
+      setTracking(trackingId);
     };
-
-    storeTrackingid();
-  }, [applicant]);
+    getTrackingId();
+  }, []);
 
   const oneApplicant = useMemo(() => {
     return applicant;
@@ -157,6 +164,87 @@ const page = () => {
         <PageLoader />
       ) : (
         <div className='grid justify-center'>
+          {steps?.length > 2 ? (
+            <div className='mt-32 grid justify-center'>
+              <section className='rounded-2xl border p-6'>
+                <div className='flex justify-center'>
+                  <Image
+                    src='/images/Docreview.png'
+                    alt='review'
+                    width={400}
+                    height={400}
+                    className='object-cover'
+                  />
+                </div>
+                <p className='mt-3 text-xl font-semibold'>Document Review</p>
+                <p className='my-7 text-lg'>
+                  Your documents will be reviewed and you should get a<br />{' '}
+                  feedback within 48 hours.
+                </p>
+
+                <section className='mt-5 flex justify-between rounded-lg border p-5'>
+                  <p>Tracking ID</p>
+                  <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''} />
+                </section>
+                {oneApplicant?.bio_query?.query_headers?.length > 0 ? (
+                  <section className='mt-10 rounded-lg border border-[#FEE4E2] bg-[#FEF3F2] p-6'>
+                    <p className='text-lg font-semibold'>ADMIN QUERY</p>
+                    <p>
+                      {oneApplicant?.bio_query?.comment + ' '}
+                      {oneApplicant?.bio_query?.query_headers.join(', ')}
+                    </p>
+                  </section>
+                ) : (
+                  ''
+                )}
+                {oneApplicant?.status === 'approved' ? (
+                  <section
+                    className={`mt-14 rounded-lg border border-[##C1EBD2] bg-[#EBF9F0] p-6`}
+                  >
+                    <p className={`text-lg font-semibold`}>
+                      APPLICATION APPROVED
+                    </p>
+                  </section>
+                ) : (
+                  ''
+                )}
+                {oneApplicant?.status === 'approved' ? (
+                  ' '
+                ) : (
+                  <CustomButton
+                    text='Track Application'
+                    onClick={() => push('/schedule')}
+                    color='text-white'
+                    iconPosition='right'
+                    icon={<BsArrowUpRight />}
+                    className='mt-5 flex w-full justify-center py-3 text-center text-lg'
+                  />
+                )}
+              </section>
+            </div>
+          ) : (
+            // Normal display for non-pending statuses
+            <section className='col-span-5 h-fit rounded-lg border p-10'>
+              <p className='text-lg font-semibold'>
+                Applicant Biodata ({has_item_count}/{steps?.length})
+              </p>
+              <p className='my-5'>
+                You need to complete your application in order to request for
+                your NATEP Certificate.
+              </p>
+              {steps.map((step, index) => (
+                <StepList
+                  key={index}
+                  icon={step.icon}
+                  title={step.title}
+                  subtitle={step.subtitle}
+                  isCompleted={step.isCompleted}
+                  link={step.link}
+                  isQueried={step.isQueried}
+                />
+              ))}
+            </section>
+          )}
           <section className='col-span-5 h-fit rounded-lg border p-10'>
             <p className='text-lg font-semibold'>
               Applicant Biodata ({has_item_count}/{steps?.length})

@@ -15,7 +15,6 @@ const page = () => {
   const [base64File, setBase64File] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingExit, setLoadingExit] = useState<boolean>(false);
-
   const [tracking, setTracking] = useState<string>('');
 
   useEffect(() => {
