@@ -60,7 +60,8 @@ const page = () => {
 
     const data = { base_64: base64Data };
     const res = await submitMedicalReport(data, setLoading);
-    if (res) router.push('/dashboard/biodata');
+    // if (res) router.push('/dashboard/biodata');
+    if (res) router.push(`/dashboard/biodata/view-application`)
   };
 
   const handleSaveAndExit = async () => {
@@ -72,6 +73,8 @@ const page = () => {
     const data = { base_64: base64Data };
     const res = await submitMedicalReport(data, setLoadingExit);
     if (res) router.push('/dashboard/biodata');
+    // if (res) router.push(`/dashboard/biodata/view-application`)
+
   };
 
   return (

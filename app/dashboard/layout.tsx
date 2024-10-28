@@ -2,7 +2,6 @@
 
 import { DashboardNav, Navbar } from '@/components/Navigation';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
-import { FormProvider } from '@/context/ApplicationFormContext';
 import { getAuthCookies } from '@/util/helpers';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -33,7 +32,7 @@ export default function ScheduleLayout({
         </div>
 
         <div className='flex-1 overflow-x-hidden px-6 py-10 md:px-12'>
-          <FormProvider>{children}</FormProvider>
+          {children}
         </div>
       </div>
     </div>
