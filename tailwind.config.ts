@@ -26,6 +26,7 @@ const config = withMT({
         bluecard: "url('../public/assets/images/bluecardbg.png')",
       },
       colors: {
+        'background-gray': '#F2F4F7',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
