@@ -7,17 +7,23 @@ import { useQuery } from '@tanstack/react-query';
 import {
   CertificatesCard,
   CertificateSuccessModal,
+  RRRModal,
 } from '@/components/sections/certificates';
 import { EmptyState, LoaderModal, PageLoader } from '@/components/Navigation';
 import { getCertificates } from '@/services/certificate-services';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { useSearchParams } from 'next/navigation';
-import { remitaPayment } from '@/util/remitaPayment';
-import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { validateTransaction } from '@/services/transaction-services';
 
 const PageContent = () => {
+  const [open, setOpen] = useState(false);
+  const [txnDetails, setTxnDetails] = useState({ rrr: '', txref: '' });
+
+  const handleRemitaModal = () => {
+    setOpen(!open);
+  };
+
   const searchParams = useSearchParams();
 
   // Retrieve the 'txref' and 'rrr' query parameters
@@ -45,13 +51,9 @@ const PageContent = () => {
       );
       if (response.status === 200 || response.status === 201) {
         const { rrr, txref } = response.data.data;
-        remitaPayment({
-          rrr,
-          transactionId: txref,
-          callbackURL: DashboardRoutes.VIEW_CERTIFICATES,
-        });
-
+        setTxnDetails({ rrr, txref });
         setIsRequesting(false);
+        handleRemitaModal();
       }
     } catch (error) {
       setIsRequesting(false);
@@ -74,6 +76,13 @@ const PageContent = () => {
           disabled={isRequesting}
         />
       </div>
+
+      <RRRModal
+        open={open}
+        setOpen={setOpen}
+        closeClick={handleRemitaModal}
+        txnDetails={txnDetails}
+      />
 
       {certificatesLoading ? (
         <PageLoader />
