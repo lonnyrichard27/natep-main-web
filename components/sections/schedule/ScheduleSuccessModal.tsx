@@ -1,7 +1,5 @@
 import { Modal } from '@/components/elements';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
-import { CertificateSuccess } from '@/public/assets/images';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
