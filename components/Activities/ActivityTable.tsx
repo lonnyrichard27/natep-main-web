@@ -1,28 +1,25 @@
 'use client';
 
-import { FaSort } from 'react-icons/fa';
-import { CiSearch } from 'react-icons/ci';
-import { IoFilterOutline } from 'react-icons/io5';
-
-// import { getHistory } from '@/api/admin';
-import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { formatDateAndTime, moneyFormat } from '@/util/helpers';
-// import ViewTransaction from './ViewTransaction';
+import { FaSort } from 'react-icons/fa';
+import { IoFilterOutline } from 'react-icons/io5';
+import { useQuery } from '@tanstack/react-query';
+import { formatDateAndTime } from '@/util/helpers';
 import { SearchInput } from '@/components/elements';
+import { EmptyState, PageLoader } from '@/components/Navigation';
+import ExportSheet from '../elements/ExportSheet';
 import Pagination from '../Pagination';
 import { fetchActivities } from '@/api/user';
 
-export interface HistoryTypes {
+export interface ActivityTypes {
   id: string;
-  reference: string;
-  cost: number;
-  section: string;
-  name: string;
-  ipaddr: string;
+  activity: string;
+  requester: string;
+  role_id: number;
   user: string;
+  reference: string | null;
   created_at: string;
-  updated_at: string;
+  updated_at: string | null;
 }
 
 const ActivityTable = () => {
@@ -34,31 +31,35 @@ const ActivityTable = () => {
     setCurrentPage(1);
   }, [searchQuery]);
 
-  // const {
-  //   data: allHistory,
-  //   isLoading: historyLoading,
-  //   error,
-  // } = useQuery({
-  //   queryKey: ['history', currentPage, searchQuery],
-  //   queryFn: () => getHistory({ page_num: currentPage, search: searchQuery }),
-  // });
-
   const {
-    data: allHistory,
-    isLoading: historyLoading,
-    error,
+    data: allActivities,
+    isLoading: activitiesLoading,
+    error
   } = useQuery({
     queryKey: ['activities', currentPage, searchQuery],
-    queryFn: fetchActivities,
+    queryFn: () =>
+      fetchActivities({ page_num: currentPage, search: searchQuery })
   });
 
+  
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const history = allHistory?.response || null;
+  const activities = allActivities?.response || null;
 
-  if (error) return <p>Could not load the table</p>;
+  const { data: fileCode } = useQuery({
+    queryKey: ['download-sheet', currentPage, searchQuery],
+    queryFn: () =>
+      fetchActivities({
+        page_num: currentPage,
+        search: searchQuery,
+        download: true
+      })
+  });
+
+  if (error)
+    return <EmptyState title='Error!' desc='Could not load the table' />;
 
   return (
     <div className='overflow-x-auto'>
@@ -77,17 +78,11 @@ const ActivityTable = () => {
           />
         </section>
 
-        <section>
-          <button className='rounded-full bg-[#EBF9F0] px-4 py-2 text-sm font-medium text-[#2B9957]'>
-            Export
-          </button>
-        </section>
+        <div>{fileCode && <ExportSheet fileCode={fileCode} />}</div>
       </div>
 
-      {historyLoading ? (
-        <div className='flex items-center justify-center text-center'>
-          <p className='text-xl'>Loading transaction history table...</p>
-        </div>
+      {activitiesLoading ? (
+        <PageLoader />
       ) : (
         <>
           <table className='w-full overflow-x-auto text-left text-sm'>
@@ -95,68 +90,55 @@ const ActivityTable = () => {
               <tr>
                 <th
                   scope='col'
-                  className='whitespace-nowrap px-6 py-4 text-[14px] font-light text-gray-900'
+                  className='whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900'
                 >
                   <span className='flex font-medium'>
-                    DATE
-                    <FaSort className='text-[#D0D5DD]' />
+                    TIMESTAMP
+                    {/* <FaSort className='text-[#D0D5DD]' /> */}
                   </span>
                 </th>
                 <th
                   scope='col'
-                  className='whitespace-nowrap px-6 py-4 text-[14px] font-light text-gray-900'
+                  className='whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900'
                 >
                   <span className='flex font-medium'>
-                    REFERENCE
-                    <FaSort className='text-[#D0D5DD]' />
+                    ACTIVITY
+                    {/* <FaSort className='text-[#D0D5DD]' /> */}
                   </span>
                 </th>
                 <th
                   scope='col'
-                  className='whitespace-nowrap px-6 py-4 text-[14px] font-light text-gray-900'
+                  className='whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900'
                 >
-                  <span className='flex font-medium'>COST (NGN)</span>
+                  <span className='flex font-medium'>REQUESTER</span>
                 </th>
-                <th
+                {/* <th
                   scope='col'
-                  className='whitespace-nowrap px-6 py-4 text-[14px] font-light text-gray-900'
-                >
-                  <span className='flex font-medium'>APPLICANT NAME</span>
-                </th>
-                <th
-                  scope='col'
-                  className='whitespace-nowrap px-6 py-4 text-[14px] font-light text-gray-900'
-                >
-                  <span className='flex font-medium'>STATUS</span>
-                </th>
-                <th
-                  scope='col'
-                  className='whitespace-nowrap px-6 py-4 text-[14px] font-light text-gray-900'
+                  className='whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900'
                 >
                   <span className='flex font-medium'>ACTION</span>
-                </th>
+                </th> */}
               </tr>
             </thead>
 
             <tbody>
-              {history?.map((hist: HistoryTypes) => (
-                <tr key={hist.id} className='border-b bg-white text-sm'>
-                  <th
-                    scope='row'
-                    className='whitespace-nowrap px-6 py-4 font-light text-gray-900'
-                  >
+              {activities?.map((act: ActivityTypes) => (
+                <tr key={act.id} className='border-b bg-white'>
+                  <td className='whitespace-nowrap text-sm font-light text-gray-900'>
                     <div className='flex gap-2'>
-                      <span>{formatDateAndTime(hist.created_at).Date}</span>
-                      <span>{formatDateAndTime(hist.created_at).Time}</span>
+                      <span>{formatDateAndTime(act.created_at).Date}</span>
+                      <span>{formatDateAndTime(act.created_at).Time}</span>
                     </div>
-                  </th>
-                  <td className='px-6 py-4'>{hist.reference}</td>
-                  <td className='px-6 py-4'>{moneyFormat(hist.cost)}</td>
-                  <td className='px-6 py-4'>{hist.name}</td>
-                  <td className='px-6 py-4'>Success</td>
-                  <td className='px-6 py-4'>
-                    {/* <ViewTransaction trnx={hist} /> */}
                   </td>
+                  <td className='px-6 py-4 text-sm font-light'>
+                    {act.activity}
+                  </td>
+                  <td className='px-6 py-4 text-sm font-light'>
+                    {act.requester}
+                  </td>
+                  {/* <td className='px-6 py-4 text-sm font-light'>
+                    <CertificateTableActions cert={cert} />
+                  </td> */}
                 </tr>
               ))}
             </tbody>
@@ -165,10 +147,10 @@ const ActivityTable = () => {
           {/* pagination */}
           <div className='mt-5'>
             <Pagination
-              totalRecords={allHistory.total_records}
-              totalPages={allHistory?.total_pages}
+              totalRecords={allActivities.total_records}
+              totalPages={allActivities?.total_pages}
               currentPage={currentPage}
-              noOfCurrentPageRecords={allHistory?.response?.length}
+              noOfCurrentPageRecords={allActivities?.response?.length}
               onPageChange={handlePageChange}
             />
           </div>
