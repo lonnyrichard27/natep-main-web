@@ -1,10 +1,17 @@
 'use client';
 
 import { CustomButton, CustomInput, Modal } from '@/components/elements';
-import { SupportedPayments } from '@/public/assets/images';
+import {
+  MasterCardLogo,
+  RemitaLogo,
+  ApplePayLogo,
+  VerveLogo,
+  VisaLogo,
+} from '@/public/assets/images';
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { getDate, moneyFormat, textReplacer } from '@/util/helpers';
+import { remitaPayment } from '@/util/remitaPayment';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
@@ -63,6 +70,13 @@ const page = () => {
     transaction_ID: 123456789,
   };
 
+  const supported_payments = [
+    { src: VisaLogo, alt: 'visa logo' },
+    { src: MasterCardLogo, alt: 'mastercard logo', width: 40, height: 30 },
+    { src: VerveLogo, alt: 'verve logo' },
+    { src: ApplePayLogo, alt: 'applepay logo', width: 50, height: 30 },
+  ];
+
   return (
     <div className='mx-auto flex flex-col items-center justify-center gap-8 md:w-[480px]'>
       <div className='flex w-full flex-col gap-8 rounded-lg border p-8'>
@@ -91,7 +105,23 @@ const page = () => {
         </div>
       </div>
 
-      <Image src={SupportedPayments} alt='supported payments' />
+      <div className='relative flex w-full items-center justify-center gap-10 rounded-lg border px-8 py-6'>
+        <div className='absolute -top-[22px] flex items-center bg-white p-2'>
+          <span className='mr-1'>🔒</span>
+          <span className='text-xs font-medium'>Secured by</span>
+          <Image src={RemitaLogo} width={55} height={40} alt='remita logo' />
+        </div>
+
+        {supported_payments?.map((payment, index) => (
+          <Image
+            key={index}
+            src={payment?.src}
+            width={payment.width || 70}
+            height={payment.height || 40}
+            alt={payment.alt}
+          />
+        ))}
+      </div>
 
       <Modal
         open={open}

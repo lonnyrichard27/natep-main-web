@@ -8,7 +8,13 @@ import PermissionImg from './permission.png';
 import LooperImg from './looper.png';
 import EmptyStateSvg from './empty-state.svg';
 import CertificateSuccess from './certificate-success.svg';
-import SupportedPayments from './supported-payments.png';
+import DeleteAccount1 from './delete_account_1.png';
+import DeleteAccount2 from './delete_account_2.png';
+import MasterCardLogo from './mastercard_logo.png';
+import RemitaLogo from './remita_logo.png';
+import ApplePayLogo from './apple_pay_logo.svg';
+import VerveLogo from './verve_logo.svg';
+import VisaLogo from './visa_logo.jpg';
 
 export {
   NtepLogo,
@@ -21,5 +27,11 @@ export {
   LooperImg,
   EmptyStateSvg,
   CertificateSuccess,
-  SupportedPayments,
+  DeleteAccount1,
+  DeleteAccount2,
+  MasterCardLogo,
+  RemitaLogo,
+  ApplePayLogo,
+  VerveLogo,
+  VisaLogo,
 };
