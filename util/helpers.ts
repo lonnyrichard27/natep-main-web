@@ -115,3 +115,12 @@ export const downloadSheet = (fileCode: string | undefined) => {
     `${process.env.NEXT_PUBLIC_BASE_URL}/download/xcel/${fileCode}`
   );
 };
+
+
+export const copyText = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (err) {
+    console.error('Error copying text: ', err);
+  }
+};
