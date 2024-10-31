@@ -1,12 +1,5 @@
 import ActivityTable from '@/components/Activities/ActivityTable'
-import React from 'react'
 
-const page = () => {
-  return (
-    <div>
-      {/* <ActivityTable /> */}
-    </div>
-  )
-}
+const page = () => { return <ActivityTable /> }
 
 export default page

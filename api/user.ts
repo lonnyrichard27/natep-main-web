@@ -12,30 +12,40 @@ export const verify = async (ref: string) => {
   }
 };
 
+export const fetchActivities = async ({
+  page_num,
+  search,
+  email,
+  download
+}: {
+  page_num: number;
+  search?: string;
+  email?: string | null;
+  download?: boolean;
+}) => {
+  try {
+    const response = await axiosInstance.get(
+      `/activity/fetch-activities?page_no=${page_num}${
+        search ? `&search=${search}` : ''
+      }${email ? `&email=${email}` : ''}${download ? `&download=on` : ''}`
+    );
+    console.log(response.data.data,' activities')
 
-// export const fetchActivities = async(data:any, setLoading: (value:boolean) => void) => {
-//   setLoading(true);
+    return response.data.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+// export const fetchActivities = async() => {
 //   try {
-//     const response = await axiosInstance.post('/activity/fetch-activities', data)
+//     const response = await axiosInstance.get('/activity/fetch-activities')
 //     console.log(response.data.data,' activities')
 //     return response.data.data
 //   } catch (error) {
-//     setLoading(false);
 //     handleError(error)
-//   } finally {
-//     setLoading(false)
 //   }
 // }
-
-export const fetchActivities = async() => {
-  try {
-    const response = await axiosInstance.get('/activity/fetch-activities')
-    console.log(response.data.data,' activities')
-    return response.data.data
-  } catch (error) {
-    handleError(error)
-  }
-}
 
 export const getUserProfile = async() => {
   try {

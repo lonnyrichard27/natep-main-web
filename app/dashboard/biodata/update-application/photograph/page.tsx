@@ -55,7 +55,7 @@ const page = () => {
   const handleSubmitPhotograph = async () => {
     const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
 
-    const data = { offer_letter: base64Data, section: 'photograph' };
+    const data = { photograph: base64Data, section: 'photograph' };
     const res = await updatePhotograph(data, setLoading);
     if (res) {
       queryClient.invalidateQueries({ queryKey: ['user']})
@@ -66,7 +66,7 @@ const page = () => {
   const handleSaveAndExit = async () => {
     const base64Data = base64File.replace(/^data:(image\/png|image\/jpeg|application\/pdf);base64,/, '');
 
-    const data = { offer_letter: base64Data, section: 'photograph' };
+    const data = { photograph: base64Data, section: 'photograph' };
     const res = await updatePhotograph(data, setLoadingExit);
     if (res) {
       queryClient.invalidateQueries({ queryKey: ['user']})
