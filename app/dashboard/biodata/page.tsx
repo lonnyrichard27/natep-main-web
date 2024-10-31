@@ -285,37 +285,50 @@ const page = () => {
     },
   ];
 
-
   const base64 = oneApplicant?.photograph
     ? `data:image/png;base64,${oneApplicant?.photograph}`
     : '/images/profile-avatar.png';
 
-    
-    const showit = (s: any) => {
-      setShowDoc(s.file);
-      setStepText(s.label);
-      setModalOpen(true);
-    };
-  
-    let mimeType = '';
-  
-    if (showDoc?.startsWith('/9j/')) {
-      mimeType = 'image/jpeg';
-    } else if (showDoc?.startsWith('iVBORw0KGgo')) {
-      mimeType = 'image/png';
-    } else if (showDoc?.startsWith('JVBER')) {
-      mimeType = 'application/pdf';
-    }
-  
-    const viewTheDoc = `data:${mimeType};base64,${showDoc}`;
-  
-    const documents = [
-      { label: 'Passport', file: oneApplicant?.bio_data?.scanned_passport?.details?.base_64 },
-      { label: 'Education Certificate', file: oneApplicant?.bio_data?.education?.details?.base_64 },
-      { label: 'Employment Letter', file: oneApplicant?.bio_data?.employment?.details?.base_64 },
-      { label: 'Police Report', file: oneApplicant?.bio_data?.police_report?.details?.base_64 },
-      { label: 'Medical Report', file: oneApplicant?.bio_data?.medicals?.details?.base_64 }
-    ];
+  const showit = (s: any) => {
+    setShowDoc(s.file);
+    setStepText(s.label);
+    setModalOpen(true);
+  };
+
+  let mimeType = '';
+
+  if (showDoc?.startsWith('/9j/')) {
+    mimeType = 'image/jpeg';
+  } else if (showDoc?.startsWith('iVBORw0KGgo')) {
+    mimeType = 'image/png';
+  } else if (showDoc?.startsWith('JVBER')) {
+    mimeType = 'application/pdf';
+  }
+
+  const viewTheDoc = `data:${mimeType};base64,${showDoc}`;
+
+  const documents = [
+    {
+      label: 'Passport',
+      file: oneApplicant?.bio_data?.scanned_passport?.details?.base_64,
+    },
+    {
+      label: 'Education Certificate',
+      file: oneApplicant?.bio_data?.education?.details?.base_64,
+    },
+    {
+      label: 'Employment Letter',
+      file: oneApplicant?.bio_data?.employment?.details?.base_64,
+    },
+    {
+      label: 'Police Report',
+      file: oneApplicant?.bio_data?.police_report?.details?.base_64,
+    },
+    {
+      label: 'Medical Report',
+      file: oneApplicant?.bio_data?.medicals?.details?.base_64,
+    },
+  ];
 
   const basic_details = useMemo(() => {
     const data: any = {
@@ -348,7 +361,9 @@ const page = () => {
                   onClick={() => back()}
                   title='Basic Details'
                 /> */}
-        <p className='text-lg font-semibold text-[#101828]'>Basic Details</p>
+                <p className='text-lg font-semibold text-[#101828]'>
+                  Basic Details
+                </p>
 
                 <div className='mt-12 gap-10 md:flex'>
                   <section className='flex flex-1 flex-col gap-8'>
@@ -372,7 +387,11 @@ const page = () => {
                           )}
 
                           {key === 'phone_number' && (
-                            <p onClick={showPhoneNumber} className='flex w-full cursor-pointer items-center gap-2 text-[#2B9957]'>Update Phone
+                            <p
+                              onClick={showPhoneNumber}
+                              className='flex w-full cursor-pointer items-center gap-2 text-[#2B9957]'
+                            >
+                              Update Phone
                               <span>
                                 <AiTwotoneEdit className='text-[#2B9957]' />
                               </span>
@@ -400,11 +419,11 @@ const page = () => {
                       </div>
                     </div>
                     <CustomButton
-                  text='Request Biodata update'
-                  onClick={() => push('/schedule')}
-                  color='text-white'
-                  className='mt-5 py-3 w-1/4'
-                />
+                      text='Request Biodata update'
+                      onClick={() => push('/schedule')}
+                      color='text-white'
+                      className='mt-5 w-1/4 py-3'
+                    />
                   </section>
                   <Image
                     src={base64}
@@ -414,7 +433,7 @@ const page = () => {
                     alt='applicant'
                   />
                 </div>
-                
+
                 {/* drawers */}
                 <SideDrawer
                   isOpen={openPhoneNumber}
@@ -459,10 +478,15 @@ const page = () => {
                     loading={loading}
                   />
                 </SideDrawer>
-                <SideDrawer isOpen={isEmailOtp} toggleDrawer={handleOpenEmailOtp}>
+                <SideDrawer
+                  isOpen={isEmailOtp}
+                  toggleDrawer={handleOpenEmailOtp}
+                >
                   <>
                     <h2 className='text-[18px] text-black'>Verify OTP</h2>
-                    <p className='mb-6 mt-4 text-black'>Enter the One Time Password sent to you</p>
+                    <p className='mb-6 mt-4 text-black'>
+                      Enter the One Time Password sent to you
+                    </p>
                     <InputOTP
                       value={emailOtp}
                       onChange={(value) => setEmailOtp(value)}
@@ -490,10 +514,15 @@ const page = () => {
                     />
                   </>
                 </SideDrawer>
-                <SideDrawer isOpen={isPhoneOtp} toggleDrawer={handleOpenPhoneOtp}>
+                <SideDrawer
+                  isOpen={isPhoneOtp}
+                  toggleDrawer={handleOpenPhoneOtp}
+                >
                   <>
                     <h2 className='text-[18px] text-black'>Verify OTP</h2>
-                    <p className='mb-6 mt-4 text-black'>Enter the One Time Password sent to you.</p>
+                    <p className='mb-6 mt-4 text-black'>
+                      Enter the One Time Password sent to you.
+                    </p>
                     <InputOTP
                       value={phoneOtp}
                       onChange={(value) => setPhoneOtp(value)}
