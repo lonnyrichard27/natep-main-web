@@ -38,6 +38,7 @@ const page = () => {
     setModalOpen(true);
   };
 
+  
   let mimeType = '';
 
   if (showDoc?.startsWith('/9j/')) {
