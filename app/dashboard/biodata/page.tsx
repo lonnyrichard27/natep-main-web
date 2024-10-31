@@ -163,7 +163,10 @@ const page = () => {
     queryFn: getUserProfile,
   });
 
-  localStorage?.setItem('tracking_id', applicant?.tracking_id);
+  
+  useEffect(() => {
+    localStorage?.setItem('tracking_id', applicant?.tracking_id);
+  }, []);
 
   useEffect(() => {
     const getTrackingId = () => {
@@ -318,7 +321,7 @@ const page = () => {
     },
     {
       label: 'Employment Letter',
-      file: oneApplicant?.bio_data?.employment?.details?.base_64,
+      file: oneApplicant?.bio_data?.employment?.offer_letter?.base_64,
     },
     {
       label: 'Police Report',
@@ -357,14 +360,9 @@ const page = () => {
           {oneApplicant?.status === 'approved' ? (
             <>
               <section className='p-3 md:p-10'>
-                {/* <HeaderNav
-                  onClick={() => back()}
-                  title='Basic Details'
-                /> */}
                 <p className='text-lg font-semibold text-[#101828]'>
                   Basic Details
                 </p>
-
                 <div className='mt-12 gap-10 md:flex'>
                   <section className='flex flex-1 flex-col gap-8'>
                     {Object.keys(basic_details).map((key, index) => (
