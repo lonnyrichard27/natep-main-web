@@ -57,35 +57,26 @@ const page = () => {
   const [phoneOtp, setPhoneOtp] = useState<string>('');
 
   // edit phone number and email
-  const showPhoneNumber = () => {
-    setOpenPhoneNumber(!openPhoneNumber);
-  };
+  const showPhoneNumber = () => setOpenPhoneNumber(!openPhoneNumber);
+  const onEmailOpen = () => setOpen(!open);
+  const handleOpenPhoneOtp = () => setisEmailOtp(!isEmailOtp);
+  const handleOpenEmailOtp = () => setisEmailOtp(!isEmailOtp);
+  const closeModal = () => setModalOpen(false);
 
-  const onEmailOpen = () => {
-    setOpen(!open);
-  };
-
+  
   const handleUpdatePhoneNumber = async () => {
-    const data = {
-      phone: phoneNumber,
-    };
+    const data = { phone: phoneNumber };
     try {
-      const res = await axiosInstance.post(
-        `/biodata/update-contact/${oneApplicant?.id}`,
-        data
-      );
+      const res = await axiosInstance.post(`/biodata/update-contact`, data );
       toast.success(res.data.message);
       const respObj = res.data.data;
       const myObjectString = JSON.stringify(respObj);
+      if (res) verifyPhoneOtp();
+
       localStorage.setItem('phoneOtp', myObjectString);
-      console.log(res.data.message);
     } catch (error) {
       handleError(error);
     }
-  };
-
-  const handleOpenPhoneOtp = () => {
-    setisEmailOtp(!isEmailOtp);
   };
 
   const verifyPhoneOtp = async () => {
@@ -95,13 +86,10 @@ const page = () => {
     const data = {
       hash: myObject.hash,
       phone: myObject.phone,
-      code: phoneOtp,
+      code: phoneOtp
     };
     try {
-      const res = await axiosInstance.patch(
-        `/biodata/verify-biodata-hash/${oneApplicant?.id}`,
-        data
-      );
+      const res = await axiosInstance.patch(`/biodata/verify-biodata-hash`, data);
       toast.success(res.data.message);
 
       if (res) window.location.reload();
@@ -111,14 +99,9 @@ const page = () => {
   };
 
   const handleUpdateEmail = async () => {
-    const data = {
-      email: newEmail,
-    };
+    const data = { email: newEmail };
     try {
-      const res = await axiosInstance.post(
-        `/biodata/update-contact/${oneApplicant?.id}`,
-        data
-      );
+      const res = await axiosInstance.post(`/biodata/update-contact`, data );
       toast.success(res.data.message);
       if (res) handleOpenEmailOtp();
       const respObj = res.data.data;
@@ -132,7 +115,6 @@ const page = () => {
   const disablBtn = emailOtp.length < 6;
   const disablPhoneBtn = phoneOtp.length < 6;
 
-  const handleOpenEmailOtp = () => setisEmailOtp(!isEmailOtp);
 
   const verifyEmailOtp = async () => {
     const returnedObj = localStorage.getItem('emailOtp');
@@ -141,13 +123,10 @@ const page = () => {
     const data = {
       hash: myObject.hash,
       email: myObject.email,
-      code: emailOtp,
+      code: emailOtp
     };
     try {
-      const res = await axiosInstance.patch(
-        `/biodata/verify-biodata-hash/${oneApplicant?.id}`,
-        data
-      );
+      const res = await axiosInstance.patch(`/biodata/verify-biodata-hash`, data);
       toast.success(res.data.message);
 
       if (res) window.location.reload();
@@ -156,14 +135,13 @@ const page = () => {
     }
   };
 
-  const closeModal = () => setModalOpen(false);
 
   const { data: applicant, isLoading } = useQuery({
     queryKey: ['user'],
-    queryFn: getUserProfile,
+    queryFn: getUserProfile
   });
 
-  
+
   useEffect(() => {
     localStorage?.setItem('tracking_id', applicant?.tracking_id);
   }, []);
@@ -313,24 +291,24 @@ const page = () => {
   const documents = [
     {
       label: 'Passport',
-      file: oneApplicant?.bio_data?.scanned_passport?.details?.base_64,
+      file: oneApplicant?.bio_data?.scanned_passport?.details?.base_64
     },
     {
       label: 'Education Certificate',
-      file: oneApplicant?.bio_data?.education?.details?.base_64,
+      file: oneApplicant?.bio_data?.education?.details?.base_64
     },
-  {
+    {
       label: 'Employment Letter',
-      file: oneApplicant?.bio_data?.employment?.details?.offer_letter,
+      file: oneApplicant?.bio_data?.employment?.details?.offer_letter
     },
     {
       label: 'Police Report',
-      file: oneApplicant?.bio_data?.police_report?.details?.base_64,
+      file: oneApplicant?.bio_data?.police_report?.details?.base_64
     },
     {
       label: 'Medical Report',
-      file: oneApplicant?.bio_data?.medicals?.details?.base_64,
-    },
+      file: oneApplicant?.bio_data?.medicals?.details?.base_64
+    }
   ];
 
   const basic_details = useMemo(() => {
@@ -433,13 +411,8 @@ const page = () => {
                 </div>
 
                 {/* drawers */}
-                <SideDrawer
-                  isOpen={openPhoneNumber}
-                  toggleDrawer={showPhoneNumber}
-                >
-                  <p className='mt-10'>
-                    Please enter your new phone number to continue
-                  </p>
+                <SideDrawer isOpen={openPhoneNumber} toggleDrawer={showPhoneNumber}>
+                  <p className='mt-10'>Please enter your new phone number to continue</p>
                   <CustomInput
                     id='phone'
                     label='Enter Your New Number'
@@ -457,9 +430,7 @@ const page = () => {
                   />
                 </SideDrawer>
                 <SideDrawer isOpen={open} toggleDrawer={onEmailOpen}>
-                  <p className='mt-10'>
-                    Please enter your new email number to continue
-                  </p>
+                  <p className='mt-10'>Please enter your new email number to continue</p>
                   <CustomInput
                     id='email'
                     label='Enter Your New Email'
