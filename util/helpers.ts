@@ -110,6 +110,12 @@ export const getCountryName = (isoCode: string) => {
   return countryName;
 };
 
+
+export const downloadSheet = (fileCode: string | undefined) => {
+  return window.open(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/download/xcel/${fileCode}`
+  );
+  
 export const copyText = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
