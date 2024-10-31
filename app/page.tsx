@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { CustomButton } from '@/components/elements';
 import Footer from '@/components/Navigation/Footer';

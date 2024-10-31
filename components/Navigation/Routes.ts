@@ -1,5 +1,6 @@
 export const DashboardRoutes = {
   HOME: '/',
+  PRIVACY_POLICY: '/privacy-policy',
   VERIFY: '/verify',
   LOGIN: '/auth/login',
   LOGIN_OTP: '/auth/login/otp',
