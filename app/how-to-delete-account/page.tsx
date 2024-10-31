@@ -1,7 +1,7 @@
 'use client';
 
 import { Navbar, Footer } from '@/components/Navigation';
-import { DeleteAccount1, DeleteAccount2 } from '@/public/images';
+import { DeleteAccount1, DeleteAccount2 } from '@/public/assets/images';
 import Image from 'next/image';
 import React from 'react';
 
