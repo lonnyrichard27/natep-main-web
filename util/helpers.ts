@@ -117,6 +117,7 @@ export const downloadSheet = (fileCode: string | undefined) => {
 };
 
 
+// @ts-ignore
 export const copyText = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
