@@ -319,9 +319,9 @@ const page = () => {
       label: 'Education Certificate',
       file: oneApplicant?.bio_data?.education?.details?.base_64,
     },
-    {
+  {
       label: 'Employment Letter',
-      file: oneApplicant?.bio_data?.employment?.offer_letter?.base_64,
+      file: oneApplicant?.bio_data?.employment?.details?.offer_letter,
     },
     {
       label: 'Police Report',
