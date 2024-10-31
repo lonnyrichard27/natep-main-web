@@ -1,6 +1,5 @@
 import { CustomButton, Modal } from '@/components/elements';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
-import { copyText } from '@/util/helpers';
 import { remitaPayment } from '@/util/remitaPayment';
 import { PiCopy } from 'react-icons/pi';
 
@@ -21,6 +20,14 @@ const RRRModal = ({
       transactionId: txnDetails.txref,
       callbackURL: DashboardRoutes.VIEW_CERTIFICATES,
     });
+  };
+
+  const copyText = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (err) {
+      console.error('Error copying text: ', err);
+    }
   };
 
   return (
