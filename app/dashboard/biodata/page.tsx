@@ -163,7 +163,10 @@ const page = () => {
     queryFn: getUserProfile,
   });
 
-  localStorage?.setItem('tracking_id', applicant?.tracking_id);
+  useEffect(() => {
+    localStorage?.setItem('tracking_id', applicant?.tracking_id);
+  }, [])
+  
 
   useEffect(() => {
     const getTrackingId = () => {
@@ -312,7 +315,7 @@ const page = () => {
     const documents = [
       { label: 'Passport', file: oneApplicant?.bio_data?.scanned_passport?.details?.base_64 },
       { label: 'Education Certificate', file: oneApplicant?.bio_data?.education?.details?.base_64 },
-      { label: 'Employment Letter', file: oneApplicant?.bio_data?.employment?.details?.base_64 },
+      { label: 'Employment Letter', file: oneApplicant?.bio_data?.employment?.details?.offer_letter },
       { label: 'Police Report', file: oneApplicant?.bio_data?.police_report?.details?.base_64 },
       { label: 'Medical Report', file: oneApplicant?.bio_data?.medicals?.details?.base_64 }
     ];
@@ -344,11 +347,7 @@ const page = () => {
           {oneApplicant?.status === 'approved' ? (
             <>
               <section className='p-3 md:p-10'>
-                {/* <HeaderNav
-                  onClick={() => back()}
-                  title='Basic Details'
-                /> */}
-        <p className='text-lg font-semibold text-[#101828]'>Basic Details</p>
+                <p className='text-lg font-semibold text-[#101828]'>Basic Details</p>
 
                 <div className='mt-12 gap-10 md:flex'>
                   <section className='flex flex-1 flex-col gap-8'>
@@ -554,27 +553,29 @@ const page = () => {
               />
             </>
           ) : showApplication ? (
-            <section className='col-span-5 h-fit rounded-lg border p-10'>
-              <p className='text-lg font-semibold'>
-                {/* Applicant Biodata ({has_item_count}/{steps?.length}) */}
-                Applicant Biodata
-              </p>
-              <p className='my-5'>
-                You need to complete your application in order to request for
-                your NATEP Certificate.
-              </p>
-              {steps.map((step, index) => (
-                <StepList
-                  key={index}
-                  icon={step.icon}
-                  title={step.title}
-                  subtitle={step.subtitle}
-                  isCompleted={step.isCompleted}
-                  link={step.link}
-                  isQueried={step.isQueried}
-                />
-              ))}
-            </section>
+            <div className="grid justify-center">
+              <section className='col-span-5 h-fit rounded-lg border p-10'>
+                <p className='text-lg font-semibold'>
+                  {/* Applicant Biodata ({has_item_count}/{steps?.length}) */}
+                  Applicant Biodata
+                </p>
+                <p className='my-5'>
+                  You need to complete your application in order to request for
+                  your NATEP Certificate.
+                </p>
+                {steps.map((step, index) => (
+                  <StepList
+                    key={index}
+                    icon={step.icon}
+                    title={step.title}
+                    subtitle={step.subtitle}
+                    isCompleted={step.isCompleted}
+                    link={step.link}
+                    isQueried={step.isQueried}
+                  />
+                ))}
+              </section>
+            </div>
           ) : (
             <div className='mt-32 grid justify-center'>
               <section className='rounded-2xl border p-6'>
