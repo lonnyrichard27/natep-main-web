@@ -63,11 +63,10 @@ const page = () => {
   const handleOpenEmailOtp = () => setisEmailOtp(!isEmailOtp);
   const closeModal = () => setModalOpen(false);
 
-  
   const handleUpdatePhoneNumber = async () => {
     const data = { phone: phoneNumber };
     try {
-      const res = await axiosInstance.post(`/biodata/update-contact`, data );
+      const res = await axiosInstance.post(`/biodata/update-contact`, data);
       toast.success(res.data.message);
       const respObj = res.data.data;
       const myObjectString = JSON.stringify(respObj);
@@ -86,10 +85,13 @@ const page = () => {
     const data = {
       hash: myObject.hash,
       phone: myObject.phone,
-      code: phoneOtp
+      code: phoneOtp,
     };
     try {
-      const res = await axiosInstance.patch(`/biodata/verify-biodata-hash`, data);
+      const res = await axiosInstance.patch(
+        `/biodata/verify-biodata-hash`,
+        data
+      );
       toast.success(res.data.message);
 
       if (res) window.location.reload();
@@ -101,7 +103,7 @@ const page = () => {
   const handleUpdateEmail = async () => {
     const data = { email: newEmail };
     try {
-      const res = await axiosInstance.post(`/biodata/update-contact`, data );
+      const res = await axiosInstance.post(`/biodata/update-contact`, data);
       toast.success(res.data.message);
       if (res) handleOpenEmailOtp();
       const respObj = res.data.data;
@@ -115,7 +117,6 @@ const page = () => {
   const disablBtn = emailOtp.length < 6;
   const disablPhoneBtn = phoneOtp.length < 6;
 
-
   const verifyEmailOtp = async () => {
     const returnedObj = localStorage.getItem('emailOtp');
     const myObject = JSON.parse(returnedObj ?? '');
@@ -123,10 +124,13 @@ const page = () => {
     const data = {
       hash: myObject.hash,
       email: myObject.email,
-      code: emailOtp
+      code: emailOtp,
     };
     try {
-      const res = await axiosInstance.patch(`/biodata/verify-biodata-hash`, data);
+      const res = await axiosInstance.patch(
+        `/biodata/verify-biodata-hash`,
+        data
+      );
       toast.success(res.data.message);
 
       if (res) window.location.reload();
@@ -135,12 +139,10 @@ const page = () => {
     }
   };
 
-
   const { data: applicant, isLoading } = useQuery({
     queryKey: ['user'],
-    queryFn: getUserProfile
+    queryFn: getUserProfile,
   });
-
 
   useEffect(() => {
     localStorage?.setItem('tracking_id', applicant?.tracking_id);
@@ -291,24 +293,24 @@ const page = () => {
   const documents = [
     {
       label: 'Passport',
-      file: oneApplicant?.bio_data?.scanned_passport?.details?.base_64
+      file: oneApplicant?.bio_data?.scanned_passport?.details?.base_64,
     },
     {
       label: 'Education Certificate',
-      file: oneApplicant?.bio_data?.education?.details?.base_64
+      file: oneApplicant?.bio_data?.education?.details?.base_64,
     },
     {
       label: 'Employment Letter',
-      file: oneApplicant?.bio_data?.employment?.details?.offer_letter
+      file: oneApplicant?.bio_data?.employment?.details?.offer_letter,
     },
     {
       label: 'Police Report',
-      file: oneApplicant?.bio_data?.police_report?.details?.base_64
+      file: oneApplicant?.bio_data?.police_report?.details?.base_64,
     },
     {
       label: 'Medical Report',
-      file: oneApplicant?.bio_data?.medicals?.details?.base_64
-    }
+      file: oneApplicant?.bio_data?.medicals?.details?.base_64,
+    },
   ];
 
   const basic_details = useMemo(() => {
@@ -394,11 +396,12 @@ const page = () => {
                         ))}
                       </div>
                     </div>
+
                     <CustomButton
-                      text='Request Biodata update'
+                      text='Request biodata update'
                       onClick={() => push('/schedule')}
                       color='text-white'
-                      className='mt-5 w-1/4 py-3'
+                      className='mt-5 w-1/2 py-3'
                     />
                   </section>
                   <Image
@@ -411,8 +414,13 @@ const page = () => {
                 </div>
 
                 {/* drawers */}
-                <SideDrawer isOpen={openPhoneNumber} toggleDrawer={showPhoneNumber}>
-                  <p className='mt-10'>Please enter your new phone number to continue</p>
+                <SideDrawer
+                  isOpen={openPhoneNumber}
+                  toggleDrawer={showPhoneNumber}
+                >
+                  <p className='mt-10'>
+                    Please enter your new phone number to continue
+                  </p>
                   <CustomInput
                     id='phone'
                     label='Enter Your New Number'
@@ -430,7 +438,9 @@ const page = () => {
                   />
                 </SideDrawer>
                 <SideDrawer isOpen={open} toggleDrawer={onEmailOpen}>
-                  <p className='mt-10'>Please enter your new email number to continue</p>
+                  <p className='mt-10'>
+                    Please enter your new email number to continue
+                  </p>
                   <CustomInput
                     id='email'
                     label='Enter Your New Email'
