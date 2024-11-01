@@ -15,6 +15,7 @@ import { remitaPayment } from '@/util/remitaPayment';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+import { IoWarningOutline } from 'react-icons/io5';
 
 const DetailsItem = ({
   label,
@@ -39,7 +40,16 @@ const page = () => {
   const [open, setOpen] = useState(false);
   const [rrr, setRRR] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [tnxData, setTnxData] = useState();
+  const [tnxData, setTnxData] = useState({
+    message: '',
+    status: '',
+    amount: 0,
+    transactionDate: new Date(),
+    orderId: '',
+  });
+
+  const success = '00';
+  const pending = '021';
 
   const handleModal = () => {
     setOpen(!open);
@@ -64,10 +74,10 @@ const page = () => {
   };
 
   const payment_details: any = {
-    Timestamp: getDate(new Date()),
+    Timestamp: getDate(tnxData?.transactionDate),
     service: 'NTEP Certificate',
-    amount: `NGN ${moneyFormat(50000)}`,
-    transaction_ID: 123456789,
+    amount: `NGN ${moneyFormat(tnxData?.amount)}`,
+    order_ID: tnxData?.orderId,
   };
 
   const supported_payments = [
@@ -133,10 +143,16 @@ const page = () => {
         closable
       >
         <div className='flex w-full flex-col items-center justify-center gap-5 p-2 text-center'>
-          <IoIosCheckmarkCircleOutline className='text-6xl text-green-600' />
+          {tnxData?.status == success ? (
+            <IoIosCheckmarkCircleOutline className='text-6xl text-green-600' />
+          ) : (
+            <IoWarningOutline className='text-6xl text-yellow-900' />
+          )}
 
-          <h2 className='text-lg font-semibold text-green-600 md:text-xl'>
-            Payment Successful!
+          <h2
+            className={`text-lg font-semibold md:text-xl ${tnxData?.status == success ? 'text-green-600' : 'text-yellow-900'}`}
+          >
+            {tnxData?.message}!
           </h2>
 
           <div className='flex w-full flex-col gap-5 rounded-lg bg-gray-100 p-3'>
@@ -149,10 +165,12 @@ const page = () => {
             ))}
           </div>
 
-          <CustomButton
-            text='Import Credential'
-            className='w-full py-3 text-base'
-          />
+          {tnxData.status == success && (
+            <CustomButton
+              text='Import Credential'
+              className='w-full py-3 text-base'
+            />
+          )}
         </div>
       </Modal>
     </div>

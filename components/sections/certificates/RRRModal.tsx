@@ -1,5 +1,6 @@
 import { CustomButton, Modal } from '@/components/elements';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
+import { moneyFormat } from '@/util/helpers';
 import { remitaPayment } from '@/util/remitaPayment';
 import { PiCopy } from 'react-icons/pi';
 
@@ -12,7 +13,7 @@ const RRRModal = ({
   closeClick: any;
   open: boolean;
   setOpen: any;
-  txnDetails: { rrr: string; txref: string };
+  txnDetails: { rrr: string; txref: string; amount: number };
 }) => {
   const handleRemita = () => {
     remitaPayment({
@@ -49,8 +50,9 @@ const RRRModal = ({
           <div className='flex flex-col gap-2 text-black'>
             <h2 className='mb-2 text-lg font-semibold'>Confirmation</h2>
             <p className='text-sm text-[#313642]'>
-              You are about to make a payment of N65,000 for your NATEP
-              certificate enrollment appointment.
+              You are about to make a payment of N
+              {moneyFormat(txnDetails?.amount)} for your NATEP certificate
+              enrollment appointment.
             </p>
 
             <div className='flex items-center justify-between text-sm'>
