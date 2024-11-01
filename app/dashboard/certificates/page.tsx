@@ -18,7 +18,11 @@ import { validateTransaction } from '@/services/transaction-services';
 
 const PageContent = () => {
   const [open, setOpen] = useState(false);
-  const [txnDetails, setTxnDetails] = useState({ rrr: '', txref: '' });
+  const [txnDetails, setTxnDetails] = useState({
+    rrr: '',
+    txref: '',
+    amount: 0,
+  });
 
   const handleRemitaModal = () => {
     setOpen(!open);
@@ -50,8 +54,8 @@ const PageContent = () => {
         '/certificate/request-certificate'
       );
       if (response.status === 200 || response.status === 201) {
-        const { rrr, txref } = response.data.data;
-        setTxnDetails({ rrr, txref });
+        const { rrr, txref, amount } = response.data.data;
+        setTxnDetails({ rrr, txref, amount });
         setIsRequesting(false);
         handleRemitaModal();
       }
