@@ -11,7 +11,6 @@ import {
 import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { getDate, moneyFormat, textReplacer } from '@/util/helpers';
-import { remitaPayment } from '@/util/remitaPayment';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
@@ -37,7 +36,6 @@ const DetailsItem = ({
 };
 
 const page = () => {
-  const [open, setOpen] = useState(false);
   const [rrr, setRRR] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tnxData, setTnxData] = useState({
@@ -50,9 +48,16 @@ const page = () => {
 
   const success = '00';
   const pending = '021';
+  const paid_message = 'Service has been render with this RRR';
 
+  const [open, setOpen] = useState(false);
   const handleModal = () => {
     setOpen(!open);
+  };
+
+  const [isPaid, setIsPaid] = useState(false);
+  const handleServiceModal = () => {
+    setIsPaid(!isPaid);
   };
 
   const handleVerify = async () => {
@@ -67,9 +72,13 @@ const page = () => {
         handleModal();
         setIsSubmitting(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       setIsSubmitting(false);
-      handleError(error);
+      if (error?.response?.data?.message == paid_message) {
+        handleServiceModal();
+      } else {
+        handleError(error);
+      }
     }
   };
 
@@ -171,6 +180,28 @@ const page = () => {
               className='w-full py-3 text-base'
             />
           )}
+        </div>
+      </Modal>
+
+      <Modal
+        open={isPaid}
+        size='xs'
+        toggleOpen={(isOpen: boolean | ((prevState: boolean) => boolean)) =>
+          setIsPaid(isOpen)
+        }
+        closeClick={handleServiceModal}
+        closable
+      >
+        <div className='flex w-full flex-col items-center justify-center gap-5 p-2 text-center'>
+          <IoIosCheckmarkCircleOutline className='text-6xl text-green-600' />
+
+          <h2 className={`text-lg font-semibold text-green-600 md:text-xl`}>
+            Service Rendered!
+          </h2>
+
+          <p className='text-xs text-gray-600 sm:text-sm'>
+            Service has already been rendered with this RRR!
+          </p>
         </div>
       </Modal>
     </div>
