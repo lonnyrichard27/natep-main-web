@@ -15,7 +15,7 @@ import { DashboardRoutes } from '@/components/Navigation/Routes';
 const page = () => {
   const timeSlots = generateTimeSlots(60);
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [selectedTime, setSelectedTime] = useState<string>('01:00');
+  const [selectedTime, setSelectedTime] = useState<string>('10:00');
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
