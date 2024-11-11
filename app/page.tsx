@@ -1,6 +1,7 @@
 'use client';
 
 import { CustomButton } from '@/components/elements';
+import { Wrapper } from '@/components/Navigation';
 import Footer from '@/components/Navigation/Footer';
 import Navbar from '@/components/Navigation/Navbar';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
@@ -8,10 +9,56 @@ import AppointmentCalendar from '@/components/svgs/AppointmentCalendar';
 import PhoneSvg from '@/components/svgs/PhoneSvg';
 import PlayStore from '@/components/svgs/PlayStore';
 import PortalSvg from '@/components/svgs/PortalSvg';
+import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+} from '@material-tailwind/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FaApple } from 'react-icons/fa';
+import { HiMinus, HiPlus } from 'react-icons/hi';
 
 export default function Home() {
+  const [open, setOpen] = useState(1);
+
+  const handleOpen = (value: React.SetStateAction<number>) =>
+    setOpen(open === value ? 0 : value);
+
+  const core_values = [
+    {
+      header: 'What documents do I need to get started?',
+      body: (
+        <div>
+          <p>
+            Bring along the following documents for your application processing:
+          </p>
+          <ul className='mt-2 !list-decimal pl-5'>
+            <li>Appointment Slip</li>
+            <li>International Passport Document</li>
+            <li>Clear Passport Photograph</li>
+            <li>All Academic Certificates</li>
+            <li>Employment Letter</li>
+            <li>Police Report</li>
+            <li>Medical Report</li>
+          </ul>
+        </div>
+      ),
+    },
+    {
+      header: 'How do I make payment?',
+      body: 'All applicants are required to make a payment of 65,000 Naira via the Remita channel.',
+    },
+    {
+      header: 'How long will it take to get my STEER Certificate?',
+      body: 'Reviewing your application documents and issuing your sealed STEER Certificate will take 5 working days.',
+    },
+    {
+      header: 'I need help, what are your support channels?',
+      body: 'For any help and assistance, please send us an email help@natep.gov.ng.',
+    },
+  ];
+
   return (
     <>
       <Navbar />
@@ -84,135 +131,41 @@ export default function Home() {
       </section>
 
       {/* FAQs */}
-      <div className='grid items-center justify-center p-4 md:p-[141px]'>
+      <Wrapper className='flex flex-col items-center justify-center gap-10 p-4'>
         <article className='text-center'>
-          <p className='text-3xl font-bold'>Got Questions?</p>
-          <p className='my-5'>
-            We have compiled our most frequent questions and answers here.
-          </p>
+          <p className='mb-6 text-3xl font-bold'>Got Questions?</p>
+          <p>We have compiled our most frequent questions and answers here.</p>
         </article>
-        <div className='space-y-4'>
-          <details
-            className='group bg-[#F2F4F7] [&_summary::-webkit-details-marker]:hidden'
-            open
-          >
-            <summary className='flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900'>
-              <h2 className='font-medium'>Question 1?</h2>
-              <svg
-                className='size-5 shrink-0 transition duration-300 group-open:-rotate-180'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M19 9l-7 7-7-7'
-                />
-              </svg>
-            </summary>
-            <p className='mt-4 p-4 leading-relaxed text-gray-700'>Answer</p>
-          </details>
 
-          <details
-            className='group bg-[#F2F4F7] [&_summary::-webkit-details-marker]:hidden'
-            open
-          >
-            <summary className='flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900'>
-              <h2 className='font-medium'>Question 1?</h2>
-              <svg
-                className='size-5 shrink-0 transition duration-300 group-open:-rotate-180'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
+        <div className='max-w-[820px]'>
+          {core_values?.map((item, index) => (
+            <Accordion
+              key={index}
+              open={open === index + 1}
+              className={`mb-4 rounded-md bg-background-gray px-6 !text-black ${open === index + 1 ? '' : ''}`}
+              icon={
+                open === index + 1 ? (
+                  <HiMinus className='text-[#2B9957]' />
+                ) : (
+                  <HiPlus className='text-[#2B9957]' />
+                )
+              }
+            >
+              <AccordionHeader
+                onClick={() => handleOpen(index + 1)}
+                className={`border-b-0 text-base font-bold !text-black ${
+                  open === index + 1 ? '' : ''
+                }`}
               >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M19 9l-7 7-7-7'
-                />
-              </svg>
-            </summary>
-            <p className='mt-4 p-4 leading-relaxed text-gray-700'>Answer</p>
-          </details>
-
-          <details
-            className='group bg-[#F2F4F7] [&_summary::-webkit-details-marker]:hidden'
-            open
-          >
-            <summary className='flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900'>
-              <h2 className='font-medium'>Question 1?</h2>
-              <svg
-                className='size-5 shrink-0 transition duration-300 group-open:-rotate-180'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M19 9l-7 7-7-7'
-                />
-              </svg>
-            </summary>
-            <p className='mt-4 p-4 leading-relaxed text-gray-700'>Answer</p>
-          </details>
-
-          <details
-            className='group bg-[#F2F4F7] [&_summary::-webkit-details-marker]:hidden'
-            open
-          >
-            <summary className='flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900'>
-              <h2 className='font-medium'>Question 1?</h2>
-              <svg
-                className='size-5 shrink-0 transition duration-300 group-open:-rotate-180'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M19 9l-7 7-7-7'
-                />
-              </svg>
-            </summary>
-            <p className='mt-4 p-4 leading-relaxed text-gray-700'>Answer</p>
-          </details>
-
-          <details
-            className='group bg-[#F2F4F7] [&_summary::-webkit-details-marker]:hidden'
-            open
-          >
-            <summary className='flex cursor-pointer items-center justify-between gap-96 rounded-lg bg-gray-50 p-4 text-gray-900'>
-              <h2 className='font-medium'>Question 1?</h2>
-              <svg
-                className='size-5 shrink-0 transition duration-300 group-open:-rotate-180'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M19 9l-7 7-7-7'
-                />
-              </svg>
-            </summary>
-            <p className='mt-4 p-4 leading-relaxed text-gray-700'>Answer</p>
-          </details>
+                {item?.header}
+              </AccordionHeader>
+              <AccordionBody className='pt-0 text-base font-normal !leading-[25px] !text-black'>
+                {item?.body}
+              </AccordionBody>
+            </Accordion>
+          ))}
         </div>
-      </div>
+      </Wrapper>
 
       <Footer />
     </>
