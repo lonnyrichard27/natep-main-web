@@ -3,6 +3,24 @@ import { getBenefactors } from './getBenefactors';
 import { codeGenerator } from './helpers';
 import crypto from 'crypto';
 
+export type RemitaSuccessResponse = {
+  statuscode?: string;
+  RRR?: string;
+  status?: string;
+  txref: string;
+};
+
+export type RemitaErrorResponse = {
+  statusMessage?: string;
+};
+
+// Type guard to check if the response is a success response
+export const isRemitaSuccessResponse = (
+  response: RemitaSuccessResponse | RemitaErrorResponse
+): response is RemitaSuccessResponse => {
+  return (response as RemitaSuccessResponse).txref !== undefined;
+};
+
 export const generateRemitaRRR = async ({
   amount,
   payerName,
@@ -15,7 +33,7 @@ export const generateRemitaRRR = async ({
   payerEmail: string;
   payerPhone: string;
   description: string;
-}) => {
+}): Promise<RemitaSuccessResponse | RemitaErrorResponse> => {
   const orderId = codeGenerator(16, 'abcdefghijklmnopqrstuvwxyz1234567890');
   const body = {
     serviceTypeId: process.env.REMITA_SERVICE_ID,
@@ -42,14 +60,12 @@ export const generateRemitaRRR = async ({
 
   const response = await axios.post(url, body, config);
 
-  // Step 1: Extract the JSON part from the string (remove 'jsonp (' and the closing ')')
-  const json_string = response.data.replace(/jsonp \((.*)\)/, '$1');
-
-  // Step 2: Parse the JSON string into an object
-  const parsed: { statuscode: string; RRR: string; status: string } =
-    JSON.parse(json_string);
-
-  console.log(parsed);
-
-  return { ...parsed, txref: orderId };
+  if (typeof response.data === 'string') {
+    const json_string = response.data.replace(/jsonp \((.*)\)/, '$1');
+    const parsed: RemitaSuccessResponse = JSON.parse(json_string);
+    return { ...parsed, txref: orderId };
+  } else {
+    const error: RemitaErrorResponse = response.data;
+    return error;
+  }
 };

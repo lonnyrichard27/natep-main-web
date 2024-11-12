@@ -15,7 +15,10 @@ import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { useSearchParams } from 'next/navigation';
 import { validateTransaction } from '@/services/transaction-services';
-import { generateRemitaRRR } from '@/util/generateRemitaRRR';
+import {
+  generateRemitaRRR,
+  isRemitaSuccessResponse,
+} from '@/util/generateRemitaRRR';
 import { getUserProfile } from '@/api/user';
 import toast from 'react-hot-toast';
 
@@ -63,8 +66,7 @@ const PageContent = () => {
     setIsRequesting(true);
 
     try {
-      // Step 1: Call generateRemitaRRR and wait for the rrr and txref to be returned
-      const { RRR: rrr, txref } = await generateRemitaRRR({
+      const response = await generateRemitaRRR({
         amount: 65000,
         payerName: applicant.name,
         payerEmail: applicant.email,
@@ -72,20 +74,31 @@ const PageContent = () => {
         description: 'Certificate request payment',
       });
 
-      // Step 2: Send the rrr and txref to the endpoint
-      const response = await axiosInstance.post(
-        '/certificate/request-certificate',
-        {
-          rrr,
-          transaction_id: txref,
-        }
-      );
+      if (isRemitaSuccessResponse(response)) {
+        const { RRR: rrr, txref } = response;
 
-      // Step 3: Check if the response is successful
-      if (response.status === 200 || response.status === 201) {
-        const { amount } = response.data.data;
-        setTxnDetails({ rrr, txref, amount });
-        handleRemitaModal();
+        if (!rrr) {
+          return toast.error('RRR not generated');
+        }
+
+        const certificateResponse = await axiosInstance.post(
+          '/certificate/request-certificate',
+          {
+            rrr,
+            transaction_id: txref,
+          }
+        );
+
+        if (
+          certificateResponse.status === 200 ||
+          certificateResponse.status === 201
+        ) {
+          const { amount } = certificateResponse.data.data;
+          setTxnDetails({ rrr, txref, amount });
+          handleRemitaModal();
+        }
+      } else {
+        handleError(response);
       }
     } catch (error) {
       handleError(error);

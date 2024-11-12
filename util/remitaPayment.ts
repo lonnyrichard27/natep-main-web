@@ -19,7 +19,6 @@ export const remitaPayment = async ({
   transactionId: string;
   callbackURL: string;
 }) => {
-  console.log(remita_script);
   // Load Remita script
   const loadRemitaScript = () => {
     return new Promise((resolve, reject) => {
