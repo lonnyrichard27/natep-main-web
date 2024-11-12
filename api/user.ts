@@ -1,14 +1,16 @@
-import axiosInstance from "@/util/axios";
-import { handleError } from "@/util/errorHandler";
-import axios from "axios";
-import toast from "react-hot-toast";
+import axiosInstance from '@/util/axios';
+import { handleError } from '@/util/errorHandler';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export const verify = async (ref: string) => {
   try {
-    const response = await axios.get(`https://natep.qwiva.io/api/mod-user/webhook/verify-scheduling-request?reference=${ref}`);
+    const response = await axios.get(
+      `https://natep.qwiva.io/api/mod-user/webhook/verify-scheduling-request?reference=${ref}`
+    );
     return response.data.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -16,7 +18,7 @@ export const fetchActivities = async ({
   page_num,
   search,
   email,
-  download
+  download,
 }: {
   page_num: number;
   search?: string;
@@ -29,7 +31,6 @@ export const fetchActivities = async ({
         search ? `&search=${search}` : ''
       }${email ? `&email=${email}` : ''}${download ? `&download=on` : ''}`
     );
-    console.log(response.data.data,' activities')
 
     return response.data.data;
   } catch (error) {
@@ -47,15 +48,14 @@ export const fetchActivities = async ({
 //   }
 // }
 
-export const getUserProfile = async() => {
+export const getUserProfile = async () => {
   try {
-    const response = await axiosInstance.get('/auth/profile')
-    toast.success(response.data.message)
-    return response.data.data
+    const response = await axiosInstance.get('/auth/profile');
+    return response.data.data;
   } catch (error) {
-    handleError(error)
+    handleError(error);
   }
-}
+};
 
 export const getHistory = async ({
   page_num,

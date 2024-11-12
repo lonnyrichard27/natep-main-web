@@ -57,7 +57,6 @@ const page = () => {
       setLoading(false);
       // @ts-ignore
       toast.error(error?.response?.data?.message);
-      //  console.log(error?.response?.data?.message, 'error')
     } finally {
       setLoading(false);
     }

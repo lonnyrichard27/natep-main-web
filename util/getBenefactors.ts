@@ -59,7 +59,8 @@ export const getBenefactors = (amount: number) => {
   ];
 
   return process.env.NODE_ENV === 'development' ||
-    window.location.host.includes('netlify.app')
+    window.location.host.includes('netlify.app') ||
+    window.location.host.includes('vercel.app')
     ? testBenefactors
     : liveBenefactors;
 };
