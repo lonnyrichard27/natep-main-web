@@ -1,89 +1,55 @@
 import axios from 'axios';
 import { getBenefactors } from './getBenefactors';
-import { sha512 } from 'js-sha512';
+import { codeGenerator } from './helpers';
+import crypto from 'crypto';
 
-interface RequestData {
-  serviceTypeId: string;
-  amount: string;
-  orderId: number;
+export const generateRemitaRRR = async ({
+  amount,
+  payerName,
+  payerEmail,
+  payerPhone,
+  description,
+}: {
+  amount: number;
   payerName: string;
   payerEmail: string;
+  payerPhone: string;
   description: string;
-  lineItems: ReturnType<typeof getBenefactors>;
-}
-
-export const generateRemitaRRR = async (
-  amount: number,
-  description: string,
-  payersName: string,
-  updatedServiceTypeId: string
-): Promise<string | Error> => {
-  const email = 'natep@ng.gov';
-  const d = new Date();
-
-  // Setting API credentials based on environment
-  const apiKey = process.env.REMITA_KEY;
-  const merchantId =
-    process.env.NODE_ENV === 'development' ||
-    window.location.host.includes('netlify.app')
-      ? '123456'
-      : '123456788';
-  const serviceTypeId =
-    process.env.NODE_ENV === 'development' ||
-    window.location.host.includes('netlify.app')
-      ? '123444'
-      : updatedServiceTypeId;
-
-  const orderId = d.getTime();
-  const payerName = `${payersName}`;
-  const payerEmail = email;
-  const amt = String(amount);
-  const consumerToken = sha512(
-    merchantId + serviceTypeId + orderId + amt + apiKey
-  );
-
-  // Setting URL based on environment
-  const url =
-    process.env.NODE_ENV === 'development' ||
-    window.location.host.includes('netlify.app')
-      ? 'https://remitademo.net/remita/exapp/api/v1/send/api/echannelsvc/merchant/api/paymentinit?callback=jsonp'
-      : 'https://login.remita.net/remita/exapp/api/v1/send/api/echannelsvc/merchant/api/paymentinit?callback=jsonp';
-
-  const requestData: RequestData = {
-    serviceTypeId,
-    amount: amt,
-    orderId,
-    payerName,
-    payerEmail,
-    description,
-    lineItems: getBenefactors(amt),
+}) => {
+  const orderId = codeGenerator(16, 'abcdefghijklmnopqrstuvwxyz1234567890');
+  const body = {
+    serviceTypeId: process.env.REMITA_SERVICE_ID,
+    amount: amount,
+    orderId: orderId,
+    payerName: payerName,
+    payerEmail: payerEmail,
+    payerPhone: payerPhone,
+    description: description,
+    lineItems: getBenefactors(amount),
   };
+
+  const data = `${process.env.MERCHANT_ID}${process.env.REMITA_SERVICE_ID}${orderId}${amount}${process.env.REMITA_APIKEY}`;
+
+  const api_hash = crypto.createHash('sha512').update(data).digest('hex');
 
   const config = {
     headers: {
-      dataType: 'json',
-      'Content-Type': 'application/json',
-      Authorization: `remitaConsumerKey=${merchantId},remitaConsumerToken=${consumerToken}`,
+      Authorization: `remitaConsumerKey=${process.env.MERCHANT_ID},remitaConsumerToken=${api_hash}`,
     },
   };
 
-  try {
-    const req = await axios.post(url, requestData, config);
+  const url = `${process.env.REMITA_URL}/echannelsvc/merchant/api/paymentinit`;
 
-    // Extracting RRR from the JSONP response
-    const jsonpFunction = new Function('jsonp', `${req.data}`);
-    let RRR: string | undefined;
+  const response = await axios.post(url, body, config);
 
-    jsonpFunction((ref: { RRR: string }) => {
-      RRR = ref.RRR;
-    });
+  // Step 1: Extract the JSON part from the string (remove 'jsonp (' and the closing ')')
+  const json_string = response.data.replace(/jsonp \((.*)\)/, '$1');
 
-    if (RRR) {
-      return RRR;
-    } else {
-      throw new Error('RRR not returned');
-    }
-  } catch (err) {
-    return err instanceof Error ? err : new Error('An unknown error occurred');
-  }
+  // Step 2: Parse the JSON string into an object
+  const parsed: { statuscode: string; RRR: string; status: string } =
+    JSON.parse(json_string);
+
+  console.log(parsed);
+
+  return { ...parsed, txref: orderId };
 };

@@ -15,6 +15,9 @@ import axiosInstance from '@/util/axios';
 import { handleError } from '@/util/errorHandler';
 import { useSearchParams } from 'next/navigation';
 import { validateTransaction } from '@/services/transaction-services';
+import { generateRemitaRRR } from '@/util/generateRemitaRRR';
+import { getUserProfile } from '@/api/user';
+import toast from 'react-hot-toast';
 
 const PageContent = () => {
   const [open, setOpen] = useState(false);
@@ -47,21 +50,47 @@ const PageContent = () => {
 
   const [isRequesting, setIsRequesting] = useState(false);
 
+  const { data: applicant } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserProfile,
+  });
+
   const handleRequest = async () => {
+    if (!applicant) {
+      return toast.error('Applicant details not available!');
+    }
+
     setIsRequesting(true);
+
     try {
+      // Step 1: Call generateRemitaRRR and wait for the rrr and txref to be returned
+      const { RRR: rrr, txref } = await generateRemitaRRR({
+        amount: 65000,
+        payerName: applicant.name,
+        payerEmail: applicant.email,
+        payerPhone: applicant.phone,
+        description: 'Certificate request payment',
+      });
+
+      // Step 2: Send the rrr and txref to the endpoint
       const response = await axiosInstance.post(
-        '/certificate/request-certificate'
+        '/certificate/request-certificate',
+        {
+          rrr,
+          transaction_id: txref,
+        }
       );
+
+      // Step 3: Check if the response is successful
       if (response.status === 200 || response.status === 201) {
-        const { rrr, txref, amount } = response.data.data;
+        const { amount } = response.data.data;
         setTxnDetails({ rrr, txref, amount });
-        setIsRequesting(false);
         handleRemitaModal();
       }
     } catch (error) {
-      setIsRequesting(false);
       handleError(error);
+    } finally {
+      setIsRequesting(false);
     }
   };
 
