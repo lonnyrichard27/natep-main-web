@@ -116,11 +116,27 @@ export const downloadSheet = (fileCode: string | undefined) => {
   );
 };
 
-
 export const copyText = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
   } catch (err) {
     console.error('Error copying text: ', err);
   }
+};
+
+export const codeGenerator = (length: number, alpha?: string) => {
+  const numeric = '1234567890';
+  let result = '';
+
+  if (alpha) {
+    for (let i = 0; i < length; i++) {
+      result += alpha.charAt(Math.floor(Math.random() * alpha.length));
+    }
+  } else {
+    for (let i = 0; i < length; i++) {
+      result += numeric.charAt(Math.floor(Math.random() * numeric.length));
+    }
+  }
+
+  return result;
 };

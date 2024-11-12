@@ -51,7 +51,7 @@ export default function Home() {
     },
     {
       header: 'How long will it take to get my STEER Certificate?',
-      body: 'Reviewing your application documents and issuing your sealed STEER Certificate will take 5 working days.',
+      body: 'Reviewing your application documents and issuing your sealed STEER Certificate will take a minimum of 5 working days.',
     },
     {
       header: 'I need help, what are your support channels?',
