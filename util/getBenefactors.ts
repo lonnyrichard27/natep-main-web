@@ -1,6 +1,6 @@
 export const getBenefactors = (amount: number) => {
   const AgencyCut = (62.3 / 100) * amount;
-  const merchantCut = (30 / 100) * amount;
+  const merchanCut = (30 / 100) * amount;
   const remitaCut = (7.7 / 100) * amount;
 
   const testBenefactors = [
@@ -9,7 +9,7 @@ export const getBenefactors = (amount: number) => {
       beneficiaryName: 'Test Corporation',
       beneficiaryAccount: '0360883515',
       bankCode: '057',
-      beneficiaryAmount: merchantCut,
+      beneficiaryAmount: merchanCut,
       deductFeeFrom: '1',
     },
     {
@@ -29,7 +29,6 @@ export const getBenefactors = (amount: number) => {
       deductFeeFrom: '0',
     },
   ];
-  // return benefactors;
 
   const liveBenefactors = [
     {
@@ -37,7 +36,7 @@ export const getBenefactors = (amount: number) => {
       beneficiaryName: 'COMMONIDENTITY LTD - MWS',
       beneficiaryAccount: '1300862684',
       bankCode: '101',
-      beneficiaryAmount: merchantCut,
+      beneficiaryAmount: merchanCut,
       deductFeeFrom: '1',
     },
     {
