@@ -43,7 +43,7 @@ export const generateRemitaRRR = async ({
     payerEmail: payerEmail,
     payerPhone: payerPhone,
     description: description,
-    lineItems: getBenefactors(amount),
+    // lineItems: getBenefactors(amount),
   };
 
   const data = `${process.env.MERCHANT_ID}${process.env.REMITA_SERVICE_ID}${orderId}${amount}${process.env.REMITA_APIKEY}`;
