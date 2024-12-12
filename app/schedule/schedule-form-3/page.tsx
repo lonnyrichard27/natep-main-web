@@ -4,30 +4,34 @@ import React, { useState } from 'react';
 import { CustomButton } from '@/components/elements';
 import { Calendar } from '@/components/ui/calendar';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
-import { generateTimeSlots } from '@/util/time';
+import { generateTimeSlots, generateTimeSpecificSlot } from '@/util/time';
 import { getLocalStorageItem } from '@/util/localStorage';
 import axiosInstance from '@/util/axios';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { remitaPayment } from '@/util/remitaPayment';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
+import { DayPicker, getDefaultClassNames } from 'react-day-picker';
+import "react-day-picker/style.css";
+import { formatDate } from '@/util/helpers';
 
 const page = () => {
-  const timeSlots = generateTimeSlots(60);
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [selectedTime, setSelectedTime] = useState<string>('01:00');
+  const defaultClassNames = getDefaultClassNames();
+  const timeSlots = generateTimeSpecificSlot();
+  const [selected, setSelected] = useState<Date>();
+  const [selectedTime, setSelectedTime] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTime(event.target.value);
-  };
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => setSelectedTime(event.target.value);
+
+  const disabledBtn = !selected || !selectedTime
   const submit = async () => {
     setLoading(true);
     const data = getLocalStorageItem('schedule-data');
     const extractedData = JSON.parse(data);
-    const dateWithT = date?.toISOString().slice(0, 11);
+    // "2024-12-25T01:00"
+    const dateWithT = formatDate(selected);
     const fullTimestamp = dateWithT + selectedTime;
-
     const dataToSend = {
       is_first_time: extractedData.firstTime,
       nin: extractedData.nin,
@@ -35,7 +39,7 @@ const page = () => {
       email: extractedData.email,
       phone: extractedData.phone,
       applicant_id: extractedData.applicantID,
-      activity_type: extractedData.activity,
+      activity_type: extractedData.activity
     };
 
     try {
@@ -73,13 +77,17 @@ const page = () => {
           Select your preferred date and time below.
         </p>
 
-        <Calendar
-          mode='single'
-          selected={date}
-          onSelect={setDate}
-          className='rounded-md border'
+        <DayPicker
+          mode="single"
+          selected={selected}
+          onSelect={setSelected}
+          classNames={{
+            today: `border-amber-500`,
+            selected: `bg-[#248048] rounded-full text-white`,
+            root: `${defaultClassNames.root} p-5`,
+            chevron: `fill-[#248048]`
+          }}
         />
-
         <div>
           <p>Select Time</p>
           <select
@@ -88,15 +96,13 @@ const page = () => {
             className='mt-2 w-full rounded border p-2 text-gray-600'
           >
             {timeSlots.map((time, index) => (
-              <option key={index} value={time}>
-                {time}
-              </option>
+              <option key={index} value={time}>{time}</option>
             ))}
           </select>
         </div>
         <CustomButton
           loading={loading}
-          disabled={loading}
+          disabled={disabledBtn}
           text='Continue'
           onClick={submit}
           className='mt-3 w-full'
