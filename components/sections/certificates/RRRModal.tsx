@@ -9,17 +9,19 @@ const RRRModal = ({
   open,
   setOpen,
   txnDetails,
+  callbackURL = DashboardRoutes.VIEW_CERTIFICATES,
 }: {
   closeClick: any;
   open: boolean;
   setOpen: any;
   txnDetails: { rrr: string; txref: string; amount: number };
+  callbackURL?: string;
 }) => {
   const handleRemita = () => {
     remitaPayment({
       rrr: txnDetails.rrr,
       transactionId: txnDetails.txref,
-      callbackURL: DashboardRoutes.VIEW_CERTIFICATES,
+      callbackURL,
     });
   };
 
