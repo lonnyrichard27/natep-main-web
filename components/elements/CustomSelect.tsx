@@ -48,7 +48,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       </select>
 
       {error && (
-        <div className='text-xsm ml-1 mt-2 text-red-500'>
+        <div className='ml-1 mt-2 text-xsm text-red-500'>
           {error.toString()}
         </div>
       )}
