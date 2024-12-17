@@ -56,7 +56,7 @@ export const generateRemitaRRR = async ({
     },
   };
 
-  const url = `${process.env.REMITA_URL}/echannelsvc/merchant/api/paymentinit`;
+  const url = `${process.env.REMITA_URL}`;
 
   const response = await axios.post(url, body, config);
 
