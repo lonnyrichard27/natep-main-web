@@ -81,53 +81,57 @@ export default function Home() {
       </section>
 
       {/* grid */}
-      <section className='grid items-center justify-center bg-[#F2F4F7] p-4 md:p-[161px]'>
-        <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8'>
-          <div className='flex flex-col items-center justify-center rounded-md bg-white px-10 py-10 shadow'>
-            <span className='flex h-16 w-16 items-center justify-center rounded-full bg-[#EBF9F0]'>
-              <AppointmentCalendar />
-            </span>
-            <p className='my-10 text-center font-light text-[#666666]'>
-              Schedule an appointment to <br />
-              register with a field agent.
-            </p>
-            <Link href='/schedule'>
-              <CustomButton text='Schedule Appointment' />
-            </Link>
-          </div>
-          <div className='flex max-w-sm flex-col items-center justify-center rounded-md bg-white py-10 shadow'>
-            <span className='flex h-16 w-16 items-center justify-center rounded-full bg-[#EBF9F0]'>
-              <PortalSvg />
-            </span>
-            <p className='my-10 text-center font-light text-[#666666]'>
-              Access the web portal to request
-              <br /> your NATEP Certificate.
-            </p>
-            <Link href={DashboardRoutes.LOGIN}>
-              <CustomButton text='Login / Register' />
-            </Link>
-          </div>
-          <div className='flex max-w-sm flex-col items-center justify-center rounded-md bg-white py-10 shadow'>
-            <span className='flex h-16 w-16 items-center justify-center rounded-full bg-[#EBF9F0]'>
-              <PhoneSvg />
-            </span>
-            <p className='my-10 text-center font-light text-[#666666]'>
-              Manage your digital certificate
-              <br /> with the NATEP App today.
-            </p>
-            <div className='mx-4 flex gap-4'>
-              <button className='inline-flex items-center gap-2 rounded-full bg-[#F5F5F5] px-8 py-3 text-black focus:outline-none'>
-                <PlayStore />
-                <span className='text-sm font-medium'> Google Play </span>
-              </button>
+      <section className='bg-[#F2F4F7]'>
+        <Wrapper>
+          <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8'>
+            <div className='flex flex-col items-center justify-center rounded-md bg-white px-10 py-10 shadow'>
+              <span className='flex h-16 w-16 items-center justify-center rounded-full bg-[#EBF9F0]'>
+                <AppointmentCalendar />
+              </span>
+              <p className='my-10 text-center font-light text-[#666666]'>
+                Schedule an appointment to <br />
+                register with a field agent.
+              </p>
+              <Link href='/schedule'>
+                <CustomButton text='Schedule Appointment' />
+              </Link>
+            </div>
 
-              <button className='inline-flex items-center gap-2 rounded-full bg-[#F5F5F5] px-8 py-3 text-black focus:outline-none'>
-                <FaApple />
-                <span className='text-sm font-medium'> Apple Store </span>
-              </button>
+            <div className='flex max-w-sm flex-col items-center justify-center rounded-md bg-white py-10 shadow'>
+              <span className='flex h-16 w-16 items-center justify-center rounded-full bg-[#EBF9F0]'>
+                <PortalSvg />
+              </span>
+              <p className='my-10 text-center font-light text-[#666666]'>
+                Access the web portal to request
+                <br /> your NATEP Certificate.
+              </p>
+              <Link href={DashboardRoutes.LOGIN}>
+                <CustomButton text='Login / Register' />
+              </Link>
+            </div>
+
+            <div className='flex max-w-sm flex-col items-center justify-center rounded-md bg-white py-10 shadow'>
+              <span className='flex h-16 w-16 items-center justify-center rounded-full bg-[#EBF9F0]'>
+                <PhoneSvg />
+              </span>
+              <p className='my-10 text-center font-light text-[#666666]'>
+                Manage your digital certificate
+                <br /> with the NATEP App today.
+              </p>
+              <div className='mx-4 flex gap-4'>
+                <button className='inline-flex items-center gap-2 rounded-full bg-[#F5F5F5] px-8 py-3 text-black focus:outline-none'>
+                  <PlayStore />
+                  <span className='text-sm font-medium'> Google Play </span>
+                </button>
+
+                <button className='inline-flex items-center gap-2 rounded-full bg-[#F5F5F5] px-8 py-3 text-black focus:outline-none'>
+                  <FaApple />
+                  <span className='text-sm font-medium'> Apple Store </span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Wrapper>
       </section>
 
       {/* FAQs */}
