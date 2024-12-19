@@ -5,7 +5,7 @@ module.exports = {
             script: "yarn",
             args: "start",
             env: {
-                PORT: 5000,  // Set the port here
+                PORT: 1000,  // Set the port here
                 NODE_ENV: "production",
             },
             instances: "max",  // Adjust for cluster mode or set to a specific number like "4"

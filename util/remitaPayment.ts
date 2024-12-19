@@ -10,6 +10,7 @@ declare global {
 const remita_key: any = process.env.REMITA_KEY;
 const remita_script: any = process.env.REMITA_SCRIPT_URL;
 
+
 export const remitaPayment = async ({
   rrr,
   transactionId,
