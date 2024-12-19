@@ -10,15 +10,16 @@ declare global {
 const remita_key: any = process.env.REMITA_KEY;
 const remita_script: any = process.env.REMITA_SCRIPT_URL;
 
-
 export const remitaPayment = async ({
   rrr,
   transactionId,
   callbackURL,
+  closeClick,
 }: {
   rrr: string;
   transactionId: string;
   callbackURL: string;
+  closeClick: () => void; // Ensure closeClick is a function
 }) => {
   // Load Remita script
   const loadRemitaScript = () => {
@@ -75,6 +76,7 @@ export const remitaPayment = async ({
         },
         onClose: () => {
           console.log('Payment widget closed');
+          closeClick(); // Call the provided closeClick function
         },
       });
 

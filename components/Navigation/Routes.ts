@@ -11,6 +11,7 @@ export const DashboardRoutes = {
 
   BIODATA: '/dashboard/biodata',
   SCHEDULE: '/schedule',
+  SCHEDULE_FORM_2: '/schedule/schedule-form-3',
   VIEW_ACTIVITIES: '/dashboard/activities',
   VIEW_CERTIFICATES: '/dashboard/certificates',
   DELIVER_CERTIFICATE: '/dashboard/deliver-certificate',

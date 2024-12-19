@@ -2,6 +2,7 @@ import { CustomButton, Modal } from '@/components/elements';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { moneyFormat } from '@/util/helpers';
 import { remitaPayment } from '@/util/remitaPayment';
+import { useState } from 'react';
 import { PiCopy } from 'react-icons/pi';
 
 const RRRModal = ({
@@ -17,11 +18,15 @@ const RRRModal = ({
   txnDetails: { rrr: string; txref: string; amount: number };
   callbackURL?: string;
 }) => {
+  const [loadRemita, setLoadRemita] = useState(false);
+
   const handleRemita = () => {
+    setLoadRemita(true);
     remitaPayment({
       rrr: txnDetails.rrr,
       transactionId: txnDetails.txref,
       callbackURL,
+      closeClick,
     });
   };
 
@@ -73,6 +78,7 @@ const RRRModal = ({
             text='Continue Payment'
             onClick={handleRemita}
             className='w-full font-medium'
+            disabled={loadRemita}
           />
         </div>
       </Modal>

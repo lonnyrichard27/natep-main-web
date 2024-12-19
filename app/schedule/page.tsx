@@ -63,7 +63,7 @@ const Page = () => {
         phone: formData.phone,
       };
       setLocalStorageItem('schedule-data', JSON.stringify(data));
-      router.push('/schedule/schedule-form-3');
+      router.push(DashboardRoutes.SCHEDULE_FORM_2);
     } else {
       try {
         const response = await axiosInstance.get<ApiResponse>(
@@ -80,7 +80,7 @@ const Page = () => {
         };
 
         setLocalStorageItem('schedule-data', JSON.stringify(data));
-        router.push('/schedule/schedule-form-3');
+        router.push(DashboardRoutes.SCHEDULE_FORM_2);
         return;
       } catch (error) {
         setIsSubmitting(false);

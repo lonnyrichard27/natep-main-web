@@ -2,28 +2,22 @@
 
 import React, { useState } from 'react';
 import { CustomButton } from '@/components/elements';
-import { Calendar } from '@/components/ui/calendar';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
-import { generateTimeSlots, generateTimeSpecificSlot } from '@/util/time';
+import { generateTimeSpecificSlot } from '@/util/time';
 import { getLocalStorageItem } from '@/util/localStorage';
 import axiosInstance from '@/util/axios';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { remitaPayment } from '@/util/remitaPayment';
 import { DashboardRoutes } from '@/components/Navigation/Routes';
 import { DayPicker, getDefaultClassNames } from 'react-day-picker';
 import 'react-day-picker/style.css';
-import { formatDate } from '@/util/helpers';
+import { formatDate, stringToBoolean } from '@/util/helpers';
 import { handleError } from '@/util/errorHandler';
 import {
   generateRemitaRRR,
   isRemitaSuccessResponse,
 } from '@/util/generateRemitaRRR';
-import { useSearchParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { validateTransaction } from '@/services/transaction-services';
 import { RRRModal } from '@/components/sections/certificates';
-import { FiPlusCircle } from 'react-icons/fi';
 
 const page = () => {
   const defaultClassNames = getDefaultClassNames();
@@ -42,18 +36,6 @@ const page = () => {
   const handleRemitaModal = () => {
     setOpen(!open);
   };
-
-  const searchParams = useSearchParams();
-
-  // Retrieve the 'txref' and 'rrr' query parameters
-  const txref = searchParams.get('txref');
-  const rrr = searchParams.get('rrr');
-
-  const { isLoading: isVerifying, isSuccess } = useQuery({
-    queryKey: ['verify-transaction', txref, rrr],
-    queryFn: () => validateTransaction({ rrr, txref }),
-    enabled: !!txref && !!rrr,
-  });
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
     setSelectedTime(event.target.value);
@@ -93,7 +75,7 @@ const page = () => {
           {
             rrr,
             transaction_id: txref,
-            is_first_time: extractedData.firstTime,
+            is_first_time: stringToBoolean(extractedData.firstTime),
             nin: extractedData.nin,
             delivery_time: fullTimestamp,
             email: extractedData.email,
@@ -122,7 +104,7 @@ const page = () => {
   };
 
   return (
-    <main className='flex-col md:flex md:min-h-screen md:items-center md:justify-center'>
+    <main className='flex flex-col items-center justify-center'>
       <RRRModal
         open={open}
         setOpen={setOpen}
@@ -150,7 +132,13 @@ const page = () => {
             root: `${defaultClassNames.root} p-5`,
             chevron: `fill-[#248048]`,
           }}
+          disabled={[
+            {
+              before: new Date(), // Disable dates before the minimum date
+            },
+          ]}
         />
+
         <div>
           <p>Select Time</p>
           <select
