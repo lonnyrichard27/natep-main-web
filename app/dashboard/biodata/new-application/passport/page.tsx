@@ -15,11 +15,11 @@ const page = () => {
   const [base64File, setBase64File] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingExit, setLoadingExit] = useState<boolean>(false);
-  const [tracking, setTracking] = useState<string>('');
+  const [tracking, setTracking] = useState<string | null>(null);
 
   useEffect(() => {
     const getTrackingId = () => {
-      const trackingId = localStorage?.getItem('tracking_id') ?? '';
+      const trackingId = localStorage?.getItem('tracking_id');
       setTracking(trackingId);
     };
     getTrackingId();
@@ -113,10 +113,10 @@ const page = () => {
           />
         </div>
       </section>
-      <section className="p-5 mt-5 border rounded-lg flex justify-between">
+      {!tracking && <section className="p-5 mt-5 border rounded-lg flex justify-between">
         <p>Tracking ID</p>
-        <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''}/>
-      </section>
+        {<CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''}/>}
+      </section>}
     </section>
   );
 };

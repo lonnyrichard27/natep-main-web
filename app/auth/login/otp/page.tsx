@@ -33,9 +33,7 @@ const page = () => {
   // Calculate minutes and seconds
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
-
   const disablBtn = otp.length < 6;
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [user, setUser] = useState<newAccountTypes>({
