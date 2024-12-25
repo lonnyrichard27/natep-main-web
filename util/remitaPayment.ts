@@ -14,10 +14,12 @@ export const remitaPayment = async ({
   rrr,
   transactionId,
   callbackURL,
+  closeClick,
 }: {
   rrr: string;
   transactionId: string;
   callbackURL: string;
+  closeClick: () => void; // Ensure closeClick is a function
 }) => {
   // Load Remita script
   const loadRemitaScript = () => {
@@ -74,6 +76,7 @@ export const remitaPayment = async ({
         },
         onClose: () => {
           console.log('Payment widget closed');
+          closeClick(); // Call the provided closeClick function
         },
       });
 

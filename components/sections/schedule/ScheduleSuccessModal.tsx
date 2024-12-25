@@ -4,17 +4,16 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
-const ScheduleSuccessModal = () => {
+const ScheduleSuccessModal = ({
+  closeLink = DashboardRoutes.BIODATA,
+}: {
+  closeLink?: string;
+}) => {
   const { push } = useRouter();
 
   return (
     <>
-      <Modal
-        open={true}
-        size='xs'
-        closeClick={() => push(DashboardRoutes.BIODATA)}
-        closable
-      >
+      <Modal open={true} size='xs' closeClick={() => push(closeLink)} closable>
         <div className='flex flex-col items-center justify-center gap-5 p-5 text-center'>
           <IoIosCheckmarkCircleOutline className='text-6xl text-green-600' />
 

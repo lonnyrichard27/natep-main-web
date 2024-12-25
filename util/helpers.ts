@@ -140,3 +140,19 @@ export const codeGenerator = (length: number, alpha?: string) => {
 
   return result;
 };
+
+export function stringToBoolean(value: string) {
+  if (value.toLowerCase() === 'true') return true;
+  if (value.toLowerCase() === 'false') return false;
+  throw new Error("Invalid input: must be 'true' or 'false'");
+}
+
+export const formatDate = (date: Date | undefined): string | undefined => {
+  if (!date) return undefined;
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}T`;
+};

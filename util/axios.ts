@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+console.log('axiosInstance', process.env.NEXT_PUBLIC_BASE_URL);
 // Add a request interceptor to set the Authorization header dynamically
 axiosInstance.interceptors.request.use(
   (config) => {
