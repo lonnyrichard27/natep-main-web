@@ -54,7 +54,7 @@ const ActivityTable = () => {
       fetchActivities({
         page_num: currentPage,
         search: searchQuery,
-        download: true
+        download: false
       })
   });
 
@@ -78,7 +78,7 @@ const ActivityTable = () => {
           />
         </section>
 
-        <div>{fileCode && <ExportSheet fileCode={fileCode} />}</div>
+        {/* <div>{fileCode && <ExportSheet fileCode={fileCode} />}</div> */}
       </div>
 
       {activitiesLoading ? (

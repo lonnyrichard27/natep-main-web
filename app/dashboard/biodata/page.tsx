@@ -21,7 +21,6 @@ import { CustomButton, CustomInput, SideDrawer } from '@/components/elements';
 import { BsArrowUpRight } from 'react-icons/bs';
 import { FiCopy } from 'react-icons/fi';
 import Modal from '@/components/Modal';
-
 import { AiTwotoneEdit } from 'react-icons/ai';
 import { RiAttachment2 } from 'react-icons/ri';
 import CopyIcon from '@/components/CopyIcon';
