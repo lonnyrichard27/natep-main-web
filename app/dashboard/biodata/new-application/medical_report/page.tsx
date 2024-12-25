@@ -123,10 +123,10 @@ const page = () => {
           />
         </div>
       </section>
-      <section className='mt-5 flex justify-between rounded-lg border p-5'>
+      {!tracking && <section className="p-5 mt-5 border rounded-lg flex justify-between">
         <p>Tracking ID</p>
-        <CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''} />
-      </section>
+        {<CopyIcon textToCopy={tracking ?? ''} text={tracking ?? ''}/>}
+      </section>}
     </section>
   );
 };
